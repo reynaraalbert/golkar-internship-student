@@ -1,0 +1,115 @@
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model NewsArticle {
+  id          String   @id @default(uuid())
+  title       String
+  slug        String   @unique
+  category    String
+  date        String
+  readTime    String
+  author      String
+  summary     String
+  content     String   @db.Text
+  imageUrl    String
+  documentUrl String?
+  isFeatured  Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model AgendaItem {
+  id             String   @id @default(uuid())
+  title          String
+  type           String
+  partner        String
+  date           String
+  time           String
+  location       String
+  status         String
+  summary        String   @db.Text
+  streamUrl      String?
+  pdfDownloadUrl String?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+}
+
+model Member {
+  id           String   @id @default(uuid())
+  nomorAnggota String
+  name         String
+  role         String
+  fraksi       String
+  dapil        String
+  photoUrl     String
+  email        String
+  bio          String   @db.Text
+  billsLed     Json
+  pendidikan   String?
+  masaJabatan  String?
+  komisi       String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model MitraKerja {
+  id             String   @id @default(uuid())
+  name           String
+  acronym        String
+  ministerOrHead String
+  focusArea      String
+  logoUrl        String
+  description    String   @db.Text
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+}
+
+model Aspirasi {
+  id        String   @id @default(uuid())
+  mode      String
+  name      String?
+  email     String?
+  whatsapp  String?
+  subject   String
+  message   String   @db.Text
+  category  String
+  status    String   @default("new")
+  createdAt String
+}
+
+model NewsSubmission {
+  id             String   @id @default(uuid())
+  biodata        Json
+  artikel        Json
+  attachments    Json
+  status         String   @default("pending")
+  proofreadNotes String?
+  createdAt      String
+}
+
+model PageContent {
+  id        String   @id @default(uuid())
+  slug      String   @unique
+  title     String
+  sections  Json
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model SiteStat {
+  id                   String   @id @default("default-stats")
+  totalMembers         Int
+  totalPimpinan        Int
+  mitraKerjaCount      Int
+  activeBills          Int
+  completedHearings    Int
+  aspirationsProcessed Int
+  updatedAt            DateTime @updatedAt
+}

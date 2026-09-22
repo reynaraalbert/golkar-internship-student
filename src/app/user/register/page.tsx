@@ -1,0 +1,241 @@
+"use client";
+
+import React, { useState } from "react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { ArrowLeft, Building2, Eye, EyeOff, GraduationCap, Lock, Mail, User } from "lucide-react";
+
+export default function UserRegisterPage() {
+  const router = useRouter();
+  const [formData, setFormData] = useState({
+    name: "",
+    university: "",
+    major: "",
+    email: "",
+    phone: "",
+    password: "",
+    confirmPassword: "",
+  });
+  const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError(null);
+
+    if (formData.password !== formData.confirmPassword) {
+      setError("Konfirmasi kata sandi tidak cocok.");
+      return;
+    }
+
+    setLoading(true);
+
+    try {
+      const res = await fetch("/api/user/auth/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await res.json();
+      if (!res.ok) {
+        throw new Error(data.error || "Gagal membuat akun");
+      }
+
+      router.push("/user/dashboard");
+      router.refresh();
+    } catch (err) {
+      setError((err as Error).message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="min-h-screen w-full flex flex-col lg:flex-row bg-slate-50 dark:bg-slate-950 font-sans text-slate-800 dark:text-slate-100">
+      {/* LEFT COLUMN: REGISTRATION FORM */}
+      <div className="w-full lg:w-1/2 flex flex-col justify-between p-6 sm:p-12 lg:p-16 bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 z-10 overflow-y-auto">
+        <div>
+          <div className="flex items-center gap-3 mb-8">
+            <div className="w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-600 dark:text-amber-400 font-extrabold text-xl">
+              G
+            </div>
+            <div>
+              <span className="text-xs font-bold uppercase tracking-wider text-amber-600 dark:text-amber-400 block">
+                GOLKAR INTERNSHIP STUDENT
+              </span>
+              <span className="text-sm font-extrabold text-slate-900 dark:text-white">
+                PENDAFTARAN PESERTA MAGANG
+              </span>
+            </div>
+          </div>
+
+          <h1 className="text-3xl font-black text-slate-900 dark:text-white tracking-tight mb-2">
+            Buat Akun Baru
+          </h1>
+          <p className="text-sm text-slate-600 dark:text-slate-400 mb-6">
+            Lengkapi data diri Anda untuk mendaftar program magang Golkar Internship Student.
+          </p>
+
+          <Link
+            href="/user/login"
+            className="inline-flex items-center gap-2 text-xs font-bold text-amber-700 dark:text-amber-400 border border-amber-600/30 dark:border-amber-400/30 hover:bg-amber-500/10 px-4 py-2 rounded-full transition-all mb-6"
+          >
+            <ArrowLeft className="w-3.5 h-3.5" /> Sudah Memiliki Akun? Masuk
+          </Link>
+
+          {error && (
+            <div className="mb-6 p-4 rounded-xl bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-800/50 text-red-700 dark:text-red-300 text-xs font-medium">
+              {error}
+            </div>
+          )}
+
+          <form onSubmit={handleSubmit} className="space-y-4 max-w-md">
+            <div>
+              <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">
+                Nama Lengkap (Sesuai KTP/KTM) *
+              </label>
+              <input
+                type="text"
+                name="name"
+                required
+                value={formData.name}
+                onChange={handleChange}
+                placeholder="Contoh: Reynara Albert Pradana"
+                className="w-full px-4 py-2.5 text-sm rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-amber-500 outline-none"
+              />
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div>
+                <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">
+                  Perguruan Tinggi *
+                </label>
+                <input
+                  type="text"
+                  name="university"
+                  required
+                  value={formData.university}
+                  onChange={handleChange}
+                  placeholder="Contoh: Universitas Indonesia"
+                  className="w-full px-3.5 py-2.5 text-sm rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-amber-500 outline-none"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">
+                  Jurusan / Prodi *
+                </label>
+                <input
+                  type="text"
+                  name="major"
+                  required
+                  value={formData.major}
+                  onChange={handleChange}
+                  placeholder="Contoh: Ilmu Hukum"
+                  className="w-full px-3.5 py-2.5 text-sm rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-amber-500 outline-none"
+                />
+              </div>
+            </div>
+
+            <div>
+              <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">
+                Alamat Email Aktif *
+              </label>
+              <input
+                type="email"
+                name="email"
+                required
+                value={formData.email}
+                onChange={handleChange}
+                placeholder="reynara@email.com"
+                className="w-full px-4 py-2.5 text-sm rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-amber-500 outline-none"
+              />
+            </div>
+
+            <div>
+              <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">
+                Nomor WhatsApp
+              </label>
+              <input
+                type="tel"
+                name="phone"
+                value={formData.phone}
+                onChange={handleChange}
+                placeholder="081234567890"
+                className="w-full px-4 py-2.5 text-sm rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-amber-500 outline-none"
+              />
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div>
+                <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">
+                  Kata Sandi *
+                </label>
+                <input
+                  type="password"
+                  name="password"
+                  required
+                  value={formData.password}
+                  onChange={handleChange}
+                  placeholder="Minimal 6 karakter"
+                  className="w-full px-3.5 py-2.5 text-sm rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-amber-500 outline-none"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">
+                  Ulangi Kata Sandi *
+                </label>
+                <input
+                  type="password"
+                  name="confirmPassword"
+                  required
+                  value={formData.confirmPassword}
+                  onChange={handleChange}
+                  placeholder="Sama dengan kata sandi"
+                  className="w-full px-3.5 py-2.5 text-sm rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-amber-500 outline-none"
+                />
+              </div>
+            </div>
+
+            <button
+              type="submit"
+              disabled={loading}
+              className="w-full py-3.5 px-6 rounded-xl font-black text-sm text-slate-950 bg-gradient-to-r from-amber-400 via-amber-500 to-yellow-500 hover:from-amber-500 hover:to-amber-600 shadow-md transition-all mt-4"
+            >
+              {loading ? "Mendaftarkan Akun..." : "Daftar Akun Peserta"}
+            </button>
+          </form>
+        </div>
+      </div>
+
+      {/* RIGHT COLUMN: HERO BANNER */}
+      <div className="w-full lg:w-1/2 relative min-h-[400px] lg:min-h-screen flex items-end justify-start p-8 sm:p-16 overflow-hidden bg-slate-900">
+        <div className="absolute inset-0 z-0">
+          <img
+            src="https://images.unsplash.com/photo-1541872703-74c5e44368f9?w=1600&auto=format&fit=crop&q=80"
+            alt="DPR RI Gedung Pancasila"
+            className="w-full h-full object-cover object-center filter grayscale brightness-50 opacity-60 scale-105"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/60 to-transparent" />
+        </div>
+
+        <div className="relative z-10 max-w-xl text-white space-y-4">
+          <div className="w-16 h-1.5 bg-amber-500 rounded-full mb-4" />
+          <h2 className="text-3xl font-extrabold text-amber-100">
+            Daftar & Kembangkan Karir Legislatif Anda.
+          </h2>
+          <p className="text-sm text-slate-300 leading-relaxed">
+            Dapatkan pengalaman berharga langsung bersama Sekretariat Jenderal dan Anggota Legislatif Fraksi Partai Golkar DPR RI.
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+}

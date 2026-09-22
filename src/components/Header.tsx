@@ -7,7 +7,7 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useCmsContent } from "@/components/CmsProvider";
 import { useTheme } from "@/components/ThemeProvider";
-import { Shield, Users, Newspaper, Info, Calendar, Menu, X, Search, Landmark, ChevronRight, Sun, Moon, MessageSquare } from "lucide-react";
+import { Shield, Users, Newspaper, Info, Calendar, Menu, X, Search, Landmark, ChevronRight, Sun, Moon, MessageSquare, UserCheck } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 export default function Header() {
@@ -246,6 +246,14 @@ export default function Header() {
                   <Moon className="w-4 h-4 text-dpr-emerald-dark" />
                 )}
               </button>
+
+              <Link
+                href="/user/login"
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 text-[11px] xl:text-xs font-black rounded-full bg-gradient-to-r from-amber-400 via-amber-500 to-yellow-500 text-slate-950 shadow-sm hover:shadow-md hover:scale-105 transition-all shrink-0"
+              >
+                <UserCheck className="w-3.5 h-3.5" />
+                <span>Portal Peserta</span>
+              </Link>
 
               <div className="relative">
                 <input

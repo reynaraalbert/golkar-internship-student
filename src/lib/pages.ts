@@ -3,12 +3,8 @@
 // TODO: Definisikan halaman-halaman untuk project Golkar Internship Student
 // ============================================================
 
-export interface PageDefinition {
-  id: string;
-  slug: string;
-  title: string;
-  sections: unknown[];
-}
+import type { PageContent } from "./data";
 
-// TODO: Tambahkan definisi halaman sesuai kebutuhan project
-export const PAGES: PageDefinition[] = [];
+export interface PageDefinition extends PageContent {}
+
+export const PAGES: PageContent[] = [];

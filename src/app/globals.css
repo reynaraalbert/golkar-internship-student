@@ -94,18 +94,18 @@ html:not(.dark) .glass-panel-gold {
 }
 
 html.dark .glass-panel-red {
-  background: rgba(139, 0, 0, 0.25);
+  background: rgba(212, 175, 55, 0.15);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(200, 16, 46, 0.4);
+  border: 1px solid rgba(212, 175, 55, 0.35);
 }
 
 html:not(.dark) .glass-panel-red {
-  background: rgba(254, 226, 226, 0.75);
+  background: rgba(254, 243, 199, 0.75);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(220, 38, 38, 0.35);
-  box-shadow: 0 10px 25px -5px rgba(185, 28, 28, 0.08);
+  border: 1px solid rgba(217, 119, 6, 0.35);
+  box-shadow: 0 10px 25px -5px rgba(180, 83, 9, 0.08);
 }
 
 .glass-panel-emerald {
@@ -113,18 +113,18 @@ html:not(.dark) .glass-panel-red {
 }
 
 html.dark .glass-panel-emerald {
-  background: rgba(6, 95, 70, 0.2);
+  background: rgba(212, 175, 55, 0.15);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(5, 150, 105, 0.4);
+  border: 1px solid rgba(212, 175, 55, 0.35);
 }
 
 html:not(.dark) .glass-panel-emerald {
-  background: rgba(209, 250, 229, 0.75);
+  background: rgba(254, 243, 199, 0.75);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(5, 150, 105, 0.4);
-  box-shadow: 0 10px 25px -5px rgba(4, 120, 87, 0.08);
+  border: 1px solid rgba(217, 119, 6, 0.35);
+  box-shadow: 0 10px 25px -5px rgba(180, 83, 9, 0.08);
 }
 
 /* Text Gradients */
@@ -143,41 +143,41 @@ html:not(.dark) .text-gradient-gold {
 }
 
 .text-gradient-red {
-  background: linear-gradient(135deg, #FF6B6B 0%, #E60000 50%, #FF8080 100%);
+  background: linear-gradient(135deg, #FFE885 0%, #D4AF37 50%, #F5C518 100%);
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
 html:not(.dark) .text-gradient-red {
-  background: linear-gradient(135deg, #DC2626 0%, #991B1B 100%);
+  background: linear-gradient(135deg, #B45309 0%, #D4AF37 60%, #78350F 100%);
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
 .text-gradient-emerald {
-  background: linear-gradient(135deg, #10B981 0%, #059669 50%, #047857 100%);
+  background: linear-gradient(135deg, #FFE885 0%, #D4AF37 50%, #F5C518 100%);
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
 html:not(.dark) .text-gradient-emerald {
-  background: linear-gradient(135deg, #065F46 0%, #044E38 100%);
+  background: linear-gradient(135deg, #B45309 0%, #D4AF37 60%, #78350F 100%);
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
-/* Indonesian Batik Subtle Pattern Overlay */
+/* Subtle Gold Pattern Overlay */
 html.dark .batik-bg {
   background-image: radial-gradient(rgba(212, 175, 55, 0.05) 1px, transparent 0);
   background-size: 24px 24px;
 }
 
 html:not(.dark) .batik-bg {
-  background-image: radial-gradient(rgba(6, 95, 70, 0.05) 1px, transparent 0);
+  background-image: radial-gradient(rgba(217, 119, 6, 0.05) 1px, transparent 0);
   background-size: 24px 24px;
 }
 

@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { ArrowLeft, CheckCircle2, GraduationCap, Save, User } from "lucide-react";
+import { ArrowLeft, CheckCircle2, Save } from "lucide-react";
 
 export default function UserProfilePage() {
   const router = useRouter();
@@ -82,18 +82,18 @@ export default function UserProfilePage() {
         <div className="flex items-center justify-between">
           <Link
             href="/user/dashboard"
-            className="inline-flex items-center gap-2 text-xs font-extrabold text-blue-700 dark:text-blue-400 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-4 py-2.5 rounded-full shadow-xs hover:bg-slate-50 transition-all"
+            className="inline-flex items-center gap-2 text-xs font-black text-slate-950 bg-amber-400 border border-amber-500 px-4 py-2.5 rounded-full shadow-xs hover:bg-amber-500 transition-all"
           >
             <ArrowLeft className="w-4 h-4" /> Kembali ke Dashboard
           </Link>
-          <span className="text-xs font-extrabold px-3 py-1 bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300 rounded-full border border-emerald-300 dark:border-emerald-800">
+          <span className="text-xs font-black px-3 py-1 bg-amber-100 dark:bg-amber-950 text-amber-900 dark:text-amber-300 rounded-full border border-amber-300 dark:border-amber-800">
             {formData.statusMagang}
           </span>
         </div>
 
         <div className="bg-white dark:bg-slate-900 rounded-3xl p-6 sm:p-10 border border-slate-200 dark:border-slate-800 shadow-md space-y-6">
           <div className="flex items-center gap-4 border-b border-slate-100 dark:border-slate-800 pb-6">
-            <div className="w-16 h-16 rounded-2xl bg-blue-600 text-white flex items-center justify-center font-black text-2xl shadow-md">
+            <div className="w-16 h-16 rounded-2xl bg-amber-500 text-slate-950 flex items-center justify-center font-black text-2xl shadow-md">
               {formData.name.charAt(0)}
             </div>
             <div>
@@ -103,8 +103,8 @@ export default function UserProfilePage() {
           </div>
 
           {successMsg && (
-            <div className="p-4 rounded-2xl bg-emerald-50 dark:bg-emerald-950/50 border border-emerald-200 text-emerald-800 text-xs font-bold flex items-center gap-2">
-              <CheckCircle2 className="w-4 h-4 text-emerald-600" /> {successMsg}
+            <div className="p-4 rounded-2xl bg-amber-50 dark:bg-amber-950/50 border border-amber-300 text-amber-900 dark:text-amber-200 text-xs font-bold flex items-center gap-2">
+              <CheckCircle2 className="w-4 h-4 text-amber-600" /> {successMsg}
             </div>
           )}
 
@@ -118,7 +118,7 @@ export default function UserProfilePage() {
                   type="text"
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                  className="w-full px-4 py-3 text-sm rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-4 py-3 text-sm rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 outline-none focus:ring-2 focus:ring-amber-500"
                 />
               </div>
 
@@ -144,7 +144,7 @@ export default function UserProfilePage() {
                   type="text"
                   value={formData.university}
                   onChange={(e) => setFormData({ ...formData, university: e.target.value })}
-                  className="w-full px-4 py-3 text-sm rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-4 py-3 text-sm rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 outline-none focus:ring-2 focus:ring-amber-500"
                 />
               </div>
 
@@ -156,7 +156,7 @@ export default function UserProfilePage() {
                   type="text"
                   value={formData.major}
                   onChange={(e) => setFormData({ ...formData, major: e.target.value })}
-                  className="w-full px-4 py-3 text-sm rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-4 py-3 text-sm rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 outline-none focus:ring-2 focus:ring-amber-500"
                 />
               </div>
             </div>
@@ -170,7 +170,7 @@ export default function UserProfilePage() {
                   type="text"
                   value={formData.nim}
                   onChange={(e) => setFormData({ ...formData, nim: e.target.value })}
-                  className="w-full px-4 py-3 text-sm rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-4 py-3 text-sm rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 outline-none focus:ring-2 focus:ring-amber-500"
                 />
               </div>
 
@@ -182,7 +182,7 @@ export default function UserProfilePage() {
                   type="text"
                   value={formData.ipk}
                   onChange={(e) => setFormData({ ...formData, ipk: e.target.value })}
-                  className="w-full px-4 py-3 text-sm rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-4 py-3 text-sm rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 outline-none focus:ring-2 focus:ring-amber-500"
                 />
               </div>
 
@@ -194,7 +194,7 @@ export default function UserProfilePage() {
                   type="text"
                   value={formData.semester}
                   onChange={(e) => setFormData({ ...formData, semester: e.target.value })}
-                  className="w-full px-4 py-3 text-sm rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-4 py-3 text-sm rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 outline-none focus:ring-2 focus:ring-amber-500"
                 />
               </div>
             </div>
@@ -207,14 +207,14 @@ export default function UserProfilePage() {
                 rows={3}
                 value={formData.bio}
                 onChange={(e) => setFormData({ ...formData, bio: e.target.value })}
-                className="w-full px-4 py-3 text-sm rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-4 py-3 text-sm rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 outline-none focus:ring-2 focus:ring-amber-500"
               />
             </div>
 
             <button
               type="submit"
               disabled={saving}
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-extrabold text-sm shadow-md transition-all"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-amber-400 via-amber-500 to-yellow-500 text-slate-950 font-black text-sm shadow-md hover:shadow-lg transition-all"
             >
               <Save className="w-4 h-4" /> {saving ? "Menyimpan..." : "Simpan Perubahan Profil"}
             </button>

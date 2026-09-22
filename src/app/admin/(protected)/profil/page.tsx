@@ -73,7 +73,7 @@ export default function AdminProfilPage() {
     <div className="space-y-8 pb-24">
       <PageHeader
         icon={Shield}
-        title="Kelola Profil Komisi XIII"
+        title="Kelola Profil Golkar Internship"
         subtitle="Edit teks utama halaman profil: header, sejarah ringkas, dan visi utama yang tampil di halaman /profil."
       />
 

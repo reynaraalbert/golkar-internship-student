@@ -43,7 +43,7 @@ export default function MembersPage() {
           <span>ALAT KELENGKAPAN DPR RI 2024-2029</span>
         </div>
         <h1 className="text-3xl sm:text-5xl font-black text-slate-900 dark:text-white uppercase tracking-tight">
-          Daftar <span className="text-dpr-emerald dark:text-red-600">Anggota Komisi XIII</span>
+          Daftar <span className="text-dpr-emerald dark:text-red-600">Anggota Golkar Internship</span>
         </h1>
         <p className="text-slate-700 dark:text-slate-300 text-xs sm:text-sm leading-relaxed">
           Sebanyak {anggota.length} Anggota DPR RI Fraksi Partai Golkar ditugaskan mengawal fungsi legislasi, anggaran, dan pengawasan sektor Hukum, HAM, Imigrasi, dan Antikorupsi.
@@ -98,7 +98,7 @@ export default function MembersPage() {
       <div className="space-y-6">
         <div className="flex items-center gap-2.5 text-slate-900 dark:text-white font-bold text-lg border-b border-slate-200 dark:border-white/10 pb-3">
           <Award className="w-5 h-5 text-dpr-emerald dark:text-dpr-gold" />
-          <span>Pimpinan Komisi XIII DPR RI</span>
+          <span>Pimpinan GOLKAR INTERNSHIP STUDENT</span>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6">

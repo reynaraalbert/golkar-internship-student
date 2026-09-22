@@ -37,7 +37,7 @@ export default function AdminBerandaMitraSectionPage() {
         <SectionCard
           icon={Handshake}
           title="Teks Header Mitra Kerja"
-          description="Informasi pengantar showcase mitra kerja Komisi XIII."
+          description="Informasi pengantar showcase mitra kerja Golkar Internship."
         >
           <Field label="Tagline Header">
             <Input value={mitraSection.tagline} onChange={(e) => update({ tagline: e.target.value })} className="w-full" />

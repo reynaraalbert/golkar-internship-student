@@ -5,7 +5,7 @@ import { PAGES } from "../src/lib/pages";
 const prisma = new PrismaClient();
 
 async function main() {
-  console.log("🌱 Starting Supabase Database Seeding...");
+  console.log("🌱 Starting Database Seeding — GOLKAR INTERNSHIP STUDENT...");
 
   // 1. Seed Berita
   console.log("Seeding Berita...");
@@ -133,7 +133,7 @@ async function main() {
     },
   });
 
-  console.log("✅ Supabase Database Seeding Completed Successfully!");
+  console.log("✅ Database Seeding Completed — GOLKAR INTERNSHIP STUDENT!");
 }
 
 main()

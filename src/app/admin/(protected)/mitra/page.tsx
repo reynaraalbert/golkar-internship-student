@@ -63,7 +63,7 @@ export default function AdminMitraPage() {
         <PageHeader
           icon={Building2}
           title="Kelola Mitra Kerja"
-          subtitle={`Kelola mitra kerja Komisi XIII (${data.length} mitra). Judul & deskripsi section diatur pada menu Beranda.`}
+          subtitle={`Kelola mitra kerja Golkar Internship (${data.length} mitra). Judul & deskripsi section diatur pada menu Beranda.`}
         />
         <button
           onClick={openNew}

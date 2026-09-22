@@ -19,7 +19,7 @@ const emptyArticle = (): NewsArticle => ({
   category: "Legislasi",
   date: "",
   readTime: "3 Menit Baca",
-  author: "Humas Komisi XIII DPR RI",
+  author: "Humas GOLKAR INTERNSHIP STUDENT",
   summary: "",
   content: "",
   imageUrl: "",

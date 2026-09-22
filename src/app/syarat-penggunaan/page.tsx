@@ -8,8 +8,8 @@ const sections = [
     icon: Globe,
     title: "1. Penerimaan Syarat",
     content: [
-      "Dengan mengakses dan menggunakan Portal Informasi Resmi Komisi XIII DPR RI, Anda secara otomatis dianggap telah membaca, memahami, dan menyetujui seluruh ketentuan yang tercantum dalam Syarat Penggunaan ini.",
-      "Portal ini dikelola oleh Sekretariat Komisi XIII Dewan Perwakilan Rakyat Republik Indonesia sebagai layanan informasi publik. Penggunaan portal ini bersifat sukarela dan tidak mengikat secara hukum untuk keperluan yang tidak berkaitan dengan urusan resmi kenegaraan.",
+      "Dengan mengakses dan menggunakan Portal Informasi Resmi GOLKAR INTERNSHIP STUDENT, Anda secara otomatis dianggap telah membaca, memahami, dan menyetujui seluruh ketentuan yang tercantum dalam Syarat Penggunaan ini.",
+      "Portal ini dikelola oleh Sekretariat Golkar Internship Dewan Perwakilan Rakyat Republik Indonesia sebagai layanan informasi publik. Penggunaan portal ini bersifat sukarela dan tidak mengikat secara hukum untuk keperluan yang tidak berkaitan dengan urusan resmi kenegaraan.",
     ]
   },
   {
@@ -17,9 +17,9 @@ const sections = [
     title: "2. Penggunaan yang Diizinkan",
     content: [
       "Anda diperbolehkan menggunakan portal ini untuk tujuan-tujuan yang sah dan konstruktif, antara lain:",
-      "• Mengakses informasi publik mengenai kegiatan Komisi XIII DPR RI.",
+      "• Mengakses informasi publik mengenai kegiatan GOLKAR INTERNSHIP STUDENT.",
       "• Membaca berita, siaran pers, dan risalah rapat yang dipublikasikan secara resmi.",
-      "• Mengirimkan aspirasi dan masukan konstruktif kepada Komisi XIII.",
+      "• Mengirimkan aspirasi dan masukan konstruktif kepada Golkar Internship.",
       "• Memantau jadwal dan agenda rapat komisi.",
       "• Mengunduh dokumen publik yang tersedia untuk keperluan edukasi dan penelitian.",
     ]
@@ -31,7 +31,7 @@ const sections = [
       "Anda dilarang menggunakan portal ini untuk hal-hal berikut:",
       "• Menyebarkan informasi palsu (hoaks), fitnah, atau konten yang merendahkan martabat lembaga negara.",
       "• Melakukan percobaan peretasan (hacking), injeksi kode berbahaya, atau serangan siber lainnya.",
-      "• Menggunakan konten portal ini untuk kepentingan komersial tanpa izin tertulis dari Sekretariat Komisi XIII.",
+      "• Menggunakan konten portal ini untuk kepentingan komersial tanpa izin tertulis dari Sekretariat Golkar Internship.",
       "• Meniru identitas anggota DPR, staf sekretariat, atau lembaga lain yang berkaitan.",
       "• Mengumpulkan data pengguna lain secara tidak sah melalui portal ini.",
       "Pelanggaran terhadap ketentuan ini dapat berakibat pada pemblokiran akses dan tindakan hukum sesuai peraturan yang berlaku.",
@@ -41,8 +41,8 @@ const sections = [
     icon: FileText,
     title: "4. Hak Kekayaan Intelektual",
     content: [
-      "Seluruh konten yang terdapat dalam portal ini, termasuk namun tidak terbatas pada teks, gambar, logo, desain antarmuka, dan dokumen resmi, merupakan milik Sekretariat Komisi XIII DPR RI atau pihak yang telah memberikan lisensi.",
-      "Penggunaan konten untuk keperluan pribadi dan non-komersial diperbolehkan dengan mencantumkan sumber (DPR.go.id / Portal Komisi XIII DPR RI).",
+      "Seluruh konten yang terdapat dalam portal ini, termasuk namun tidak terbatas pada teks, gambar, logo, desain antarmuka, dan dokumen resmi, merupakan milik Sekretariat Golkar Internship STUDENT atau pihak yang telah memberikan lisensi.",
+      "Penggunaan konten untuk keperluan pribadi dan non-komersial diperbolehkan dengan mencantumkan sumber (DPR.go.id / Portal GOLKAR INTERNSHIP STUDENT).",
       "Reproduksi, distribusi, atau modifikasi konten untuk tujuan komersial tanpa izin tertulis adalah pelanggaran hak cipta sesuai UU No. 28 Tahun 2014 tentang Hak Cipta.",
     ]
   },
@@ -50,19 +50,19 @@ const sections = [
     icon: Scale,
     title: "5. Batasan Tanggung Jawab",
     content: [
-      "Portal ini disediakan 'sebagaimana adanya' demi kepentingan publik. Sekretariat Komisi XIII DPR RI tidak memberikan jaminan tersirat atas ketersediaan, akurasi, atau kelengkapan informasi di portal ini.",
+      "Portal ini disediakan 'sebagaimana adanya' demi kepentingan publik. Sekretariat Golkar Internship STUDENT tidak memberikan jaminan tersirat atas ketersediaan, akurasi, atau kelengkapan informasi di portal ini.",
       "Kami tidak bertanggung jawab atas kerugian yang timbul akibat penggunaan atau ketidakmampuan untuk menggunakan portal ini, termasuk gangguan layanan atau kesalahan teknis yang disebabkan oleh pihak di luar kendali kami.",
-      "Pendapat, aspirasi, atau konten yang dikirimkan oleh pengguna tidak mencerminkan pandangan resmi Komisi XIII DPR RI.",
+      "Pendapat, aspirasi, atau konten yang dikirimkan oleh pengguna tidak mencerminkan pandangan resmi GOLKAR INTERNSHIP STUDENT.",
     ]
   },
   {
     icon: AlertCircle,
     title: "6. Perubahan Layanan & Syarat",
     content: [
-      "Komisi XIII DPR RI berhak untuk sewaktu-waktu mengubah, menangguhkan, atau menghentikan layanan portal ini tanpa pemberitahuan sebelumnya.",
+      "GOLKAR INTERNSHIP STUDENT berhak untuk sewaktu-waktu mengubah, menangguhkan, atau menghentikan layanan portal ini tanpa pemberitahuan sebelumnya.",
       "Syarat Penggunaan ini dapat diperbarui kapan saja. Versi terbaru akan selalu dipublikasikan di halaman ini dengan tanggal pembaruan yang jelas.",
       "Pembaruan syarat terakhir: 30 Agustus 2026.",
-      "Pertanyaan mengenai Syarat Penggunaan dapat diajukan melalui email resmi Sekretariat Komisi XIII.",
+      "Pertanyaan mengenai Syarat Penggunaan dapat diajukan melalui email resmi Sekretariat Golkar Internship.",
     ]
   }
 ];
@@ -79,7 +79,7 @@ export default function SyaratPenggunaanPage() {
           Syarat <span className="text-dpr-emerald dark:text-dpr-gold">Penggunaan</span>
         </h1>
         <p className="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
-          Syarat dan ketentuan ini mengatur penggunaan Portal Informasi Resmi Komisi XIII DPR RI. Harap baca dengan seksama sebelum menggunakan layanan kami. Dokumen ini berlaku sejak <strong>1 Januari 2025</strong>.
+          Syarat dan ketentuan ini mengatur penggunaan Portal Informasi Resmi GOLKAR INTERNSHIP STUDENT. Harap baca dengan seksama sebelum menggunakan layanan kami. Dokumen ini berlaku sejak <strong>1 Januari 2025</strong>.
         </p>
       </div>
 

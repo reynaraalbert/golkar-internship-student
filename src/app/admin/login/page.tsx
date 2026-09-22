@@ -60,9 +60,9 @@ export default function AdminLoginPage() {
               className="w-20 h-20 mx-auto object-contain drop-shadow-lg"
             />
             <div>
-              <h1 className="text-2xl font-extrabold text-slate-900 dark:text-white">CMS KOMISI XIII</h1>
+              <h1 className="text-2xl font-extrabold text-slate-900 dark:text-white">CMS Golkar Internship</h1>
               <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
-                Admin Control Panel — DPR RI Komisi XIII
+                Admin Control Panel — DPR RI Golkar Internship
               </p>
             </div>
           </div>

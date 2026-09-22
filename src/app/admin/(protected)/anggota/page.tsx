@@ -28,7 +28,7 @@ const emptyMember = (): Member => ({
   billsLed: [],
   pendidikan: "",
   masaJabatan: "2024 – 2029",
-  komisi: "Komisi XIII",
+  komisi: "Golkar Internship",
 });
 
 const EMPTY_MEMBER_LIST: Member[] = [];
@@ -97,7 +97,7 @@ export default function AdminAnggotaPage() {
         <PageHeader
           icon={Users}
           title="Kelola Anggota"
-          subtitle={`Kelola data pimpinan & anggota Komisi XIII. Saat ini ${pimpinanCount} pimpinan dan ${data.length - pimpinanCount} anggota.`}
+          subtitle={`Kelola data pimpinan & anggota Golkar Internship. Saat ini ${pimpinanCount} pimpinan dan ${data.length - pimpinanCount} anggota.`}
         />
         <button
           onClick={openNew}

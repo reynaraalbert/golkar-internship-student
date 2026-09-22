@@ -33,7 +33,7 @@ export default function Footer() {
                 <div className="flex items-center gap-2 mt-0.5">
                   <p className="text-xs text-slate-300 font-bold">Republik Indonesia</p>
                   <span className="bg-dpr-emerald dark:bg-dpr-red text-white text-[10px] font-black px-2.5 py-0.5 rounded-full uppercase tracking-wider">
-                    KOMISI XIII
+                    GOLKAR INTERNSHIP
                   </span>
                 </div>
               </div>
@@ -99,31 +99,31 @@ export default function Footer() {
           <div className="col-span-1">
             <h4 className="text-white font-semibold text-sm mb-4 pb-2 border-b border-slate-700 dark:border-white/10 flex items-center gap-2">
               <Globe className="w-4 h-4 text-dpr-gold" />
-              <span>Mitra Kerja Komisi XIII</span>
+              <span>Program Unggulan Golkar</span>
             </h4>
             <ul className="space-y-2 text-xs">
               <li className="flex items-center justify-between hover:text-white transition-colors">
-                <span>• Kementerian Hukum RI</span>
+                <span>• DPP Partai Golkar</span>
                 <ExternalLink className="w-3 h-3 text-slate-400" />
               </li>
               <li className="flex items-center justify-between hover:text-white transition-colors">
-                <span>• Kementerian HAM RI</span>
+                <span>• Golkar Institute</span>
                 <ExternalLink className="w-3 h-3 text-slate-400" />
               </li>
               <li className="flex items-center justify-between hover:text-white transition-colors">
-                <span>• Kementerian Imigrasi & Pemasyarakatan</span>
+                <span>• Fraksi Partai Golkar DPR RI</span>
                 <ExternalLink className="w-3 h-3 text-slate-400" />
               </li>
               <li className="flex items-center justify-between hover:text-white transition-colors">
-                <span>• Komisi Pemberantasan Korupsi (KPK)</span>
+                <span>• Golkar Muda</span>
                 <ExternalLink className="w-3 h-3 text-slate-400" />
               </li>
               <li className="flex items-center justify-between hover:text-white transition-colors">
-                <span>• Komnas HAM & LPSK</span>
+                <span>• Program Beasiswa Golkar</span>
                 <ExternalLink className="w-3 h-3 text-slate-400" />
               </li>
               <li className="flex items-center justify-between hover:text-white transition-colors">
-                <span>• BNPT & BKN</span>
+                <span>• golkar.or.id</span>
                 <ExternalLink className="w-3 h-3 text-slate-400" />
               </li>
             </ul>

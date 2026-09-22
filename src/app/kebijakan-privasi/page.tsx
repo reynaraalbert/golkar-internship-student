@@ -8,7 +8,7 @@ const sections = [
     icon: Eye,
     title: "1. Data yang Kami Kumpulkan",
     content: [
-      "Portal Komisi XIII DPR RI dapat mengumpulkan data berikut secara otomatis saat Anda menggunakan layanan ini:",
+      "Portal GOLKAR INTERNSHIP STUDENT dapat mengumpulkan data berikut secara otomatis saat Anda menggunakan layanan ini:",
       "• Data teknis seperti alamat IP, jenis browser, sistem operasi, dan halaman yang Anda kunjungi.",
       "• Waktu dan durasi kunjungan ke portal untuk keperluan analisis statistik penggunaan layanan publik.",
       "• Informasi yang Anda masukkan secara sukarela, seperti saat mengisi formulir aspirasi atau pertanyaan kepada komisi.",
@@ -21,7 +21,7 @@ const sections = [
     content: [
       "Data yang dikumpulkan digunakan semata-mata untuk tujuan berikut:",
       "• Meningkatkan kualitas dan fungsionalitas layanan informasi publik komisi.",
-      "• Memproses dan menanggapi pertanyaan, aspirasi, atau masukan yang Anda kirimkan kepada Komisi XIII.",
+      "• Memproses dan menanggapi pertanyaan, aspirasi, atau masukan yang Anda kirimkan kepada Golkar Internship.",
       "• Melakukan analisis statistik dan pelaporan penggunaan portal secara anonim demi pengembangan layanan.",
       "• Mematuhi kewajiban hukum dan peraturan yang berlaku di Negara Kesatuan Republik Indonesia.",
     ]
@@ -35,7 +35,7 @@ const sections = [
       "• Hak untuk meminta koreksi atas data yang tidak akurat atau tidak lengkap.",
       "• Hak untuk meminta penghapusan data pribadi Anda dari sistem kami.",
       "• Hak untuk mengajukan keberatan terhadap pemrosesan data Anda.",
-      "Untuk menggunakan hak-hak ini, silakan hubungi Sekretariat Komisi XIII melalui email resmi.",
+      "Untuk menggunakan hak-hak ini, silakan hubungi Sekretariat Golkar Internship melalui email resmi.",
     ]
   },
   {
@@ -54,7 +54,7 @@ const sections = [
     title: "5. Tautan Pihak Ketiga",
     content: [
       "Portal ini mungkin mengandung tautan menuju situs web pihak ketiga seperti situs resmi DPR RI, Kementerian mitra kerja, atau media massa.",
-      "Kebijakan privasi ini hanya berlaku untuk portal Komisi XIII DPR RI. Kami tidak bertanggung jawab atas praktik privasi situs web pihak ketiga yang ditautkan.",
+      "Kebijakan privasi ini hanya berlaku untuk portal GOLKAR INTERNSHIP STUDENT. Kami tidak bertanggung jawab atas praktik privasi situs web pihak ketiga yang ditautkan.",
       "Kami menyarankan Anda untuk membaca kebijakan privasi dari setiap situs web yang Anda kunjungi melalui tautan di portal ini.",
     ]
   },
@@ -81,7 +81,7 @@ export default function KebijakanPrivasiPage() {
           Kebijakan <span className="text-dpr-emerald dark:text-dpr-gold">Privasi</span>
         </h1>
         <p className="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
-          Portal Informasi Resmi Komisi XIII DPR RI berkomitmen penuh untuk melindungi privasi dan data pribadi pengguna layanan ini. Kebijakan ini berlaku sejak <strong>1 Januari 2025</strong>.
+          Portal Informasi Resmi GOLKAR INTERNSHIP STUDENT berkomitmen penuh untuk melindungi privasi dan data pribadi pengguna layanan ini. Kebijakan ini berlaku sejak <strong>1 Januari 2025</strong>.
         </p>
       </div>
 
@@ -107,7 +107,7 @@ export default function KebijakanPrivasiPage() {
       </div>
 
       <div className="glass-panel p-6 rounded-2xl border border-dpr-emerald/30 dark:border-dpr-gold/30 bg-dpr-emerald/5 dark:bg-dpr-gold/5 text-sm text-slate-700 dark:text-slate-300">
-        <strong className="text-dpr-emerald-dark dark:text-dpr-gold">Hubungi Kami:</strong> Untuk pertanyaan atau permintaan terkait data pribadi Anda, silakan hubungi Sekretariat Komisi XIII DPR RI melalui email: <a href="mailto:golkarinternshipstudent@gmail.com" className="underline font-semibold text-dpr-emerald dark:text-dpr-gold">golkarinternshipstudent@gmail.com</a> atau melalui halaman <a href="/aspirasi" className="underline font-semibold text-dpr-emerald dark:text-dpr-gold">Aspirasi</a>.
+        <strong className="text-dpr-emerald-dark dark:text-dpr-gold">Hubungi Kami:</strong> Untuk pertanyaan atau permintaan terkait data pribadi Anda, silakan hubungi Sekretariat Golkar Internship STUDENT melalui email: <a href="mailto:golkarinternshipstudent@gmail.com" className="underline font-semibold text-dpr-emerald dark:text-dpr-gold">golkarinternshipstudent@gmail.com</a> atau melalui halaman <a href="/aspirasi" className="underline font-semibold text-dpr-emerald dark:text-dpr-gold">Aspirasi</a>.
       </div>
     </div>
   );

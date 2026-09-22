@@ -75,8 +75,8 @@ export default function AgendaModal({ agenda, onClose }: AgendaModalProps) {
           {agenda.status === "LIVE NOW" && (
             <div className="relative aspect-video w-full rounded-2xl overflow-hidden mb-6 border border-dpr-emerald/40 dark:border-dpr-gold/40 shadow-2xl bg-black">
               <iframe
-                src="https://www.youtube.com/embed/live_stream?channel=DPRRI"
-                title="Live Streaming Komisi XIII DPR RI"
+                src="https://www.youtube.com/embed/live_stream?channel=GolkarTV"
+                title="Live Streaming GOLKAR INTERNSHIP STUDENT"
                 className="w-full h-full"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowFullScreen

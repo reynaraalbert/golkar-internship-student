@@ -19,7 +19,7 @@ export default function AdminPengaturanPage() {
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
-    a.download = `komisi13_cms_backup_${new Date().toISOString().slice(0, 10)}.json`;
+    a.download = `golkar_internship_cms_backup_${new Date().toISOString().slice(0, 10)}.json`;
     a.click();
     URL.revokeObjectURL(url);
     setTimeout(() => setDownloading(false), 1000);
@@ -30,7 +30,7 @@ export default function AdminPengaturanPage() {
       <PageHeader
         icon={Settings}
         title="Pengaturan Website & CMS"
-        subtitle="Kelola konfigurasikan sistem CMS, mode tampilan, sinkronisasi data, serta cadangan (backup) data situs Komisi XIII."
+        subtitle="Kelola konfigurasikan sistem CMS, mode tampilan, sinkronisasi data, serta cadangan (backup) data situs Golkar Internship."
       />
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">

@@ -11,9 +11,9 @@ export default function PimpinanPage() {
   const page = pages.find((p) => p.slug === "profil/pimpinan");
   const headerSub = page?.sections.find((s) => s.title === "Header Halaman Pimpinan")?.subsections[0]?.fields || {};
 
-  const badge = headerSub.badge || "PROFIL KOMISI XIII — PIMPINAN & ANGGOTA";
+  const badge = headerSub.badge || "PROFIL Golkar Internship — PIMPINAN & ANGGOTA";
   const judul = headerSub.judul || "Pimpinan & Anggota Fraksi Golkar";
-  const deskripsi = headerSub.deskripsi || "Daftar lengkap Pimpinan dan Anggota Komisi XIII DPR RI dari Fraksi Partai Golkar periode 2024–2029 beserta profil dan rekam jejak legislasinya.";
+  const deskripsi = headerSub.deskripsi || "Daftar lengkap Pimpinan dan Anggota GOLKAR INTERNSHIP STUDENT dari Fraksi Partai Golkar periode 2024–2029 beserta profil dan rekam jejak legislasinya.";
 
   const anggotaSaja = anggota.filter((m) => m.role === "Anggota Komisi");
 
@@ -54,7 +54,7 @@ export default function PimpinanPage() {
       <div className="space-y-8">
         <div className="flex items-center gap-2.5 text-slate-900 dark:text-white font-bold text-xl border-b-2 border-dpr-emerald dark:border-dpr-gold pb-3">
           <Award className="w-6 h-6 text-dpr-emerald dark:text-dpr-gold" />
-          <span>Pimpinan Komisi XIII DPR RI</span>
+          <span>Pimpinan GOLKAR INTERNSHIP STUDENT</span>
         </div>
 
         {/* Ketua */}
@@ -77,7 +77,7 @@ export default function PimpinanPage() {
             <div className="flex-1 space-y-4">
               <div>
                 <h2 className="text-xl font-extrabold text-slate-900 dark:text-white">{pimpinan[0].name}</h2>
-                <p className="text-sm text-dpr-emerald-dark dark:text-dpr-gold font-semibold">{pimpinan[0].role} — Komisi XIII DPR RI</p>
+                <p className="text-sm text-dpr-emerald-dark dark:text-dpr-gold font-semibold">{pimpinan[0].role} — GOLKAR INTERNSHIP STUDENT</p>
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
                 <div className="flex items-center gap-2 text-slate-600 dark:text-slate-400">
@@ -149,7 +149,7 @@ export default function PimpinanPage() {
       <div className="space-y-8">
         <div className="flex items-center gap-2.5 text-slate-900 dark:text-white font-bold text-xl border-b-2 border-dpr-emerald dark:border-dpr-gold pb-3">
           <Users className="w-6 h-6 text-dpr-emerald dark:text-dpr-gold" />
-          <span>Anggota Komisi XIII — Fraksi Partai Golkar ({anggotaSaja.length} Anggota)</span>
+          <span>Anggota Golkar Internship — Fraksi Partai Golkar ({anggotaSaja.length} Anggota)</span>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {anggotaSaja.map((anggota, i) => (

@@ -98,7 +98,7 @@ export default function AdminProfilSejarahPage() {
     <div className="space-y-8 pb-24">
       <PageHeader
         icon={BookOpen}
-        title="Kelola Sejarah Komisi XIII"
+        title="Kelola Sejarah Golkar Internship"
         subtitle="Edit header, statistik fact cards, narasi latar belakang, dan linimasa (timeline) sejarah komisi."
       />
 
@@ -135,7 +135,7 @@ export default function AdminProfilSejarahPage() {
       </SectionCard>
 
       {/* Narasi Section */}
-      <SectionCard icon={BookOpen} title="Narasi Latar Belakang Pembentukan" description="Paragraf-paragraf teks penjelasan tentang latar belakang pembentukan Komisi XIII.">
+      <SectionCard icon={BookOpen} title="Narasi Latar Belakang Pembentukan" description="Paragraf-paragraf teks penjelasan tentang latar belakang pembentukan Golkar Internship.">
         {narasiSubs.map((sub, i) => (
           <Field key={sub.id} label={`Paragraf ${i + 1}`}>
             <Textarea

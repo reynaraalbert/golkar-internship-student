@@ -7,14 +7,14 @@ import { motion } from "framer-motion";
 import { useCmsContent } from "@/components/CmsProvider";
 
 const mitraDetail = [
-  { id: "mitra-1", phone: "(021) 526-4091", website: "kemenkumham.go.id", programUtama: ["Harmonisasi Regulasi Nasional", "Pelayanan Kekayaan Intelektual Online", "Administrasi Hukum Umum (AHU)"], keterangan: "Kementerian Hukum merupakan mitra kerja utama Komisi XIII dalam proses legislasi dan harmonisasi regulasi. Komisi XIII secara rutin menggelar Raker bulanan untuk mengawasi progres pembentukan RUU dan program kerja Kemenkum." },
-  { id: "mitra-2", phone: "(021) 355-0180", website: "kemenham.go.id", programUtama: ["Kabupaten/Kota Peduli HAM", "Desk Penanganan Aduan HAM", "Program Pendidikan HAM Nasional"], keterangan: "Sebagai kementerian termuda yang berdiri sendiri mengurusi HAM, KemenHAM menjadi sorotan utama pengawasan Komisi XIII dalam memastikan efektivitas program-program perlindungan HAM di seluruh wilayah NKRI." },
-  { id: "mitra-3", phone: "(021) 526-5533", website: "imigrasi.go.id", programUtama: ["Autogate & Smart Border Management", "E-Paspor & Visa On Arrival Digital", "Pembinaan WBP Berbasis Reintegrasi Sosial"], keterangan: "Kemenimipas mengelola dua isu strategis: keimigrasian (gerbang masuk-keluar NKRI) dan pemasyarakatan (Lapas & Rutan). Komisi XIII melakukan kunjungan kerja berkala ke Lapas & Rutan untuk memastikan standar pelayanan sesuai regulasi." },
-  { id: "mitra-4", phone: "(021) 2557-8300", website: "kpk.go.id", programUtama: ["Pemberantasan Korupsi (OTT)", "Program Monitoring Center for Prevention (MCP)", "Pendidikan Antikorupsi di Sekolah"], keterangan: "KPK sebagai lembaga superbodi antikorupsi mendapat perhatian sangat khusus dari Komisi XIII. Komisi memastikan KPK tetap beroperasi secara independen dan anggarannya memadai untuk menjalankan fungsi penindakan dan pencegahan." },
-  { id: "mitra-5", phone: "(021) 392-5230", website: "komnasham.go.id", programUtama: ["Pemantauan Situasi HAM Nasional", "Penyelidikan Kasus Pelanggaran HAM Berat", "Mediasi Sengketa Berbasis HAM"], keterangan: "Komnas HAM adalah lembaga independen pemantau HAM yang laporan tahunannya menjadi bahan utama rapat pengawasan Komisi XIII. Komisi mendorong penguatan kapasitas kelembagaan dan kewenangan penyelidikan Komnas HAM." },
-  { id: "mitra-6", phone: "(021) 8259-3215", website: "lpsk.go.id", programUtama: ["Perlindungan Saksi & Korban Tipikor", "Rumah Aman bagi Saksi Terancam", "Kompensasi bagi Korban Terorisme"], keterangan: "LPSK menjamin keselamatan saksi dan korban dalam proses peradilan pidana. Komisi XIII mengawal anggaran dan regulasi LPSK agar perlindungan yang diberikan semakin luas dan efektif, termasuk bagi saksi kasus korupsi besar." },
-  { id: "mitra-7", phone: "(021) 7884-0300", website: "bnpt.go.id", programUtama: ["Pencegahan Radikalisasi Online", "Deradikalisasi WBP Teroris di Lapas", "Sinergi Penanganan Terorisme Lintas Negara"], keterangan: "BNPT bertugas mencegah dan menanggulangi terorisme, termasuk deradikalisasi narapidana teroris di Lapas. Koordinasinya dengan Kemenimipas menjadi fokus pengawasan Komisi XIII untuk mencegah residivis terorisme." },
-  { id: "mitra-8", phone: "(021) 374-3087", website: "bkn.go.id", programUtama: ["Seleksi CPNS & PPPK Nasional", "Sistem Informasi ASN (SIASN)", "Penilaian Kinerja ASN Berbasis SKP"], keterangan: "BKN mengelola data dan karier seluruh ASN Indonesia. Komisi XIII mengawasi BKN dalam konteks rekrutmen, pembinaan, dan penindakan disiplin pegawai di lingkungan Kemenkum, KemenHAM, dan Kemenimipas." },
+  { id: "mitra-1", phone: "(021) 526-4091", website: "kemenkumham.go.id", programUtama: ["Harmonisasi Regulasi Nasional", "Pelayanan Kekayaan Intelektual Online", "Administrasi Hukum Umum (AHU)"], keterangan: "Kementerian Hukum merupakan mitra kerja utama Golkar Internship dalam proses legislasi dan harmonisasi regulasi. Golkar Internship secara rutin menggelar Raker bulanan untuk mengawasi progres pembentukan RUU dan program kerja Kemenkum." },
+  { id: "mitra-2", phone: "(021) 355-0180", website: "kemenham.go.id", programUtama: ["Kabupaten/Kota Peduli HAM", "Desk Penanganan Aduan HAM", "Program Pendidikan HAM Nasional"], keterangan: "Sebagai kementerian termuda yang berdiri sendiri mengurusi HAM, KemenHAM menjadi sorotan utama pengawasan Golkar Internship dalam memastikan efektivitas program-program perlindungan HAM di seluruh wilayah NKRI." },
+  { id: "mitra-3", phone: "(021) 526-5533", website: "imigrasi.go.id", programUtama: ["Autogate & Smart Border Management", "E-Paspor & Visa On Arrival Digital", "Pembinaan WBP Berbasis Reintegrasi Sosial"], keterangan: "Kemenimipas mengelola dua isu strategis: keimigrasian (gerbang masuk-keluar NKRI) dan pemasyarakatan (Lapas & Rutan). Golkar Internship melakukan kunjungan kerja berkala ke Lapas & Rutan untuk memastikan standar pelayanan sesuai regulasi." },
+  { id: "mitra-4", phone: "(021) 2557-8300", website: "kpk.go.id", programUtama: ["Pemberantasan Korupsi (OTT)", "Program Monitoring Center for Prevention (MCP)", "Pendidikan Antikorupsi di Sekolah"], keterangan: "KPK sebagai lembaga superbodi antikorupsi mendapat perhatian sangat khusus dari Golkar Internship. Komisi memastikan KPK tetap beroperasi secara independen dan anggarannya memadai untuk menjalankan fungsi penindakan dan pencegahan." },
+  { id: "mitra-5", phone: "(021) 392-5230", website: "komnasham.go.id", programUtama: ["Pemantauan Situasi HAM Nasional", "Penyelidikan Kasus Pelanggaran HAM Berat", "Mediasi Sengketa Berbasis HAM"], keterangan: "Komnas HAM adalah lembaga independen pemantau HAM yang laporan tahunannya menjadi bahan utama rapat pengawasan Golkar Internship. Komisi mendorong penguatan kapasitas kelembagaan dan kewenangan penyelidikan Komnas HAM." },
+  { id: "mitra-6", phone: "(021) 8259-3215", website: "lpsk.go.id", programUtama: ["Perlindungan Saksi & Korban Tipikor", "Rumah Aman bagi Saksi Terancam", "Kompensasi bagi Korban Terorisme"], keterangan: "LPSK menjamin keselamatan saksi dan korban dalam proses peradilan pidana. Golkar Internship mengawal anggaran dan regulasi LPSK agar perlindungan yang diberikan semakin luas dan efektif, termasuk bagi saksi kasus korupsi besar." },
+  { id: "mitra-7", phone: "(021) 7884-0300", website: "bnpt.go.id", programUtama: ["Pencegahan Radikalisasi Online", "Deradikalisasi WBP Teroris di Lapas", "Sinergi Penanganan Terorisme Lintas Negara"], keterangan: "BNPT bertugas mencegah dan menanggulangi terorisme, termasuk deradikalisasi narapidana teroris di Lapas. Koordinasinya dengan Kemenimipas menjadi fokus pengawasan Golkar Internship untuk mencegah residivis terorisme." },
+  { id: "mitra-8", phone: "(021) 374-3087", website: "bkn.go.id", programUtama: ["Seleksi CPNS & PPPK Nasional", "Sistem Informasi ASN (SIASN)", "Penilaian Kinerja ASN Berbasis SKP"], keterangan: "BKN mengelola data dan karier seluruh ASN Indonesia. Golkar Internship mengawasi BKN dalam konteks rekrutmen, pembinaan, dan penindakan disiplin pegawai di lingkungan Kemenkum, KemenHAM, dan Kemenimipas." },
 ];
 
 export default function MitraKerjaPage() {
@@ -22,9 +22,9 @@ export default function MitraKerjaPage() {
   const page = pages.find((p) => p.slug === "profil/mitra-kerja");
   const headerSub = page?.sections.find((s) => s.title === "Header Halaman Mitra Kerja")?.subsections[0]?.fields || {};
 
-  const badge = headerSub.badge || "PROFIL KOMISI XIII — MITRA KERJA";
-  const judul = headerSub.judul || "Daftar Mitra Kerja Komisi XIII";
-  const deskripsi = headerSub.deskripsi || "8 Kementerian dan Lembaga Negara yang menjadi mitra strategis Komisi XIII DPR RI dalam pelaksanaan fungsi legislasi, anggaran, dan pengawasan.";
+  const badge = headerSub.badge || "PROFIL Golkar Internship — MITRA KERJA";
+  const judul = headerSub.judul || "Daftar Mitra Kerja Golkar Internship";
+  const deskripsi = headerSub.deskripsi || "8 Kementerian dan Lembaga Negara yang menjadi mitra strategis GOLKAR INTERNSHIP STUDENT dalam pelaksanaan fungsi legislasi, anggaran, dan pengawasan.";
 
   return (
     <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-16">
@@ -102,7 +102,7 @@ export default function MitraKerjaPage() {
                     <>
                       <div className="space-y-1">
                         <p className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider flex items-center gap-1">
-                          <Building2 className="w-3 h-3" /> Catatan Pengawasan Komisi XIII
+                          <Building2 className="w-3 h-3" /> Catatan Pengawasan Golkar Internship
                         </p>
                         <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed text-justify">{detail.keterangan}</p>
                       </div>

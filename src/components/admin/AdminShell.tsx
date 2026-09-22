@@ -181,7 +181,7 @@ function AdminShellContent({ children }: { children: React.ReactNode }) {
             className="w-10 h-10 object-contain drop-shadow-md shrink-0"
           />
           <div className="leading-tight">
-            <p className="text-sm font-extrabold text-slate-900 dark:text-white tracking-wide">KOMISI XIII</p>
+            <p className="text-sm font-extrabold text-slate-900 dark:text-white tracking-wide">GOLKAR INTERNSHIP</p>
             <p className="text-[10px] font-bold text-dpr-emerald-dark dark:text-dpr-gold uppercase tracking-wider">
               PANEL ADMIN
             </p>

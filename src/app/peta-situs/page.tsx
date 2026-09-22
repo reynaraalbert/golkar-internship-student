@@ -16,7 +16,7 @@ const siteMap = [
     title: "Anggota DPR",
     icon: Users,
     links: [
-      { name: "Daftar Anggota", href: "/anggota", desc: "Seluruh anggota Fraksi Golkar di Komisi XIII" },
+      { name: "Daftar Anggota", href: "/anggota", desc: "Seluruh anggota Fraksi Golkar di Golkar Internship" },
     ]
   },
   {
@@ -31,8 +31,8 @@ const siteMap = [
     title: "Profil Komisi",
     icon: Info,
     links: [
-      { name: "Sejarah Komisi XIII", href: "/profil#sejarah", desc: "Latar belakang dan sejarah pembentukan" },
-      { name: "Visi & Misi", href: "/profil#visi-misi", desc: "Visi dan misi kerja Komisi XIII" },
+      { name: "Sejarah Golkar Internship", href: "/profil#sejarah", desc: "Latar belakang dan sejarah pembentukan" },
+      { name: "Visi & Misi", href: "/profil#visi-misi", desc: "Visi dan misi kerja Golkar Internship" },
       { name: "Pimpinan & Anggota", href: "/anggota", desc: "Struktur pimpinan Fraksi Golkar" },
       { name: "Daftar Mitra Kerja", href: "/profil#mitra-kerja", desc: "Kementerian dan lembaga mitra" },
     ]
@@ -74,7 +74,7 @@ export default function PetaSitusPage() {
           Peta <span className="text-dpr-emerald dark:text-dpr-gold">Situs</span>
         </h1>
         <p className="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
-          Temukan semua halaman dan fitur yang tersedia di Portal Resmi Komisi XIII DPR RI.
+          Temukan semua halaman dan fitur yang tersedia di Portal Resmi GOLKAR INTERNSHIP STUDENT.
         </p>
       </div>
 

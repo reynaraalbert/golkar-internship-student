@@ -94,7 +94,7 @@ export default function AdminProfilVisiMisiPage() {
     <div className="space-y-8 pb-24">
       <PageHeader
         icon={Target}
-        title="Kelola Visi & Misi Komisi XIII"
+        title="Kelola Visi & Misi Golkar Internship"
         subtitle="Edit header, visi utama, 4 pilar misi (termasuk target capaian), dan nilai-nilai utama komisi."
       />
 

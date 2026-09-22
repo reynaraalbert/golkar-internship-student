@@ -162,7 +162,7 @@ export default function Header() {
                         Republik Indonesia
                       </span>
                       <span className="bg-dpr-emerald dark:bg-dpr-gold text-white dark:text-slate-900 text-[6.5px] sm:text-[8px] font-black px-1 sm:px-1.5 py-0.5 rounded-full uppercase tracking-wider shadow-sm shrink-0">
-                        KOMISI XIII
+                        GOLKAR INTERNSHIP
                       </span>
                     </div>
                     <p className="text-[7.5px] sm:text-[9px] font-black text-dpr-emerald dark:text-dpr-gold tracking-wider mt-0.5 truncate">
@@ -179,7 +179,7 @@ export default function Header() {
                     className="flex items-center gap-1.5 sm:gap-2"
                   >
                     <span className="bg-dpr-emerald dark:bg-dpr-gold text-white dark:text-slate-900 text-[8px] sm:text-xs font-black px-1.5 sm:px-3.5 py-0.5 sm:py-1 rounded-full uppercase tracking-wider shadow-md">
-                      KOMISI XIII
+                      GOLKAR INTERNSHIP
                     </span>
                   </motion.div>
                 )}
@@ -296,7 +296,7 @@ export default function Header() {
                       <div className="space-y-3">
                         {searchResults.matchedAnggota.length > 0 && (
                           <div className="space-y-1.5">
-                            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest block">Anggota Komisi XIII</span>
+                            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest block">Peserta Magang</span>
                             {searchResults.matchedAnggota.map((m) => (
                               <Link
                                 key={m.id}
@@ -408,7 +408,7 @@ export default function Header() {
               <div className="flex items-center justify-between px-4 py-3 border-b border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-slate-800/80">
                 <div className="flex items-center gap-2 min-w-0">
                   <span className="bg-dpr-emerald dark:bg-dpr-gold text-white dark:text-slate-900 text-[9px] font-black px-2 py-0.5 rounded-full uppercase tracking-wider shrink-0">
-                    KOMISI XIII DPR RI
+                    GOLKAR INTERNSHIP STUDENT
                   </span>
                   <span className="text-xs font-bold text-slate-800 dark:text-white truncate">
                     Menu Navigasi

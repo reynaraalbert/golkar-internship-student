@@ -8,29 +8,24 @@ export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
 export const metadata: Metadata = {
-  title: "Komisi XIII DPR RI - Reformasi Hukum, HAM & Antikorupsi",
+  title: "GOLKAR INTERNSHIP STUDENT",
   description:
-    "Portal Resmi Komisi XIII Dewan Perwakilan Rakyat Republik Indonesia (DPR RI) Periode 2024-2029 membidangi Reformasi Hukum, HAM, Imigrasi, Pemasyarakatan, KPK, BNPT, LPSK, Komnas HAM & BKN.",
+    "Portal GOLKAR INTERNSHIP STUDENT — Program magang resmi Partai Golkar untuk mahasiswa Indonesia.",
   keywords: [
-    "Komisi XIII DPR RI",
-    "DPR RI",
-    "Reformasi Hukum",
-    "HAM",
-    "Imigrasi",
-    "Pemasyarakatan",
-    "KPK",
-    "BNPT",
-    "LPSK",
-    "BKN",
-    "Dewan Perwakilan Rakyat",
+    "Golkar",
+    "Partai Golkar",
+    "Internship",
+    "Magang",
+    "Mahasiswa",
+    "Program Magang Golkar",
   ],
-  authors: [{ name: "Komisi XIII DPR RI" }],
+  authors: [{ name: "GOLKAR INTERNSHIP STUDENT" }],
   icons: {
     icon: [
-      { url: "/images/logo-dpr.svg", type: "image/svg+xml" },
+      { url: "/images/golkar-internship.png", type: "image/png" },
     ],
-    shortcut: "/images/logo-dpr.svg",
-    apple: "/images/logo-dpr.svg",
+    shortcut: "/images/golkar-internship.png",
+    apple: "/images/golkar-internship.png",
   },
 };
 

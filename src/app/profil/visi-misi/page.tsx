@@ -27,7 +27,7 @@ const DEFAULT_MISI = [
   {
     no: 2, icon: Scale,
     judul: "Optimalisasi Anggaran Berbasis Kinerja",
-    isi: "Memastikan alokasi anggaran yang efisien, transparan, dan berbasis kinerja (performance-based budgeting) bagi seluruh Kementerian/Lembaga mitra kerja Komisi XIII. Anggaran harus diarahkan pada program-program yang berdampak langsung terhadap peningkatan pelayanan publik di sektor hukum dan HAM.",
+    isi: "Memastikan alokasi anggaran yang efisien, transparan, dan berbasis kinerja (performance-based budgeting) bagi seluruh Kementerian/Lembaga mitra kerja Golkar Internship. Anggaran harus diarahkan pada program-program yang berdampak langsung terhadap peningkatan pelayanan publik di sektor hukum dan HAM.",
     targets: ["Efisiensi anggaran Kemenkum & KemenHAM minimal 15% tanpa mengorbankan pelayanan", "Memastikan 100% anggaran KPK terserap untuk program pemberantasan korupsi", "Audit kinerja program bantuan hukum gratis bagi masyarakat tidak mampu"],
   },
   {
@@ -39,7 +39,7 @@ const DEFAULT_MISI = [
   {
     no: 4, icon: ShieldCheck,
     judul: "Penguatan Perlindungan HAM & Antikorupsi",
-    isi: "Mendorong penguatan kelembagaan dan kapasitas lembaga HAM independen (Komnas HAM, LPSK, BNPT) serta memastikan KPK beroperasi secara independen dan efektif. Komisi XIII berperan sebagai 'watchdog' parlemen terhadap setiap potensi intervensi atau pelemahan lembaga antikorupsi.",
+    isi: "Mendorong penguatan kelembagaan dan kapasitas lembaga HAM independen (Komnas HAM, LPSK, BNPT) serta memastikan KPK beroperasi secara independen dan efektif. Golkar Internship berperan sebagai 'watchdog' parlemen terhadap setiap potensi intervensi atau pelemahan lembaga antikorupsi.",
     targets: ["Pastikan anggaran Komnas HAM naik minimal 10% per tahun", "Pantau setiap kasus besar KPK yang berpotensi menimbulkan intervensi", "Sahkan RUU Perlindungan Saksi & Korban versi revisi yang lebih kuat"],
   },
 ];
@@ -52,15 +52,15 @@ export default function VisiMisiPage() {
 
   // Header
   const headerFields = getSection("Header Halaman Visi & Misi")?.subsections[0]?.fields || {};
-  const badge = headerFields.badge || "PROFIL KOMISI XIII — VISI & MISI";
-  const judul = headerFields.judul || "Visi & Misi Komisi XIII DPR RI";
-  const deskripsi = headerFields.deskripsi || "Arah dan tujuan strategis Komisi XIII dalam mengawal reformasi hukum, HAM, keimigrasian, pemasyarakatan, dan antikorupsi Indonesia untuk periode 2024–2029.";
+  const badge = headerFields.badge || "PROFIL Golkar Internship — VISI & MISI";
+  const judul = headerFields.judul || "Visi & Misi GOLKAR INTERNSHIP STUDENT";
+  const deskripsi = headerFields.deskripsi || "Arah dan tujuan strategis Golkar Internship dalam mengawal reformasi hukum, HAM, keimigrasian, pemasyarakatan, dan antikorupsi Indonesia untuk periode 2024–2029.";
 
   // Visi
   const visiFields = getSection("Visi Utama Komisi")?.subsections[0]?.fields || {};
   const visiText = visiFields.visi || "Terwujudnya Sistem Hukum Indonesia yang Adil, Humanis, Transparan, dan Bebas Korupsi demi Keadilan Sosial bagi Seluruh Rakyat Indonesia.";
-  const visiPenjelasan = visiFields.penjelasan || "Visi ini menjadi kompas dan tolok ukur seluruh agenda kerja Komisi XIII selama periode 2024–2029.";
-  const visiJudulSub = visiFields.judul || "Komisi XIII DPR RI 2024–2029";
+  const visiPenjelasan = visiFields.penjelasan || "Visi ini menjadi kompas dan tolok ukur seluruh agenda kerja Golkar Internship selama periode 2024–2029.";
+  const visiJudulSub = visiFields.judul || "GOLKAR INTERNSHIP STUDENT 2024–2029";
 
   // Misi
   const misiSubs = getSection("Misi Kerja Komisi (4 Pilar Strategis)")?.subsections || [];
@@ -130,7 +130,7 @@ export default function VisiMisiPage() {
       <div className="space-y-8">
         <div className="text-center space-y-2">
           <span className="text-xs font-bold text-dpr-emerald-dark dark:text-dpr-gold uppercase tracking-widest">4 PILAR STRATEGIS</span>
-          <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white">Misi Kerja Komisi XIII</h2>
+          <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white">Misi Kerja Golkar Internship</h2>
         </div>
         <div className="space-y-6">
           {misi.map((item, i) => {
@@ -173,7 +173,7 @@ export default function VisiMisiPage() {
       <div className="space-y-8">
         <div className="text-center space-y-2">
           <span className="text-xs font-bold text-dpr-emerald-dark dark:text-dpr-gold uppercase tracking-widest">LANDASAN KERJA</span>
-          <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white">Nilai Utama Komisi XIII</h2>
+          <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white">Nilai Utama Golkar Internship</h2>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {nilaiNilai.map((nilai, i) => (

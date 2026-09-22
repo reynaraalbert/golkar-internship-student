@@ -159,7 +159,7 @@ export default function TulisBeritaPage() {
         </motion.div>
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }} className="space-y-3">
           <h2 className="text-2xl font-bold text-slate-900 dark:text-white">Berita Berhasil Dikirim!</h2>
-          <p className="text-slate-600 dark:text-slate-400 text-sm">Terima kasih, <strong>{namaLengkap}</strong>. Artikel Anda sedang dalam proses tinjauan oleh tim redaksi Komisi XIII DPR RI sebelum dipublikasikan.</p>
+          <p className="text-slate-600 dark:text-slate-400 text-sm">Terima kasih, <strong>{namaLengkap}</strong>. Artikel Anda sedang dalam proses tinjauan oleh tim redaksi GOLKAR INTERNSHIP STUDENT sebelum dipublikasikan.</p>
           <p className="text-slate-500 dark:text-slate-500 text-xs">Anda akan diarahkan kembali ke halaman Berita dalam beberapa detik...</p>
         </motion.div>
       </div>
@@ -177,7 +177,7 @@ export default function TulisBeritaPage() {
         <h1 className="text-3xl font-extrabold text-slate-900 dark:text-white">
           Tulis <span className="text-dpr-emerald dark:text-dpr-gold">Berita</span>
         </h1>
-        <p className="text-slate-600 dark:text-slate-400 text-sm">Bagikan informasi, opini, atau laporan terkini seputar kegiatan Komisi XIII DPR RI Fraksi Partai Golkar.</p>
+        <p className="text-slate-600 dark:text-slate-400 text-sm">Bagikan informasi, opini, atau laporan terkini seputar kegiatan GOLKAR INTERNSHIP STUDENT Fraksi Partai Golkar.</p>
       </div>
 
       <div className="flex items-center gap-0 max-w-md mx-auto">
@@ -287,7 +287,7 @@ export default function TulisBeritaPage() {
                       </div>
                       <div>
                         <label className={labelClass}>Unit Kerja <span className="text-red-500">*</span></label>
-                        <input type="text" value={unitKerja} onChange={e => setUnitKerja(e.target.value)} placeholder="Contoh: Sekretariat Komisi XIII" className={inputClass} />
+                        <input type="text" value={unitKerja} onChange={e => setUnitKerja(e.target.value)} placeholder="Contoh: Sekretariat Golkar Internship" className={inputClass} />
                       </div>
                       <div className="sm:col-span-2">
                         <label className={labelClass}>Jabatan / Pangkat <span className="text-red-500">*</span></label>

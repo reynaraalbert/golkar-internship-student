@@ -30,7 +30,7 @@ export default function AdminBerandaStatistikPage() {
       <PageHeader
         icon={BarChart3}
         title="Edit Section Statistik Beranda"
-        subtitle="Atur label teks pada bilah statistik (counter) halaman beranda situs publik Komisi XIII."
+        subtitle="Atur label teks pada bilah statistik (counter) halaman beranda situs publik Golkar Internship."
       />
 
       <div className="space-y-6">

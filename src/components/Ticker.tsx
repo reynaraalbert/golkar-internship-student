@@ -6,10 +6,10 @@ import Link from "next/link";
 
 export default function Ticker() {
   const announcements = [
-    "🔴 LIVE NOW: Rapat Kerja Komisi XIII DPR RI bersama Kementerian Hukum RI & Kementerian HAM RI di Gedung Nusantara II Senayan",
-    "⚖️ RUU Perlindungan Saksi dan Korban Resmi Masuk Prolegnas Prioritas 2026",
-    "🛂 Sidak Komisi XIII: Apresiasi Penerapan 100 Autogate Biometrik Baru Kemenimipas",
-    "📢 Portal Aspirasi Rakyat Komisi XIII DPR RI Terbuka Bagi Aduan Dugaan Pelanggaran HAM & Masalah Lapas",
+    "🌟 Selamat datang di GOLKAR INTERNSHIP STUDENT — Program Magang Mahasiswa Partai Golkar",
+    "📋 Pendaftaran program magang Golkar Internship Student kini dibuka — Daftarkan diri Anda sekarang!",
+    "🎓 Program magang Golkar: Membangun generasi muda Indonesia yang kompeten dan berdedikasi",
+    "📢 Informasi terbaru program GOLKAR INTERNSHIP STUDENT tersedia di portal ini",
   ];
 
   return (

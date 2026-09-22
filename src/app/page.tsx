@@ -100,7 +100,7 @@ export default function HomePage() {
                   <div className="text-left min-w-0 flex-1 overflow-hidden">
                     <div className="flex items-center gap-1.5 flex-wrap mb-0.5">
                       <span className="text-[10px] bg-dpr-emerald dark:bg-dpr-red text-white font-bold px-2 py-0.5 rounded uppercase shrink-0">SEDANG SIARAN</span>
-                      <span className="text-[10px] sm:text-xs text-dpr-emerald-dark dark:text-dpr-gold font-bold truncate">Ruang Komisi XIII</span>
+                      <span className="text-[10px] sm:text-xs text-dpr-emerald-dark dark:text-dpr-gold font-bold truncate">Ruang Golkar Internship</span>
                     </div>
                     <p className="text-xs text-slate-900 dark:text-white font-bold truncate">
                       {liveAgenda.title}
@@ -186,7 +186,7 @@ export default function HomePage() {
         <div className="flex flex-col sm:flex-row items-start sm:items-end justify-between gap-4 border-b border-slate-200 dark:border-white/10 pb-4">
           <div>
             <span className="text-xs font-bold text-dpr-emerald-dark dark:text-dpr-gold uppercase tracking-widest">INFORMASI TERKINI</span>
-            <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white">Berita & Siaran Pers Komisi XIII</h2>
+            <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white">Berita & Siaran Pers Golkar Internship</h2>
           </div>
           <Link href="/berita" className="text-xs text-dpr-emerald-dark dark:text-dpr-gold font-bold hover:underline flex items-center gap-1">
             <span>Lihat Semua Berita</span>
@@ -265,7 +265,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* --- LOKASI & MEDIA SOSIAL RESMI KOMISI XIII DPR RI SECTION --- */}
+      {/* --- LOKASI & MEDIA SOSIAL RESMI GOLKAR INTERNSHIP STUDENT SECTION --- */}
       <section id="lokasi" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
         <div className="text-center space-y-3">
           <span className="text-xs font-bold text-dpr-emerald-dark dark:text-dpr-gold uppercase tracking-widest flex items-center justify-center gap-1.5">
@@ -273,7 +273,7 @@ export default function HomePage() {
             <span>KANTOR SEKRETARIAT & KANAL INFORMASI</span>
           </span>
           <h2 className="text-2xl sm:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight">
-            Lokasi & Media Sosial Resmi <span className="text-dpr-emerald dark:text-dpr-gold">Komisi XIII DPR RI</span>
+            Lokasi & Media Sosial Resmi <span className="text-dpr-emerald dark:text-dpr-gold">GOLKAR INTERNSHIP STUDENT</span>
           </h2>
           <p className="text-slate-600 dark:text-slate-300 text-xs sm:text-sm max-w-2xl mx-auto leading-relaxed">
             {maps.description}
@@ -297,7 +297,7 @@ export default function HomePage() {
             </div>
 
             <iframe
-              title="Lokasi Komisi XIII DPR RI"
+              title="Lokasi GOLKAR INTERNSHIP STUDENT"
               src={maps.embedUrl}
               width="100%"
               height="100%"

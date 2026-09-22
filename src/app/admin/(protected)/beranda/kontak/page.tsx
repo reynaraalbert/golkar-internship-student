@@ -46,7 +46,7 @@ export default function AdminBerandaKontakPage() {
         <SectionCard
           icon={Share2}
           title="Layanan & Akun Media Sosial Resmi"
-          description="Informasi jam kerja layanan publik dan handle akun media sosial resmi Komisi XIII DPR RI."
+          description="Informasi jam kerja layanan publik dan handle akun media sosial resmi GOLKAR INTERNSHIP STUDENT."
         >
           <Grid cols={2}>
             <Field label="Judul Layanan Publik">

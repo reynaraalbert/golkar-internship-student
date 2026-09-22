@@ -93,11 +93,11 @@ export default function AspirasiPage() {
     },
     {
       q: "Siapa saja yang akan menerima aspirasi yang dikirimkan?",
-      a: "Aspirasi akan diverifikasi terlebih dahulu oleh Tim Sekretariat Komisi XIII DPR RI, kemudian dikelompokkan sesuai komoditas pengawasan bidang Hukum, HAM, Imigrasi, Pemasyarakatan, atau Antikorupsi."
+      a: "Aspirasi akan diverifikasi terlebih dahulu oleh Tim Sekretariat Golkar Internship STUDENT, kemudian dikelompokkan sesuai komoditas pengawasan bidang Hukum, HAM, Imigrasi, Pemasyarakatan, atau Antikorupsi."
     },
     {
       q: "Berapa lama estimasi tindak lanjut aduan atau masukan rakyat?",
-      a: "Verifikasi administrasi membutuhkan waktu 1-3 hari kerja. Aspirasi prioritas yang relevan akan dimasukkan sebagai bahan materi Rapat Dengar Pendapat (RDP) Komisi XIII bersama mitra kerja terkait."
+      a: "Verifikasi administrasi membutuhkan waktu 1-3 hari kerja. Aspirasi prioritas yang relevan akan dimasukkan sebagai bahan materi Rapat Dengar Pendapat (RDP) Golkar Internship bersama mitra kerja terkait."
     },
     {
       q: "Apakah data dan identitas pengirim dijamin kerahasiaannya?",
@@ -134,7 +134,7 @@ export default function AspirasiPage() {
             transition={{ delay: 0.2 }}
             className="text-slate-700 dark:text-slate-300 text-sm sm:text-base max-w-3xl mx-auto font-medium leading-relaxed"
           >
-            Sampaikan masukan, aduan penegakan hukum, evaluasi hak asasi manusia, imigrasi, pemasyarakatan, maupun usulan regulasi langsung ke Komisi XIII DPR RI secara terbuka atau anonim.
+            Sampaikan masukan, aduan penegakan hukum, evaluasi hak asasi manusia, imigrasi, pemasyarakatan, maupun usulan regulasi langsung ke GOLKAR INTERNSHIP STUDENT secara terbuka atau anonim.
           </motion.p>
         </div>
       </section>
@@ -269,8 +269,8 @@ export default function AspirasiPage() {
                 <h3 className="text-xl font-bold text-slate-900 dark:text-white">Aspirasi Anda Telah Terkirim!</h3>
                 <p className="text-xs sm:text-sm text-slate-700 dark:text-slate-300 max-w-md mx-auto leading-relaxed">
                   {submissionMethod === "Anonim"
-                    ? "Pesan dan masukan Anda dikirim secara anonim tanpa menyimpan data pribadi. Sekretariat Komisi XIII akan memproses laporan ini."
-                    : "Terima kasih atas partisipasi Anda. Bukti tanda terima aspirasi telah diproses dan akan menjadi acuan pengawasan legislatif Komisi XIII DPR RI."}
+                    ? "Pesan dan masukan Anda dikirim secara anonim tanpa menyimpan data pribadi. Sekretariat Golkar Internship akan memproses laporan ini."
+                    : "Terima kasih atas partisipasi Anda. Bukti tanda terima aspirasi telah diproses dan akan menjadi acuan pengawasan legislatif GOLKAR INTERNSHIP STUDENT."}
                 </p>
               </motion.div>
             ) : (
@@ -375,7 +375,7 @@ export default function AspirasiPage() {
             <div className="glass-panel p-6 rounded-3xl border border-slate-200 dark:border-white/10 space-y-4 bg-white/90 dark:bg-slate-900/90 shadow-lg">
               <h3 className="text-lg font-extrabold text-slate-900 dark:text-white flex items-center gap-2">
                 <Building2 className="w-5 h-5 text-dpr-emerald dark:text-dpr-gold" />
-                <span>Sekretariat Komisi XIII DPR RI</span>
+                <span>Sekretariat Golkar Internship STUDENT</span>
               </h3>
 
               <div className="space-y-3.5 text-xs sm:text-sm">
@@ -404,8 +404,8 @@ export default function AspirasiPage() {
                   <Mail className="w-4 h-4 text-blue-600 dark:text-blue-400 shrink-0 mt-0.5" />
                   <div>
                     <span className="font-bold text-slate-900 dark:text-white block">Email Resmi Sekretariat</span>
-                    <a href="mailto:komisi13@dpr.go.id" className="text-blue-600 dark:text-blue-400 font-bold hover:underline">
-                      komisi13@dpr.go.id
+                    <a href="mailto:golkarinternshipstudent@gmail.com" className="text-blue-600 dark:text-blue-400 font-bold hover:underline">
+                      golkarinternshipstudent@gmail.com
                     </a>
                   </div>
                 </div>

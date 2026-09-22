@@ -36,10 +36,10 @@ export default function NewsPage() {
           <span>PUSAT INFORMASI & SIARAN PERS</span>
         </div>
         <h1 className="text-3xl sm:text-5xl font-extrabold text-slate-900 dark:text-white">
-          Berita & <span className="text-dpr-emerald dark:text-red-600">Pengumuman Komisi XIII</span>
+          Berita & <span className="text-dpr-emerald dark:text-red-600">Pengumuman Golkar Internship</span>
         </h1>
         <p className="text-slate-700 dark:text-slate-300 text-xs sm:text-sm leading-relaxed">
-          Kumpulan kabar terbaru mengenai rapat kerja, uji kelayakan, peninjauan lapangan, dan rilis pers resmi dari Sekretariat Komisi XIII DPR RI.
+          Kumpulan kabar terbaru mengenai rapat kerja, uji kelayakan, peninjauan lapangan, dan rilis pers resmi dari Sekretariat Golkar Internship STUDENT.
         </p>
       </div>
 

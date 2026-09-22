@@ -25,24 +25,24 @@ export default function ProfilPage() {
           <span>{header.badge || "PORTAL PROFIL PERLENGKAPAN DPR RI"}</span>
         </div>
         <h1 className="text-3xl sm:text-5xl font-extrabold text-slate-900 dark:text-white">
-          <span className="text-dpr-emerald dark:text-dpr-gold">{header.judul || "Tentang Komisi XIII DPR RI"}</span>
+          <span className="text-dpr-emerald dark:text-dpr-gold">{header.judul || "Tentang GOLKAR INTERNSHIP STUDENT"}</span>
         </h1>
         <p className="text-slate-700 dark:text-slate-300 text-xs sm:text-sm leading-relaxed">
-          {header.deskripsi || "Komisi XIII merupakan alat kelengkapan DPR RI yang dibentuk berdasarkan Keputusan Rapat Paripurna DPR RI untuk mengawal Reformasi Hukum, HAM, Keimigrasian, Pemasyarakatan, dan Antikorupsi."}
+          {header.deskripsi || "Golkar Internship merupakan alat kelengkapan DPR RI yang dibentuk berdasarkan Keputusan Rapat Paripurna DPR RI untuk mengawal Reformasi Hukum, HAM, Keimigrasian, Pemasyarakatan, dan Antikorupsi."}
         </p>
       </div>
 
       {/* Sejarah Komisi */}
       <div id="sejarah" className="scroll-mt-32 space-y-6 bg-slate-50 dark:bg-dpr-navy-card p-8 rounded-3xl border border-slate-200 dark:border-white/10 shadow-md">
         <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white border-b-2 border-dpr-emerald dark:border-dpr-gold inline-block pb-2">
-          Sejarah Komisi XIII
+          Sejarah Golkar Internship
         </h2>
         <div className="space-y-4 text-sm text-slate-700 dark:text-slate-300 leading-relaxed text-justify">
           <p>
-            {sejarah.intro || "Komisi XIII dibentuk sebagai respons atas kebutuhan reformasi struktural di bidang penegakan hukum dan hak asasi manusia. Seiring dengan kompleksitas tantangan hukum nasional, keimigrasian, dan kapasitas pemasyarakatan, DPR RI melalui Rapat Paripurna menyepakati pembentukan komisi khusus ini untuk memperkuat fungsi pengawasan."}
+            {sejarah.intro || "Golkar Internship dibentuk sebagai respons atas kebutuhan reformasi struktural di bidang penegakan hukum dan hak asasi manusia. Seiring dengan kompleksitas tantangan hukum nasional, keimigrasian, dan kapasitas pemasyarakatan, DPR RI melalui Rapat Paripurna menyepakati pembentukan komisi khusus ini untuk memperkuat fungsi pengawasan."}
           </p>
           <p>
-            {sejarah.body || "Secara historis, tugas dan wewenang Komisi XIII sebelumnya tersebar di beberapa komisi lain. Pembentukan komisi yang berdiri sendiri ini menjadi tonggak sejarah penting (milestone) dalam upaya parlemen memberikan perhatian penuh pada isu-isu perlindungan HAM, pemberantasan korupsi, dan modernisasi sistem hukum Indonesia."}
+            {sejarah.body || "Secara historis, tugas dan wewenang Golkar Internship sebelumnya tersebar di beberapa komisi lain. Pembentukan komisi yang berdiri sendiri ini menjadi tonggak sejarah penting (milestone) dalam upaya parlemen memberikan perhatian penuh pada isu-isu perlindungan HAM, pemberantasan korupsi, dan modernisasi sistem hukum Indonesia."}
           </p>
         </div>
       </div>
@@ -57,14 +57,14 @@ export default function ProfilPage() {
               {visi.visi || "Terwujudnya Penegakan Hukum yang Adil, Humanis, dan Bebas Korupsi"}
             </h2>
             <p className="text-slate-700 dark:text-slate-300 text-xs sm:text-sm leading-relaxed text-justify">
-              {visi.deskripsi || "Komisi XIII berkomitmen menjaga independensi kelembagaan penegak hukum, memastikan pemenuhan hak asasi warga negara, serta mendorong otomatisasi layanan imigrasi dan perbaikan kondisi lembaga pemasyarakatan secara berkelanjutan."}
+              {visi.deskripsi || "Golkar Internship berkomitmen menjaga independensi kelembagaan penegak hukum, memastikan pemenuhan hak asasi warga negara, serta mendorong otomatisasi layanan imigrasi dan perbaikan kondisi lembaga pemasyarakatan secara berkelanjutan."}
             </p>
           </div>
 
           <div className="space-y-3 bg-white dark:bg-dpr-navy/90 p-6 rounded-2xl border border-slate-200 dark:border-white/10 shadow-sm">
             <h3 className="text-slate-900 dark:text-white font-bold text-base flex items-center gap-2 mb-3">
               <Award className="w-5 h-5 text-dpr-emerald dark:text-dpr-gold" />
-              <span>4 Pilar Misi Kerja Komisi XIII</span>
+              <span>4 Pilar Misi Kerja Golkar Internship</span>
             </h3>
 
             <div className="space-y-2.5 text-xs text-slate-700 dark:text-slate-300">
@@ -120,7 +120,7 @@ export default function ProfilPage() {
             </div>
             <h3 className="text-slate-900 dark:text-white font-bold text-lg">{fungsi[1]?.fields.judul || "2. Fungsi Anggaran"}</h3>
             <p className="text-slate-700 dark:text-slate-300 text-xs leading-relaxed">
-              {fungsi[1]?.fields.isi || "Membahas dan memberikan persetujuan terhadap alokasi Rencana Kerja & Anggaran Kementerian/Lembaga (RKA-K/L) mitra kerja Komisi XIII."}
+              {fungsi[1]?.fields.isi || "Membahas dan memberikan persetujuan terhadap alokasi Rencana Kerja & Anggaran Kementerian/Lembaga (RKA-K/L) mitra kerja Golkar Internship."}
             </p>
           </motion.div>
 
@@ -143,7 +143,7 @@ export default function ProfilPage() {
       <div className="space-y-8">
         <div className="text-center max-w-2xl mx-auto space-y-2">
           <span className="text-xs font-bold text-dpr-emerald-dark dark:text-dpr-gold uppercase tracking-widest">STRUKTUR KEPEMIMPINAN</span>
-          <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white">Pimpinan Komisi XIII DPR RI 2024-2029</h2>
+          <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white">Pimpinan GOLKAR INTERNSHIP STUDENT 2024-2029</h2>
         </div>
 
         <div className="glass-panel p-8 rounded-3xl border border-slate-200 dark:border-white/10 space-y-8">
@@ -151,7 +151,7 @@ export default function ProfilPage() {
           {/* Chairman Spotlight */}
           <div className="max-w-md mx-auto text-center space-y-3 p-6 rounded-2xl bg-gradient-to-b from-emerald-100 to-white dark:from-dpr-red/30 dark:to-dpr-navy border border-dpr-emerald/40 dark:border-dpr-gold/40 shadow-lg dark:shadow-gold-glow">
             <span className="bg-dpr-emerald dark:bg-gold-gradient text-white dark:text-dpr-navy font-extrabold text-xs px-4 py-1 rounded-full uppercase tracking-wider shadow-sm">
-              KETUA KOMISI XIII
+              KETUA Golkar Internship
             </span>
             <h3 className="text-xl font-bold text-slate-900 dark:text-white">{pimpinan[0].name}</h3>
             <p className="text-xs text-dpr-emerald-dark dark:text-dpr-gold font-semibold">{pimpinan[0].fraksi} — {pimpinan[0].dapil}</p>
@@ -174,7 +174,7 @@ export default function ProfilPage() {
               className="inline-flex items-center gap-2 bg-slate-100 dark:bg-dpr-navy hover:bg-slate-200 dark:hover:bg-white/5 text-dpr-emerald-dark dark:text-dpr-gold font-bold text-xs px-6 py-3 rounded-full border border-slate-300 dark:border-dpr-gold/30 transition-all"
             >
               <Users className="w-4 h-4" />
-              <span>Lihat Seluruh 46 Anggota Komisi XIII</span>
+              <span>Lihat Seluruh 46 Anggota Golkar Internship</span>
               <ChevronRight className="w-4 h-4" />
             </Link>
           </div>
@@ -186,7 +186,7 @@ export default function ProfilPage() {
       <div id="mitra-kerja" className="scroll-mt-32 space-y-8 pt-8 border-t border-slate-200 dark:border-white/10">
         <div className="text-center max-w-2xl mx-auto space-y-2">
           <span className="text-xs font-bold text-dpr-emerald-dark dark:text-dpr-gold uppercase tracking-widest">KOLABORASI INSTITUSIONAL</span>
-          <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white">Daftar Mitra Kerja Komisi XIII</h2>
+          <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white">Daftar Mitra Kerja Golkar Internship</h2>
           <p className="text-slate-600 dark:text-slate-400 text-sm">Kementerian dan Lembaga Negara yang menjadi mitra strategis dalam pelaksanaan tugas komisi.</p>
         </div>
 

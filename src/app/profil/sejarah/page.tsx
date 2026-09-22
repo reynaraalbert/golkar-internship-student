@@ -16,14 +16,14 @@ const DEFAULT_FACTS = [
 const DEFAULT_MILESTONES = [
   {
     year: "Oktober 2024",
-    title: "Pembentukan Komisi XIII DPR RI Periode 2024–2029",
-    description: "Melalui Keputusan Rapat Paripurna DPR RI, Komisi XIII resmi dibentuk sebagai alat kelengkapan DPR RI yang membidangi reformasi hukum, HAM, keimigrasian, pemasyarakatan, dan antikorupsi. Ini menandai era baru tata kelola legislasi hukum di Indonesia.",
+    title: "Pembentukan GOLKAR INTERNSHIP STUDENT Periode 2024–2029",
+    description: "Melalui Keputusan Rapat Paripurna DPR RI, Golkar Internship resmi dibentuk sebagai alat kelengkapan DPR RI yang membidangi reformasi hukum, HAM, keimigrasian, pemasyarakatan, dan antikorupsi. Ini menandai era baru tata kelola legislasi hukum di Indonesia.",
     highlight: true,
   },
   {
     year: "2019–2024",
-    title: "Era Komisi III – Cikal Bakal Komisi XIII",
-    description: "Sebelum terbentuk sebagai komisi independen, fungsi-fungsi yang kini diemban Komisi XIII tersebar di Komisi III (Hukum, HAM, Keamanan). Meningkatnya kompleksitas isu hukum, HAM, dan imigrasi mendorong DPR RI untuk membentuk komisi khusus yang lebih fokus.",
+    title: "Era Komisi III – Cikal Bakal Golkar Internship",
+    description: "Sebelum terbentuk sebagai komisi independen, fungsi-fungsi yang kini diemban Golkar Internship tersebar di Komisi III (Hukum, HAM, Keamanan). Meningkatnya kompleksitas isu hukum, HAM, dan imigrasi mendorong DPR RI untuk membentuk komisi khusus yang lebih fokus.",
     highlight: false,
   },
   {
@@ -53,10 +53,10 @@ const DEFAULT_MILESTONES = [
 ];
 
 const DEFAULT_NARASI = [
-  "Komisi XIII Dewan Perwakilan Rakyat Republik Indonesia merupakan salah satu alat kelengkapan DPR RI yang dibentuk berdasarkan Keputusan Rapat Paripurna DPR RI pada awal masa jabatan 2024–2029. Pembentukan komisi ini merupakan respons strategis parlemen terhadap semakin kompleksnya tantangan hukum, hak asasi manusia, keimigrasian, pemasyarakatan, dan pemberantasan korupsi di era modern.",
+  "Golkar Internship Dewan Perwakilan Rakyat Republik Indonesia merupakan salah satu alat kelengkapan DPR RI yang dibentuk berdasarkan Keputusan Rapat Paripurna DPR RI pada awal masa jabatan 2024–2029. Pembentukan komisi ini merupakan respons strategis parlemen terhadap semakin kompleksnya tantangan hukum, hak asasi manusia, keimigrasian, pemasyarakatan, dan pemberantasan korupsi di era modern.",
   "Sebelum terbentuk sebagai komisi yang berdiri sendiri, fungsi-fungsi pengawasan dan legislasi di bidang hukum dan HAM tersebar di berbagai komisi, terutama Komisi III. Namun, seiring dengan tumbuhnya tuntutan publik akan akuntabilitas lembaga penegak hukum dan meningkatnya kasus korupsi, TPPO, serta pelanggaran HAM, DPR RI menilai perlunya pembentukan komisi khusus yang lebih terfokus dan efektif.",
-  "Komisi XIII hadir untuk menjembatani kebijakan negara dengan aspirasi masyarakat dalam mewujudkan sistem hukum Indonesia yang adil, transparan, dan humanis. Dengan kewenangan penuh atas tiga fungsi parlemen — legislasi, anggaran, dan pengawasan — Komisi XIII berkomitmen menjadi mitra strategis pemerintah dalam mendorong reformasi hukum yang komprehensif dan berkelanjutan.",
-  "Fraksi Partai Golkar, sebagai salah satu fraksi terbesar di DPR RI, menempatkan beberapa kader terbaiknya di Komisi XIII. Para anggota Fraksi Golkar di Komisi XIII membawa rekam jejak dan keahlian yang beragam — dari pakar hukum, advokat senior, dokter, hingga teknolog — untuk memastikan bahwa agenda reformasi hukum dijalankan dengan pendekatan yang komprehensif, berbasis data, dan berpihak pada kepentingan rakyat.",
+  "Golkar Internship hadir untuk menjembatani kebijakan negara dengan aspirasi masyarakat dalam mewujudkan sistem hukum Indonesia yang adil, transparan, dan humanis. Dengan kewenangan penuh atas tiga fungsi parlemen — legislasi, anggaran, dan pengawasan — Golkar Internship berkomitmen menjadi mitra strategis pemerintah dalam mendorong reformasi hukum yang komprehensif dan berkelanjutan.",
+  "Fraksi Partai Golkar, sebagai salah satu fraksi terbesar di DPR RI, menempatkan beberapa kader terbaiknya di Golkar Internship. Para anggota Fraksi Golkar di Golkar Internship membawa rekam jejak dan keahlian yang beragam — dari pakar hukum, advokat senior, dokter, hingga teknolog — untuk memastikan bahwa agenda reformasi hukum dijalankan dengan pendekatan yang komprehensif, berbasis data, dan berpihak pada kepentingan rakyat.",
 ];
 
 export default function SejarahPage() {
@@ -68,9 +68,9 @@ export default function SejarahPage() {
 
   // Header
   const headerSub = getSection("Header Halaman Sejarah")?.subsections[0]?.fields || {};
-  const badge = headerSub.badge || "PROFIL KOMISI XIII — SEJARAH";
-  const judul = headerSub.judul || "Sejarah Komisi XIII DPR RI";
-  const deskripsi = headerSub.deskripsi || "Perjalanan panjang pembentukan Komisi XIII DPR RI sebagai garda terdepan reformasi hukum, perlindungan HAM, dan pemberantasan korupsi di Indonesia.";
+  const badge = headerSub.badge || "PROFIL Golkar Internship — SEJARAH";
+  const judul = headerSub.judul || "Sejarah GOLKAR INTERNSHIP STUDENT";
+  const deskripsi = headerSub.deskripsi || "Perjalanan panjang pembentukan GOLKAR INTERNSHIP STUDENT sebagai garda terdepan reformasi hukum, perlindungan HAM, dan pemberantasan korupsi di Indonesia.";
 
   // Facts
   const factSubs = getSection("Statistik & Fakta Komisi")?.subsections || [];

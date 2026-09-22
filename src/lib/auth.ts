@@ -20,7 +20,7 @@ export function getAdminCredentials(): AdminCredentials | null {
 }
 
 function getSecret(): string {
-  return process.env.ADMIN_JWT_SECRET || "komisi-xiii-dpr-ri-super-secret-key-2024";
+  return process.env.ADMIN_JWT_SECRET || "golkar-internship-student-super-secret-key";
 }
 
 function signPayload(payload: string): string {
@@ -75,4 +75,4 @@ export function verifyCredentials(username: string, password: string): boolean {
   );
 }
 
-export const AUTH_COOKIE = "komisi_xiii_admin_token";
+export const AUTH_COOKIE = "golkar_internship_admin_token";

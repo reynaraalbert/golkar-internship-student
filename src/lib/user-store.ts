@@ -1,6 +1,26 @@
 import fs from "fs";
 import path from "path";
 
+export type ExperienceType = "organisasi" | "professional" | "project";
+
+export interface UserExperience {
+  id: string;
+  type: ExperienceType;
+  /** Nama organisasi / perusahaan / project */
+  title: string;
+  /** Jabatan / peran */
+  role: string;
+  /** Format YYYY-MM */
+  startDate: string;
+  /** Format YYYY-MM, kosong jika masih berjalan */
+  endDate: string;
+  isCurrent: boolean;
+  description: string;
+  /** Link project / portofolio / bukti (opsional) */
+  url: string;
+  createdAt: string;
+}
+
 export interface StudentUser {
   id: string;
   name: string;
@@ -17,6 +37,7 @@ export interface StudentUser {
   semester?: string;
   bio?: string;
   cvUrl?: string;
+  experiences?: UserExperience[];
   createdAt: string;
 }
 

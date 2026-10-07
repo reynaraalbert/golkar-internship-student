@@ -2,6 +2,7 @@
 
 import React from "react";
 import { FileText, CheckCircle2, XCircle, Scale, AlertCircle, Globe } from "lucide-react";
+import { Reveal, StaggerList, FadeCard } from "@/components/ui/AnimationWrapper";
 
 const sections = [
   {
@@ -70,7 +71,7 @@ const sections = [
 export default function SyaratPenggunaanPage() {
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-10">
-      <div className="text-center space-y-4 max-w-2xl mx-auto">
+      <Reveal className="text-center space-y-4 max-w-2xl mx-auto">
         <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-dpr-emerald/10 dark:bg-dpr-gold/10 border border-dpr-emerald/30 dark:border-dpr-gold/30 text-dpr-emerald-dark dark:text-dpr-gold text-xs font-bold">
           <FileText className="w-4 h-4" />
           <span>DOKUMEN LEGAL RESMI</span>
@@ -81,13 +82,13 @@ export default function SyaratPenggunaanPage() {
         <p className="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
           Syarat dan ketentuan ini mengatur penggunaan Portal Informasi Resmi GOLKAR INTERNSHIP STUDENT. Harap baca dengan seksama sebelum menggunakan layanan kami. Dokumen ini berlaku sejak <strong>1 Januari 2025</strong>.
         </p>
-      </div>
+      </Reveal>
 
-      <div className="space-y-6">
-        {sections.map((section) => {
+      <StaggerList className="space-y-6">
+        {sections.map((section, i) => {
           const Icon = section.icon;
           return (
-            <div key={section.title} className="glass-panel p-6 sm:p-8 rounded-2xl border border-slate-200 dark:border-white/10 space-y-3">
+            <FadeCard key={section.title} index={i} hover={false} className="glass-panel p-6 sm:p-8 rounded-2xl border border-slate-200 dark:border-white/10 space-y-3">
               <h2 className="flex items-center gap-3 text-base font-bold text-slate-900 dark:text-white">
                 <span className="w-8 h-8 rounded-lg bg-dpr-emerald/10 dark:bg-dpr-gold/10 flex items-center justify-center shrink-0">
                   <Icon className="w-4 h-4 text-dpr-emerald dark:text-dpr-gold" />
@@ -99,10 +100,10 @@ export default function SyaratPenggunaanPage() {
                   <p key={i} className="text-sm text-slate-700 dark:text-slate-300 leading-relaxed">{paragraph}</p>
                 ))}
               </div>
-            </div>
+            </FadeCard>
           );
         })}
-      </div>
+      </StaggerList>
 
       <div className="glass-panel p-6 rounded-2xl border border-dpr-emerald/30 dark:border-dpr-gold/30 bg-dpr-emerald/5 dark:bg-dpr-gold/5 text-sm text-slate-700 dark:text-slate-300">
         <strong className="text-dpr-emerald-dark dark:text-dpr-gold">Pertanyaan Hukum:</strong> Apabila Anda memiliki pertanyaan terkait Syarat Penggunaan ini, silakan hubungi kami di <a href="mailto:golkarinternshipstudent@gmail.com" className="underline font-semibold text-dpr-emerald dark:text-dpr-gold">golkarinternshipstudent@gmail.com</a>. Dokumen ini tunduk pada hukum yang berlaku di Negara Kesatuan Republik Indonesia.

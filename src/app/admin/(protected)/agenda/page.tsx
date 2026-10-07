@@ -9,14 +9,14 @@ import { PageHeader, Field, Grid, Input, Textarea, Select, EmptyState, SaveBar, 
 import type { AgendaItem } from "@/lib/data";
 import { motion, AnimatePresence } from "framer-motion";
 
-const TYPES = ["Rapat Kerja (Raker)", "Rapat Dengar Pendapat (RDP)", "Rapat Dengar Pendapat Umum (RDPU)", "Kunjungan Kerja Spesifik"];
+const TYPES = ["Sesi Mentoring", "Kunjungan Lapangan", "Workshop / Pelatihan", "Rapat Koordinasi"];
 const STATUSES = ["LIVE NOW", "SCHEDULED", "COMPLETED"];
 
 const emptyAgenda = (): AgendaItem => ({
   id: `ag-${Date.now()}`,
   title: "",
-  type: "Rapat Kerja (Raker)",
-  partner: "",
+  type: "Sesi Mentoring",
+  partner: "Batch 3 (2026)",
   date: "",
   time: "",
   location: "",
@@ -74,8 +74,8 @@ export default function AdminAgendaPage() {
       <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
         <PageHeader
           icon={CalendarDays}
-          title="Kelola Agenda Rapat"
-          subtitle="Kelola jadwal Raker, RDP, RDPU, dan Kunjungan Kerja yang tampil di halaman Agenda."
+          title="Kelola Agenda Internship"
+          subtitle="Kelola jadwal kegiatan mentoring, kunjungan lapangan, dan workshop per-batch."
         />
         <button
           onClick={openNew}
@@ -88,7 +88,7 @@ export default function AdminAgendaPage() {
 
       <div className="space-y-3">
         {data.length === 0 ? (
-          <EmptyState icon={CalendarDays} title="Belum Ada Agenda" description="Klik 'Tambah Agenda' untuk membuat jadwal rapat baru." />
+          <EmptyState icon={CalendarDays} title="Belum Ada Agenda" description="Klik 'Tambah Agenda' untuk membuat jadwal kegiatan baru." />
         ) : (
           data.map((item) => (
             <motion.div key={item.id} layout className="glass-panel rounded-2xl border border-slate-200 dark:border-white/10 p-4 flex flex-col sm:flex-row items-start sm:items-center gap-4">
@@ -138,7 +138,7 @@ export default function AdminAgendaPage() {
                   <Input value={editing.title} onChange={(e) => setEditing({ ...editing, title: e.target.value })} className="w-full" />
                 </Field>
                 <Grid cols={2}>
-                  <Field label="Jenis Rapat">
+                  <Field label="Jenis Kegiatan">
                     <Select value={editing.type} onChange={(e) => setEditing({ ...editing, type: e.target.value as AgendaItem["type"] })} className="w-full">
                       {TYPES.map((t) => <option key={t} value={t}>{t}</option>)}
                     </Select>
@@ -149,8 +149,8 @@ export default function AdminAgendaPage() {
                     </Select>
                   </Field>
                 </Grid>
-                <Field label="Mitra Kerja / Partner">
-                  <Input value={editing.partner} onChange={(e) => setEditing({ ...editing, partner: e.target.value })} className="w-full" placeholder="Contoh: Kemenkum & KemenHAM" />
+                <Field label="Batch & Penyelenggara">
+                  <Input value={editing.partner} onChange={(e) => setEditing({ ...editing, partner: e.target.value })} className="w-full" placeholder="Contoh: Batch 3 - Komisi I" />
                 </Field>
                 <Grid cols={2}>
                   <Field label="Tanggal">

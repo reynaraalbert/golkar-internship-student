@@ -29,10 +29,15 @@ const ALLOWED_TYPES = [
 const MAX_SIZE = 5 * 1024 * 1024; // 5 MB hard limit
 
 export async function POST(req: NextRequest) {
-  // Upload endpoint is protected — only logged-in admins may use it.
-  // (FileUpload.tsx calls this directly from admin pages.)
   if (!requireAuth(req)) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
+  const supabaseUrl = process.env.SUPABASE_URL;
+  const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+
+  if (!supabaseUrl || !supabaseKey) {
+    return NextResponse.json({ error: "Server tidak dikonfigurasi untuk upload (Supabase credentials missing)" }, { status: 500 });
   }
 
   let formData: FormData;
@@ -63,15 +68,39 @@ export async function POST(req: NextRequest) {
 
   try {
     const buffer = Buffer.from(await file.arrayBuffer());
-    const base64 = buffer.toString("base64");
-    const dataUrl = `data:${file.type};base64,${base64}`;
+    
+    // Generate unique filename
+    const ext = file.name.split('.').pop();
+    const fileName = `${Date.now()}-${Math.random().toString(36).substring(7)}.${ext}`;
+    const bucketName = "uploads"; // Must create a bucket named 'uploads' in Supabase
+    
+    const uploadUrl = `${supabaseUrl}/storage/v1/object/${bucketName}/${fileName}`;
+    
+    const uploadRes = await fetch(uploadUrl, {
+      method: "POST",
+      headers: {
+        "Authorization": `Bearer ${supabaseKey}`,
+        "Content-Type": file.type,
+      },
+      body: buffer,
+    });
+
+    if (!uploadRes.ok) {
+      const err = await uploadRes.text();
+      console.error("Supabase upload error:", err);
+      return NextResponse.json({ error: "Gagal mengunggah ke cloud storage" }, { status: 500 });
+    }
+
+    const publicUrl = `${supabaseUrl}/storage/v1/object/public/${bucketName}/${fileName}`;
 
     return NextResponse.json({
-      url: dataUrl,
+      url: publicUrl,
       type: file.type,
       sizeBytes: file.size,
     });
-  } catch {
+  } catch (err) {
+    console.error(err);
     return NextResponse.json({ error: "Gagal memproses file" }, { status: 500 });
   }
 }
+

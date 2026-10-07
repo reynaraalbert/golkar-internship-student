@@ -3,10 +3,13 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { ArrowLeft, Building2, Eye, EyeOff, GraduationCap, Lock, Mail, User } from "lucide-react";
+import { ArrowLeft, Building2, Eye, EyeOff, GraduationCap, Lock, Mail, User, Wrench } from "lucide-react";
+import { useCmsContent } from "@/components/CmsProvider";
 
 export default function UserRegisterPage() {
   const router = useRouter();
+  const { siteContent } = useCmsContent();
+  const isMaintenance = siteContent?.maintenanceMode;
   const [formData, setFormData] = useState({
     name: "",
     university: "",
@@ -55,6 +58,26 @@ export default function UserRegisterPage() {
       setLoading(false);
     }
   };
+
+  if (isMaintenance) {
+    return (
+      <div className="min-h-screen w-full flex flex-col items-center justify-center bg-slate-50 dark:bg-slate-950 font-sans text-slate-800 dark:text-slate-100 p-6">
+        <Wrench className="w-16 h-16 text-amber-500 mb-6 animate-bounce" />
+        <h1 className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white tracking-tight mb-4 text-center">
+          Sistem Under Maintenance
+        </h1>
+        <p className="text-base sm:text-lg text-slate-600 dark:text-slate-400 max-w-md text-center mb-8">
+          Sistem pendaftaran saat ini sedang dalam perbaikan atau pemeliharaan. Silakan kembali beberapa saat lagi.
+        </p>
+        <Link
+          href="/"
+          className="inline-flex items-center gap-2 text-sm font-bold text-slate-900 bg-amber-400 hover:bg-amber-500 px-6 py-3 rounded-xl transition-all shadow-md"
+        >
+          <ArrowLeft className="w-4 h-4" /> Kembali ke Beranda
+        </Link>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen w-full flex flex-col lg:flex-row bg-slate-50 dark:bg-slate-950 font-sans text-slate-800 dark:text-slate-100">
@@ -219,7 +242,7 @@ export default function UserRegisterPage() {
       <div className="w-full lg:w-1/2 relative min-h-[400px] lg:min-h-screen flex items-end justify-start p-8 sm:p-16 overflow-hidden bg-slate-900">
         <div className="absolute inset-0 z-0">
           <img
-            src="https://images.unsplash.com/photo-1541872703-74c5e44368f9?w=1600&auto=format&fit=crop&q=80"
+            src="/images/hero-peserta-magang.jpeg"
             alt="DPR RI Gedung Pancasila"
             className="w-full h-full object-cover object-center filter grayscale brightness-50 opacity-60 scale-105"
           />
@@ -239,3 +262,5 @@ export default function UserRegisterPage() {
     </div>
   );
 }
+
+

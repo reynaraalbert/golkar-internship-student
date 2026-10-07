@@ -4,8 +4,7 @@ import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import {
   LayoutDashboard, Newspaper, CalendarDays, Users, Handshake, Home,
-  TrendingUp, FileText, Activity, ArrowRight, RefreshCw, CheckCircle2,
-  Sparkles
+  TrendingUp, FileText, Activity, ArrowRight, RefreshCw, CheckCircle2
 } from "lucide-react";
 import { motion } from "framer-motion";
 import { useCmsContent } from "@/components/CmsProvider";
@@ -23,10 +22,10 @@ export default function AdminDashboardPage() {
     statsColl.setData((prev) => ({ ...prev, [key]: Number(val) || 0 }));
 
   const statCards = [
-    { label: "Total Anggota Aktif", value: `${stats.totalMembers}+`, icon: Users, color: "text-blue-600 dark:text-blue-400", href: "/admin/anggota" },
-    { label: "Rapat & Agenda", value: agenda.length, icon: CalendarDays, color: "text-emerald-600 dark:text-emerald-400", href: "/admin/agenda" },
-    { label: "Berita & Siaran Pers", value: berita.length, icon: Newspaper, color: "text-purple-600 dark:text-purple-400", href: "/admin/berita" },
-    { label: "Mitra Kerja Kemitraan", value: mitraKerja.length, icon: Handshake, color: "text-amber-600 dark:text-amber-400", href: "/admin/mitra" },
+    { label: "Total Peserta Magang", value: `${stats.totalMembers}+`, icon: Users, color: "text-blue-600 dark:text-blue-400", href: "/admin/anggota" },
+    { label: "Kegiatan / Timeline", value: agenda.length, icon: CalendarDays, color: "text-emerald-600 dark:text-emerald-400", href: "/admin/agenda" },
+    { label: "Berita & Dokumentasi", value: berita.length, icon: Newspaper, color: "text-purple-600 dark:text-purple-400", href: "/admin/berita" },
+    { label: "Daftar Universitas", value: mitraKerja.length, icon: Handshake, color: "text-amber-600 dark:text-amber-400", href: "/admin/beranda" },
   ];
 
   return (
@@ -41,15 +40,14 @@ export default function AdminDashboardPage() {
         
         <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
           <div className="space-y-2">
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/20 border border-emerald-400/30 text-emerald-300 text-xs font-bold">
-              <Sparkles className="w-3.5 h-3.5" />
-              <span>CMS Panel Control</span>
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-500/20 border border-amber-400/30 text-amber-300 text-xs font-bold">
+              <span>Golkar Internship System CMS</span>
             </div>
             <h1 className="text-2xl sm:text-4xl font-extrabold tracking-tight">
               Welcome back, Administrator
             </h1>
             <p className="text-xs sm:text-sm text-slate-300 max-w-xl leading-relaxed font-medium">
-              Anda memiliki <strong className="text-dpr-gold">{stats.activeBills} RUU prioritas</strong> aktif dan <strong className="text-dpr-gold">{stats.totalMembers} anggota aktif</strong> bulan ini. Seluruh perubahan langsung tersinkronisasi.
+              Kelola data peserta magang, timeline, berita publikasi, dan pengaturan tampilan portal informasi Golkar Internship.
             </p>
           </div>
 
@@ -60,14 +58,6 @@ export default function AdminDashboardPage() {
             >
               <Home className="w-4 h-4 text-emerald-700" />
               <span>Edit Beranda</span>
-            </Link>
-            <Link
-              href="/"
-              target="_blank"
-              className="inline-flex items-center gap-2 bg-white/10 hover:bg-white/20 text-white font-bold text-xs px-5 py-3 rounded-2xl border border-white/20 transition-all"
-            >
-              <span>Lihat Situs</span>
-              <ArrowRight className="w-4 h-4" />
             </Link>
           </div>
         </div>
@@ -115,23 +105,17 @@ export default function AdminDashboardPage() {
             <span className="text-[10px] bg-emerald-100 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-400 px-2 py-0.5 rounded font-bold uppercase">Editable</span>
           </div>
           <Grid cols={2}>
-            <Field label="Anggota Parlemen">
+            <Field label="Alumni Magang (Stat 1)">
               <Input type="number" value={String(statsColl.data.totalMembers)} onChange={(e) => setStat("totalMembers", e.target.value)} className="w-full" />
             </Field>
-            <Field label="Pimpinan Komisi">
+            <Field label="Universitas (Stat 2)">
               <Input type="number" value={String(statsColl.data.totalPimpinan)} onChange={(e) => setStat("totalPimpinan", e.target.value)} className="w-full" />
             </Field>
-            <Field label="Mitra Kerja">
+            <Field label="Kepuasan (Stat 3)">
               <Input type="number" value={String(statsColl.data.mitraKerjaCount)} onChange={(e) => setStat("mitraKerjaCount", e.target.value)} className="w-full" />
             </Field>
-            <Field label="RUU Prioritas">
+            <Field label="Project (Stat 4)">
               <Input type="number" value={String(statsColl.data.activeBills)} onChange={(e) => setStat("activeBills", e.target.value)} className="w-full" />
-            </Field>
-            <Field label="Rapat Selesai">
-              <Input type="number" value={String(statsColl.data.completedHearings)} onChange={(e) => setStat("completedHearings", e.target.value)} className="w-full" />
-            </Field>
-            <Field label="Aspirasi Diproses">
-              <Input type="number" value={String(statsColl.data.aspirationsProcessed)} onChange={(e) => setStat("aspirationsProcessed", e.target.value)} className="w-full" />
             </Field>
           </Grid>
           <div className="flex items-center justify-between pt-1">
@@ -157,7 +141,7 @@ export default function AdminDashboardPage() {
               { label: "Berita & Artikel", count: berita.length, icon: Newspaper, bar: Math.min(100, (berita.length / 8) * 100) },
               { label: "Agenda Rapat", count: agenda.length, icon: CalendarDays, bar: Math.min(100, (agenda.length / 8) * 100) },
               { label: "Anggota Parlemen", count: anggota.length, icon: Users, bar: Math.min(100, (anggota.length / 46) * 100) },
-              { label: "Mitra Kerja Lembaga", count: mitraKerja.length, icon: Handshake, bar: Math.min(100, (mitraKerja.length / 8) * 100) },
+              { label: "Daftar Universitas", count: mitraKerja.length, icon: Handshake, bar: Math.min(100, (mitraKerja.length / 8) * 100) },
             ].map((row) => {
               const Icon = row.icon;
               return (

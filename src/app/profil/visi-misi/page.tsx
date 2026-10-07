@@ -20,27 +20,27 @@ const DEFAULT_NILAI = [
 const DEFAULT_MISI = [
   {
     no: 1, icon: Gavel,
-    judul: "Mempercepat Legislasi Bidang Hukum & HAM",
-    isi: "Memimpin dan mengawal proses penyusunan serta pengesahan Rancangan Undang-Undang (RUU) prioritas Prolegnas di bidang hukum pidana, perdata, keimigrasian, dan pemasyarakatan, serta memastikan setiap undang-undang yang dihasilkan selaras dengan prinsip-prinsip HAM universal dan nilai-nilai konstitusi Pancasila.",
-    targets: ["Selesaikan minimal 5 RUU prioritas Prolegnas bidang hukum per periode", "Harmonisasi regulasi keimigrasian dengan standar UNHCR dan IOM", "Revisi undang-undang yang tidak sesuai dengan putusan MK"],
+    judul: "Pengembangan Kapasitas Kepemimpinan",
+    isi: "Membentuk karakter kepemimpinan mahasiswa melalui pendampingan intensif, pembekalan materi politik kebangsaan, dan praktik kerja langsung di lingkungan parlemen.",
+    targets: ["Pelatihan kepemimpinan dan komunikasi politik", "Mentoring eksklusif dengan Anggota DPR RI", "Simulasi persidangan dan rapat dengar pendapat"],
   },
   {
     no: 2, icon: Scale,
-    judul: "Optimalisasi Anggaran Berbasis Kinerja",
-    isi: "Memastikan alokasi anggaran yang efisien, transparan, dan berbasis kinerja (performance-based budgeting) bagi seluruh Kementerian/Lembaga mitra kerja Golkar Internship. Anggaran harus diarahkan pada program-program yang berdampak langsung terhadap peningkatan pelayanan publik di sektor hukum dan HAM.",
-    targets: ["Efisiensi anggaran Kemenkum & KemenHAM minimal 15% tanpa mengorbankan pelayanan", "Memastikan 100% anggaran KPK terserap untuk program pemberantasan korupsi", "Audit kinerja program bantuan hukum gratis bagi masyarakat tidak mampu"],
+    judul: "Praktik Kebijakan Publik & Legislasi",
+    isi: "Memberikan pengalaman nyata dalam proses penyusunan naskah akademik, perumusan regulasi, dan analisis kebijakan publik untuk memecahkan masalah strategis nasional.",
+    targets: ["Penyusunan minimal 2 policy brief per peserta", "Keterlibatan dalam perancangan draft RUU", "Analisis data dan riset legislatif secara komprehensif"],
   },
   {
     no: 3, icon: FileCheck,
-    judul: "Pengawasan Ketat & Berkelanjutan",
-    isi: "Menyelenggarakan Rapat Dengar Pendapat (RDP) dan Rapat Dengar Pendapat Umum (RDPU) secara rutin dengan seluruh mitra kerja untuk memastikan pelaksanaan undang-undang berjalan sesuai amanat rakyat. Pengawasan mencakup kondisi Lapas, sistem imigrasi, integritas KPK, dan pemenuhan HAM.",
-    targets: ["Kunjungan kerja ke minimal 20 Lapas & Rutan per tahun", "RDP bulanan dengan seluruh mitra kerja K/L", "Sidak tidak terencana ke fasilitas keimigrasian & pemasyarakatan"],
+    judul: "Penguatan Wawasan Kebangsaan",
+    isi: "Menanamkan nilai-nilai luhur Pancasila, konstitusi, dan semangat kebangsaan untuk melahirkan generasi muda yang peduli terhadap kemajuan dan keutuhan Negara Kesatuan Republik Indonesia.",
+    targets: ["Dialog interaktif mengenai wawasan kebangsaan", "Kajian sejarah dan dinamika politik Indonesia", "Pembekalan nilai-nilai demokrasi Pancasila"],
   },
   {
     no: 4, icon: ShieldCheck,
-    judul: "Penguatan Perlindungan HAM & Antikorupsi",
-    isi: "Mendorong penguatan kelembagaan dan kapasitas lembaga HAM independen (Komnas HAM, LPSK, BNPT) serta memastikan KPK beroperasi secara independen dan efektif. Golkar Internship berperan sebagai 'watchdog' parlemen terhadap setiap potensi intervensi atau pelemahan lembaga antikorupsi.",
-    targets: ["Pastikan anggaran Komnas HAM naik minimal 10% per tahun", "Pantau setiap kasus besar KPK yang berpotensi menimbulkan intervensi", "Sahkan RUU Perlindungan Saksi & Korban versi revisi yang lebih kuat"],
+    judul: "Pemberdayaan dan Pengabdian Masyarakat",
+    isi: "Mengintegrasikan program magang dengan kegiatan turun lapang ke daerah pemilihan (Dapil) guna memahami dan menyerap aspirasi masyarakat secara langsung.",
+    targets: ["Kegiatan serap aspirasi bersama Anggota Fraksi", "Pengembangan program pengabdian berbasis komunitas", "Pemecahan studi kasus sosial di berbagai daerah"],
   },
 ];
 
@@ -54,16 +54,16 @@ export default function VisiMisiPage() {
   const headerFields = getSection("Header Halaman Visi & Misi")?.subsections[0]?.fields || {};
   const badge = headerFields.badge || "PROFIL Golkar Internship — VISI & MISI";
   const judul = headerFields.judul || "Visi & Misi GOLKAR INTERNSHIP STUDENT";
-  const deskripsi = headerFields.deskripsi || "Arah dan tujuan strategis Golkar Internship dalam mengawal reformasi hukum, HAM, keimigrasian, pemasyarakatan, dan antikorupsi Indonesia untuk periode 2024–2029.";
+  const deskripsi = headerFields.deskripsi || "Arah dan tujuan strategis Golkar Internship dalam membentuk pemimpin masa depan Indonesia yang inovatif, berintegritas, dan profesional melalui pendidikan politik terpadu.";
 
   // Visi
-  const visiFields = getSection("Visi Utama Komisi")?.subsections[0]?.fields || {};
-  const visiText = visiFields.visi || "Terwujudnya Sistem Hukum Indonesia yang Adil, Humanis, Transparan, dan Bebas Korupsi demi Keadilan Sosial bagi Seluruh Rakyat Indonesia.";
-  const visiPenjelasan = visiFields.penjelasan || "Visi ini menjadi kompas dan tolok ukur seluruh agenda kerja Golkar Internship selama periode 2024–2029.";
-  const visiJudulSub = visiFields.judul || "GOLKAR INTERNSHIP STUDENT 2024–2029";
+  const visiFields = getSection("Visi Utama Program")?.subsections[0]?.fields || {};
+  const visiText = visiFields.visi || "Menjadi pusat inkubasi kepemimpinan kaum muda yang melahirkan agen perubahan profesional, berkarakter kebangsaan, dan siap berkontribusi dalam pembangunan politik nasional.";
+  const visiPenjelasan = visiFields.penjelasan || "Visi ini menjadi kompas dan tolok ukur seluruh kegiatan pembelajaran dan penugasan Golkar Internship bagi peserta magang di lingkungan parlemen.";
+  const visiJudulSub = visiFields.judul || "GOLKAR INTERNSHIP STUDENT";
 
   // Misi
-  const misiSubs = getSection("Misi Kerja Komisi (4 Pilar Strategis)")?.subsections || [];
+  const misiSubs = getSection("Misi Kerja Program (4 Pilar Strategis)")?.subsections || [];
   const misi = misiSubs.length > 0
     ? misiSubs.map((sub, i) => ({
         no: Number(sub.fields.nomorMisi) || i + 1,
@@ -79,7 +79,7 @@ export default function VisiMisiPage() {
     : DEFAULT_MISI;
 
   // Nilai-Nilai
-  const nilaiSubs = getSection("Nilai-Nilai Utama Komisi")?.subsections || [];
+  const nilaiSubs = getSection("Nilai-Nilai Utama Program")?.subsections || [];
   const nilaiNilai = nilaiSubs.length > 0
     ? nilaiSubs.map((sub) => ({
         judul: sub.fields.judul || "–",
@@ -203,7 +203,7 @@ export default function VisiMisiPage() {
             className="flex items-center justify-center gap-1 sm:gap-2 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 font-bold text-xs sm:text-sm px-2.5 sm:px-5 py-3 rounded-2xl border border-slate-200 dark:border-white/10 hover:border-dpr-emerald dark:hover:border-dpr-gold transition-all text-center group min-w-0"
           >
             <ChevronLeft className="w-4 h-4 shrink-0 group-hover:-translate-x-1 transition-transform text-dpr-emerald dark:text-dpr-gold" />
-            <span className="truncate">Sejarah Komisi</span>
+            <span className="truncate">Sejarah Program</span>
           </Link>
 
           <Link

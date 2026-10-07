@@ -66,7 +66,6 @@ export default function AdminProfilPage() {
     { label: "Edit Sejarah Lengkap (Timeline & Milestones)", href: "/admin/profil/sejarah", icon: BookOpen },
     { label: "Edit Visi & Misi Lengkap (Pilar & Nilai)", href: "/admin/profil/visi-misi", icon: Target },
     { label: "Edit Header Pimpinan & Anggota", href: "/admin/profil/pimpinan", icon: Users },
-    { label: "Edit Header Mitra Kerja", href: "/admin/profil/mitra-kerja", icon: Handshake },
   ];
 
   return (

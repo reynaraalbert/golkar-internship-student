@@ -1,34 +1,13 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { usePathname } from "next/navigation";
-import Ticker from "@/components/Ticker";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import UserNavbar from "@/components/UserNavbar";
 
 export default function SiteChrome({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
-  const [isParticipantLoggedIn, setIsParticipantLoggedIn] = useState(false);
-
-  useEffect(() => {
-    async function checkParticipantAuth() {
-      try {
-        const res = await fetch("/api/user/auth/me");
-        if (res.ok) {
-          const data = await res.json();
-          if (data.authenticated) {
-            setIsParticipantLoggedIn(true);
-            return;
-          }
-        }
-      } catch {
-        // silent catch
-      }
-      setIsParticipantLoggedIn(false);
-    }
-    checkParticipantAuth();
-  }, [pathname]);
 
   const isAdmin = pathname?.startsWith("/admin");
   const isAuthPage = pathname === "/user/login" || pathname === "/user/register";
@@ -54,22 +33,9 @@ export default function SiteChrome({ children }: { children: React.ReactNode }) 
     );
   }
 
-  // 4. Public pages (Beranda /, /profil, /aspirasi, dll)
-  // Jika peserta sedang login, tampilkan UserNavbar di atas agar pas pencet "Beranda" tetap ada navbar E-Magang dengan info peserta & tombol Keluar!
-  if (isParticipantLoggedIn) {
-    return (
-      <div className="min-h-screen flex flex-col">
-        <UserNavbar />
-        <main className="flex-grow">{children}</main>
-        <Footer />
-      </div>
-    );
-  }
-
-  // Pengunjung publik biasa (belum login)
+  // 4. Public pages — always use the regular Header (Header handles showing user name when logged in)
   return (
     <div className="min-h-screen flex flex-col">
-      <Ticker />
       <Header />
       <main className="flex-grow">{children}</main>
       <Footer />

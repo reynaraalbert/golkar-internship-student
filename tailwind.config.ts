@@ -37,10 +37,10 @@ const config: Config = {
         serif: ["var(--font-serif)", "Lora", "Playfair Display", "Georgia", "serif"],
       },
       backgroundImage: {
-        "hero-gradient": "linear-gradient(135deg, #0A111E 0%, #1A1405 50%, #0A111E 100%)",
-        "hero-gradient-light": "linear-gradient(135deg, #F8FAFC 0%, #FEF3C7 50%, #F1F5F9 100%)",
-        "gold-gradient": "linear-gradient(135deg, #D4AF37 0%, #FFF3B0 50%, #B38F24 100%)",
-        "emerald-gradient": "linear-gradient(135deg, #D4AF37 0%, #F5C518 100%)",
+        "hero-gradient": "linear-gradient(135deg, #0A111E 0%, #1F1905 50%, #0A111E 100%)",
+        "hero-gradient-light": "linear-gradient(135deg, #FFFDF5 0%, #FEF3C7 50%, #F8FAFC 100%)",
+        "gold-gradient": "linear-gradient(135deg, #F5C518 0%, #D4AF37 50%, #B45309 100%)",
+        "emerald-gradient": "linear-gradient(135deg, #F5C518 0%, #D4AF37 100%)",
         "red-gradient": "linear-gradient(135deg, #D4AF37 0%, #B45309 100%)",
         "glass-gradient": "linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.01) 100%)",
       },
@@ -62,7 +62,7 @@ const config: Config = {
         },
         ticker: {
           "0%": { transform: "translateX(0%)" },
-          "100%": { transform: "translateX(-50%)" },
+          "100%": { transform: "translateX(-100%)" },
         },
       },
     },

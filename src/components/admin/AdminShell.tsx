@@ -7,7 +7,8 @@ import {
   LayoutDashboard, Newspaper, CalendarDays, Users, Handshake, Home, LogOut,
   Menu, X, Sun, Moon, ExternalLink, Shield, Settings, ChevronRight,
   Inbox, MessageSquare, FileText, BarChart3, MapPin, PanelBottom, RefreshCw,
-  Sliders, User, Radio, BookOpen, Target, Save, CheckCircle2
+  Sliders, User, Radio, BookOpen, Target, Save, CheckCircle2, Building2,
+  Monitor, Megaphone, List, HelpCircle, Briefcase, Clock
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useTheme } from "@/components/ThemeProvider";
@@ -26,7 +27,7 @@ interface NavGroup {
   items: NavItem[];
 }
 
-const NAV_GROUPS: NavGroup[] = [
+const BASE_NAV_GROUPS: NavGroup[] = [
   {
     groupTitle: "OVERVIEW",
     items: [
@@ -34,45 +35,66 @@ const NAV_GROUPS: NavGroup[] = [
     ],
   },
   {
-    groupTitle: "BERANDA",
+    groupTitle: "BERANDA ( / )",
     items: [
       { name: "Hero & Banner", href: "/admin/beranda", icon: Home },
-      { name: "Statistik", href: "/admin/beranda/statistik", icon: BarChart3 },
-      { name: "Mitra Kerja Section", href: "/admin/beranda/mitra-section", icon: Handshake },
-      { name: "Lokasi & Kontak", href: "/admin/beranda/kontak", icon: MapPin },
+      { name: "Statistik Counter", href: "/admin/beranda/statistik", icon: BarChart3 },
+      { name: "Keunggulan Magang", href: "/admin/beranda/keunggulan", icon: Target },
+      { name: "Berita & Siaran Pers", href: "/admin/beranda/berita", icon: Newspaper },
+      { name: "Lowongan Magang", href: "/admin/beranda/lowongan", icon: Briefcase },
+      { name: "Tahapan Seleksi", href: "/admin/beranda/tahapan", icon: List },
+      { name: "Syarat & Berkas Administrasi", href: "/admin/beranda/syarat", icon: FileText },
+      { name: "Kata Alumni", href: "/admin/beranda/alumni", icon: MessageSquare },
+      { name: "FAQ", href: "/admin/beranda/faq", icon: HelpCircle },
+      { name: "Informasi Kontak", href: "/admin/beranda/kontak", icon: MapPin },
+      { name: "Media Sosial", href: "/admin/beranda/medsos", icon: Radio },
+      { name: "CTA Siap Bergabung", href: "/admin/beranda/cta", icon: Megaphone },
       { name: "Footer", href: "/admin/beranda/footer", icon: PanelBottom },
     ],
   },
   {
-    groupTitle: "PROFIL KOMISI",
+    groupTitle: "PESERTA MAGANG",
+    items: [
+      { name: "Monitor Dashboard Peserta", href: "/admin/monitor-peserta", icon: Monitor },
+      { name: "Verifikasi & Seleksi Berkas", href: "/admin/pendaftar", icon: CheckCircle2 },
+      { name: "Posisi Magang per Komisi", href: "/admin/posisi-magang", icon: Briefcase },
+      { name: "Agenda Internship (Per-Batch)", href: "/admin/agenda", icon: CalendarDays },
+      { name: "Kalender Peserta", href: "/admin/kalender", icon: CalendarDays },
+      { name: "Peserta Magang (Diterima)", href: "/admin/anggota", icon: Users },
+      { name: "Tim Seleksi", href: "/admin/tim-seleksi", icon: Shield },
+    ],
+  },
+  {
+    groupTitle: "PROGRAM & KEGIATAN",
+    items: [
+      { name: "Timeline Pelaksanaan", href: "/admin/timeline", icon: Clock },
+    ],
+  },
+  {
+    groupTitle: "BERITA",
+    items: [
+      { name: "Kelola Berita Publik", href: "/admin/berita", icon: Newspaper },
+      { name: "Draft & Berita Masuk", href: "/admin/berita-masuk", icon: Inbox },
+    ],
+  },
+  {
+    groupTitle: "PROFIL GIS",
     items: [
       { name: "Profil Utama", href: "/admin/profil", icon: User },
-      { name: "Sejarah Komisi", href: "/admin/profil/sejarah", icon: BookOpen },
+      { name: "Sejarah GIS", href: "/admin/profil/sejarah", icon: BookOpen },
       { name: "Visi & Misi", href: "/admin/profil/visi-misi", icon: Target },
-      { name: "Header Pimpinan", href: "/admin/profil/pimpinan", icon: Users },
-      { name: "Header Mitra Kerja", href: "/admin/profil/mitra-kerja", icon: Handshake },
+      { name: "Pimpinan & Pengurus", href: "/admin/profil/pimpinan", icon: Users },
     ],
   },
   {
-    groupTitle: "KONTEN",
+    groupTitle: "ASPIRASI",
     items: [
-      { name: "Berita & Siaran Pers", href: "/admin/berita", icon: Newspaper },
-      { name: "Berita Masuk", href: "/admin/berita-masuk", icon: Inbox },
-      { name: "Aspirasi Rakyat", href: "/admin/aspirasi", icon: MessageSquare },
-    ],
-  },
-  {
-    groupTitle: "JADWAL & TIM",
-    items: [
-      { name: "Agenda Rapat", href: "/admin/agenda", icon: CalendarDays },
-      { name: "Anggota Komisi", href: "/admin/anggota", icon: Users },
-      { name: "Mitra Kerja", href: "/admin/mitra", icon: Handshake },
+      { name: "Pesan & Aspirasi", href: "/admin/aspirasi", icon: MessageSquare },
     ],
   },
   {
     groupTitle: "PENGATURAN",
     items: [
-      { name: "Kelola Halaman", href: "/admin/halaman", icon: FileText },
       { name: "Pengaturan Website", href: "/admin/pengaturan", icon: Sliders },
     ],
   },
@@ -107,7 +129,7 @@ function ClockDisplay() {
   }, []);
 
   return (
-    <span className="text-[11px] font-mono font-medium text-slate-500 dark:text-slate-400">
+    <span className="text-[11px] font-mono font-medium text-slate-500 dark:text-slate-400 whitespace-nowrap">
       {timeStr || "Memuat jam..."}
     </span>
   );
@@ -121,6 +143,13 @@ function AdminShellContent({ children }: { children: React.ReactNode }) {
   const { syncLive, setSyncLive } = useSyncLive();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [desktopSidebarCollapsed, setDesktopSidebarCollapsed] = useState(false);
+  const [adminRole, setAdminRole] = useState<"admin" | "seleksi">("admin");
+  const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
+
+  useEffect(() => {
+    const storedRole = localStorage.getItem("admin_role") as "admin" | "seleksi";
+    if (storedRole) setAdminRole(storedRole);
+  }, []);
 
   // Lock body scroll when mobile sidebar is open
   useEffect(() => {
@@ -152,11 +181,42 @@ function AdminShellContent({ children }: { children: React.ReactNode }) {
     );
   }
 
-  const handleLogout = async () => {
+  const confirmLogout = async () => {
+    setIsLogoutModalOpen(false);
     await logout();
     router.replace("/admin/login");
     router.refresh();
   };
+
+  const TIM_SELEKSI_GROUPS: NavGroup[] = [
+    {
+      groupTitle: "PROFIL SAYA",
+      items: [
+        { name: "Biodata Tim Seleksi", href: "/admin/biodata-tim-seleksi", icon: User },
+      ],
+    },
+    {
+      groupTitle: "DASHBOARD PENILAIAN",
+      items: [
+        { name: "Total Pendaftar", href: "/admin/pendaftar?filter=semua", icon: Users },
+        { name: "Lolos Seleksi Berkas", href: "/admin/pendaftar?filter=lolos-berkas", icon: FileText },
+        { name: "Lolos Wawancara", href: "/admin/pendaftar?filter=lolos-wawancara", icon: CheckCircle2 },
+        { name: "Jadwal Wawancara Saya", href: "/admin/pendaftar?filter=jadwal-saya", icon: CalendarDays },
+      ],
+    },
+    {
+      groupTitle: "FILTER PENDAFTAR",
+      items: [
+        { name: "Berdasarkan PTN / PTS", href: "/admin/pendaftar?filter=ptn-pts", icon: Building2 },
+        { name: "Berdasarkan Lokasi Univ", href: "/admin/pendaftar?filter=lokasi", icon: MapPin },
+        { name: "Berdasarkan Gender", href: "/admin/pendaftar?filter=gender", icon: Users },
+        { name: "Berdasarkan Semester", href: "/admin/pendaftar?filter=semester", icon: BookOpen },
+        { name: "Berdasarkan Komisi", href: "/admin/pendaftar?filter=komisi", icon: Target },
+      ],
+    }
+  ];
+
+  const NAV_GROUPS = adminRole === "seleksi" ? TIM_SELEKSI_GROUPS : BASE_NAV_GROUPS;
 
   const allNavItems = NAV_GROUPS.flatMap((g) => g.items);
 
@@ -169,6 +229,7 @@ function AdminShellContent({ children }: { children: React.ReactNode }) {
     return pathname?.startsWith(`${href}/`) ?? false;
   };
   const activeNavItem = allNavItems.find((n) => isActive(n.href)) || { name: "Dashboard" };
+
 
   const sidebarContent = (
     <div className="flex flex-col h-full bg-white dark:bg-[#090D1A] text-slate-800 dark:text-slate-200">
@@ -183,7 +244,7 @@ function AdminShellContent({ children }: { children: React.ReactNode }) {
           <div className="leading-tight">
             <p className="text-sm font-extrabold text-slate-900 dark:text-white tracking-wide">GOLKAR INTERNSHIP</p>
             <p className="text-[10px] font-bold text-dpr-emerald-dark dark:text-dpr-gold uppercase tracking-wider">
-              PANEL ADMIN
+              {adminRole === "seleksi" ? "PANEL TIM SELEKSI" : "PANEL ADMIN"}
             </p>
           </div>
         </Link>
@@ -231,12 +292,16 @@ function AdminShellContent({ children }: { children: React.ReactNode }) {
               A
             </div>
             <div className="min-w-0 leading-tight">
-              <p className="text-xs font-bold text-slate-900 dark:text-white truncate">Administrator</p>
-              <p className="text-[10px] text-slate-500 dark:text-slate-400 truncate">Super Admin</p>
+              <p className="text-xs font-bold text-slate-900 dark:text-white truncate">
+                {adminRole === "seleksi" ? "Tim Seleksi" : "Administrator"}
+              </p>
+              <p className="text-[10px] text-slate-500 dark:text-slate-400 truncate">
+                {adminRole === "seleksi" ? "Reviewer & Wawancara" : "Super Admin"}
+              </p>
             </div>
           </div>
           <button
-            onClick={handleLogout}
+            onClick={() => setIsLogoutModalOpen(true)}
             className="p-1.5 rounded-lg text-slate-400 hover:text-red-500 dark:hover:text-red-400 hover:bg-slate-200 dark:hover:bg-white/5 transition-colors"
             title="Keluar (Logout)"
           >
@@ -244,14 +309,13 @@ function AdminShellContent({ children }: { children: React.ReactNode }) {
           </button>
         </div>
 
-        <Link
-          href="/"
-          target="_blank"
-          className="flex items-center justify-center gap-2 w-full py-2 px-3 rounded-xl bg-slate-100 dark:bg-white/5 hover:bg-slate-200 dark:hover:bg-white/10 text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white text-xs font-semibold border border-slate-200 dark:border-white/5 transition-all"
+        <button
+          onClick={() => setIsLogoutModalOpen(true)}
+          className="flex items-center justify-center gap-2 w-full py-2.5 px-3 rounded-xl bg-red-50 dark:bg-red-900/20 hover:bg-red-100 dark:hover:bg-red-900/40 text-red-600 dark:text-red-400 font-black text-xs border border-red-200 dark:border-red-900/30 transition-all shadow-sm"
         >
-          <ExternalLink className="w-3.5 h-3.5" />
-          <span>Preview Site</span>
-        </Link>
+          <LogOut className="w-4 h-4" />
+          <span>Keluar dari Panel</span>
+        </button>
       </div>
     </div>
   );
@@ -347,21 +411,72 @@ function AdminShellContent({ children }: { children: React.ReactNode }) {
               {theme === "dark" ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
             </button>
 
-            {/* Redirect to public site */}
-            <Link
-              href="/"
-              target="_blank"
-              className="hidden sm:flex items-center gap-1.5 text-xs font-bold bg-dpr-emerald dark:bg-gold-gradient text-white dark:text-dpr-navy px-3 sm:px-3.5 py-2 rounded-xl shadow-sm hover:opacity-90 transition-opacity"
+            {/* Logout button */}
+            <button
+              onClick={() => setIsLogoutModalOpen(true)}
+              className="hidden sm:flex items-center gap-1.5 text-xs font-bold bg-red-600 dark:bg-red-700/80 text-white px-3 sm:px-3.5 py-2 rounded-xl shadow-sm hover:opacity-90 transition-opacity"
             >
-              <ExternalLink className="w-3.5 h-3.5 shrink-0" />
-              <span className="hidden md:inline">Situs User</span>
-            </Link>
+              <LogOut className="w-3.5 h-3.5 shrink-0" />
+              <span className="hidden md:inline">Keluar</span>
+            </button>
           </div>
         </header>
 
         {/* Content */}
-        <main className="flex-1 p-3 sm:p-5 lg:p-8 overflow-x-hidden">{children}</main>
+        <motion.main
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4, ease: "easeOut" }}
+          className="flex-1 p-3 sm:p-5 lg:p-8 overflow-x-hidden"
+        >
+          {children}
+        </motion.main>
       </div>
+
+      {/* Custom Logout Modal */}
+      <AnimatePresence>
+        {isLogoutModalOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-slate-900/60 dark:bg-black/70 backdrop-blur-sm"
+          >
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 20 }}
+              className="w-full max-w-sm bg-white dark:bg-dpr-navy rounded-3xl p-6 shadow-2xl border border-slate-200 dark:border-white/10"
+            >
+              <div className="flex flex-col items-center text-center space-y-4">
+                <div className="w-12 h-12 rounded-full bg-red-50 dark:bg-red-900/30 flex items-center justify-center">
+                  <LogOut className="w-6 h-6 text-red-600 dark:text-red-500" />
+                </div>
+                <div className="space-y-1">
+                  <h3 className="text-lg font-black text-slate-900 dark:text-white">Konfirmasi Keluar</h3>
+                  <p className="text-sm text-slate-500 dark:text-slate-400">
+                    Apakah Anda yakin ingin mengakhiri sesi dan keluar dari panel ini?
+                  </p>
+                </div>
+                <div className="w-full grid grid-cols-2 gap-3 pt-4">
+                  <button
+                    onClick={() => setIsLogoutModalOpen(false)}
+                    className="px-4 py-2.5 rounded-xl font-bold text-xs bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 transition-colors"
+                  >
+                    Batal
+                  </button>
+                  <button
+                    onClick={confirmLogout}
+                    className="px-4 py-2.5 rounded-xl font-bold text-xs bg-red-600 hover:bg-red-700 text-white shadow-sm transition-colors"
+                  >
+                    Ya, Keluar
+                  </button>
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

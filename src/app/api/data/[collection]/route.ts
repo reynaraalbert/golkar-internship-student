@@ -17,6 +17,8 @@ const COLLECTIONS: (keyof CmsData)[] = [
   "submissions",
   "aspirasi",
   "pages",
+  "posisi_magang",
+  "timeline",
 ];
 
 interface Params {

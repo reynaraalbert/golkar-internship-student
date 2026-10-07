@@ -25,36 +25,68 @@ export default function AdminBerandaStatistikPage() {
     }));
   };
 
+  const stats = [
+    { valueKey: "value1", labelKey: "label1", defaultValue: "1,500+", defaultLabel: "Alumni Magang", color: "text-amber-600 dark:text-amber-400" },
+    { valueKey: "value2", labelKey: "label2", defaultValue: "30+", defaultLabel: "Universitas Partner", color: "text-slate-700 dark:text-slate-200" },
+    { valueKey: "value3", labelKey: "label3", defaultValue: "98%", defaultLabel: "Kepuasan Mentorship", color: "text-amber-600 dark:text-amber-400" },
+    { valueKey: "value4", labelKey: "label4", defaultValue: "100+", defaultLabel: "Policy Brief Dihasilkan", color: "text-slate-700 dark:text-slate-200" },
+  ];
+
   return (
     <div className="space-y-8 pb-24">
       <PageHeader
         icon={BarChart3}
         title="Edit Section Statistik Beranda"
-        subtitle="Atur label teks pada bilah statistik (counter) halaman beranda situs publik Golkar Internship."
+        subtitle="Atur angka dan label pada bilah statistik (counter) halaman beranda situs publik Golkar Internship."
       />
+
+      {/* Preview */}
+      <div className="p-6 rounded-2xl bg-gradient-to-r from-amber-50 to-yellow-50 dark:from-slate-900 dark:to-slate-800 border border-amber-200 dark:border-white/10">
+        <p className="text-[11px] font-black text-amber-700 dark:text-amber-400 uppercase tracking-widest mb-4">Preview — Tampilan di Halaman User (/)</p>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+          {stats.map((s) => (
+            <div key={s.valueKey} className="space-y-1">
+              <span className={`text-2xl sm:text-3xl font-black block ${s.color}`}>
+                {(statBar as any)[s.valueKey] || s.defaultValue}
+              </span>
+              <span className="text-xs text-slate-600 dark:text-slate-400 font-bold block uppercase tracking-wider">
+                {(statBar as any)[s.labelKey] || s.defaultLabel}
+              </span>
+            </div>
+          ))}
+        </div>
+      </div>
 
       <div className="space-y-6">
         <SectionCard
           icon={BarChart3}
-          title="Label Counter Statistik"
-          description="Empat label statistik utama yang tampil di bilah counter halaman depan."
+          title="Counter Statistik — Angka & Label"
+          description="Edit angka besar (misal: 1,500+) dan label di bawahnya untuk setiap counter yang tampil di halaman beranda."
         >
-          <Grid cols={2}>
-            <Field label="Label 1 (Anggota)">
-              <Input value={statBar.label1} onChange={(e) => update({ label1: e.target.value })} className="w-full" />
-            </Field>
-            <Field label="Label 2 (Kementerian/Lembaga)">
-              <Input value={statBar.label2} onChange={(e) => update({ label2: e.target.value })} className="w-full" />
-            </Field>
-            <Field label="Label 3 (Rapat Kemitraan)">
-              <Input value={statBar.label3} onChange={(e) => update({ label3: e.target.value })} className="w-full" />
-            </Field>
-            <Field label="Label 4 (Aspirasi Diproses)">
-              <Input value={statBar.label4} onChange={(e) => update({ label4: e.target.value })} className="w-full" />
-            </Field>
-          </Grid>
-          <div className="p-4 rounded-xl bg-slate-100 dark:bg-dpr-navy text-xs text-slate-600 dark:text-slate-300">
-            <strong>Catatan:</strong> Angka kuantitatif statistik (misal: jumlah anggota 46, rapat 84+) dapat dikelola langsung dari menu <code className="text-dpr-emerald dark:text-dpr-gold font-bold">Dashboard Admin → Angka Statistik</code>.
+          <div className="space-y-5">
+            {stats.map((s, i) => (
+              <div key={s.valueKey} className="p-4 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-white/10">
+                <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-3">Counter {i + 1}</p>
+                <Grid cols={2}>
+                  <Field label="Angka / Nilai (tampil besar)">
+                    <Input
+                      value={(statBar as any)[s.valueKey] ?? s.defaultValue}
+                      onChange={(e) => update({ [s.valueKey]: e.target.value })}
+                      className="w-full"
+                      placeholder={s.defaultValue}
+                    />
+                  </Field>
+                  <Field label="Label (tampil di bawah angka)">
+                    <Input
+                      value={(statBar as any)[s.labelKey] ?? s.defaultLabel}
+                      onChange={(e) => update({ [s.labelKey]: e.target.value })}
+                      className="w-full"
+                      placeholder={s.defaultLabel}
+                    />
+                  </Field>
+                </Grid>
+              </div>
+            ))}
           </div>
         </SectionCard>
       </div>

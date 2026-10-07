@@ -3,6 +3,7 @@
 import React from "react";
 import Link from "next/link";
 import { Map, Home, Users, Newspaper, Info, Calendar, MessageSquare, FileText, Lock } from "lucide-react";
+import { Reveal, StaggerList, FadeCard } from "@/components/ui/AnimationWrapper";
 
 const siteMap = [
   {
@@ -28,13 +29,12 @@ const siteMap = [
     ]
   },
   {
-    title: "Profil Komisi",
+    title: "Profil GIS",
     icon: Info,
     links: [
       { name: "Sejarah Golkar Internship", href: "/profil#sejarah", desc: "Latar belakang dan sejarah pembentukan" },
       { name: "Visi & Misi", href: "/profil#visi-misi", desc: "Visi dan misi kerja Golkar Internship" },
       { name: "Pimpinan & Anggota", href: "/anggota", desc: "Struktur pimpinan Fraksi Golkar" },
-      { name: "Daftar Mitra Kerja", href: "/profil#mitra-kerja", desc: "Kementerian dan lembaga mitra" },
     ]
   },
   {
@@ -65,7 +65,7 @@ const siteMap = [
 export default function PetaSitusPage() {
   return (
     <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-10">
-      <div className="text-center space-y-4 max-w-2xl mx-auto">
+      <Reveal className="text-center space-y-4 max-w-2xl mx-auto">
         <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-dpr-emerald/10 dark:bg-dpr-gold/10 border border-dpr-emerald/30 dark:border-dpr-gold/30 text-dpr-emerald-dark dark:text-dpr-gold text-xs font-bold">
           <Map className="w-4 h-4" />
           <span>NAVIGASI PORTAL</span>
@@ -76,13 +76,13 @@ export default function PetaSitusPage() {
         <p className="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
           Temukan semua halaman dan fitur yang tersedia di Portal Resmi GOLKAR INTERNSHIP STUDENT.
         </p>
-      </div>
+      </Reveal>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {siteMap.map((category) => {
+      <StaggerList className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        {siteMap.map((category, i) => {
           const Icon = category.icon;
           return (
-            <div key={category.title} className="glass-panel p-6 rounded-2xl border border-slate-200 dark:border-white/10 space-y-4">
+            <FadeCard key={category.title} index={i} className="glass-panel p-6 rounded-2xl border border-slate-200 dark:border-white/10 space-y-4">
               <h2 className="flex items-center gap-2 font-bold text-slate-900 dark:text-white text-sm">
                 <Icon className="w-4 h-4 text-dpr-emerald dark:text-dpr-gold" />
                 {category.title}
@@ -99,10 +99,10 @@ export default function PetaSitusPage() {
                   </li>
                 ))}
               </ul>
-            </div>
+            </FadeCard>
           );
         })}
-      </div>
+      </StaggerList>
     </div>
   );
 }

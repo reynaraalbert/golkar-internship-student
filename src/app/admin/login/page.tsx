@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import {
   Shield, Lock, User, Eye, EyeOff, ArrowRight, Loader2, AlertCircle,
 } from "lucide-react";
@@ -9,6 +10,7 @@ import { motion } from "framer-motion";
 
 export default function AdminLoginPage() {
   const router = useRouter();
+  const [role, setRole] = useState<"admin" | "seleksi">("admin");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -23,9 +25,10 @@ export default function AdminLoginPage() {
       const res = await fetch("/api/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ username, password }),
+        body: JSON.stringify({ username, password, role }),
       });
       if (res.ok) {
+        localStorage.setItem("admin_role", role);
         router.replace("/admin");
         router.refresh();
       } else {
@@ -77,6 +80,32 @@ export default function AdminLoginPage() {
 
           {/* Form */}
           <form onSubmit={handleSubmit} className="space-y-4">
+            {/* Role Selection */}
+            <div className="flex bg-slate-100 dark:bg-slate-800 p-1 rounded-xl">
+              <button
+                type="button"
+                onClick={() => setRole("admin")}
+                className={`flex-1 text-xs font-bold py-2 rounded-lg transition-all ${
+                  role === "admin" 
+                    ? "bg-white dark:bg-slate-900 shadow-sm text-dpr-emerald dark:text-dpr-gold" 
+                    : "text-slate-500 hover:text-slate-700 dark:hover:text-slate-300"
+                }`}
+              >
+                Admin CMS
+              </button>
+              <button
+                type="button"
+                onClick={() => setRole("seleksi")}
+                className={`flex-1 text-xs font-bold py-2 rounded-lg transition-all ${
+                  role === "seleksi" 
+                    ? "bg-white dark:bg-slate-900 shadow-sm text-dpr-emerald dark:text-dpr-gold" 
+                    : "text-slate-500 hover:text-slate-700 dark:hover:text-slate-300"
+                }`}
+              >
+                Tim Seleksi
+              </button>
+            </div>
+
             <div className="space-y-1.5">
               <label className="block text-xs font-bold text-slate-700 dark:text-slate-300">
                 Username
@@ -130,6 +159,16 @@ export default function AdminLoginPage() {
               {!loading && <ArrowRight className="w-4 h-4" />}
             </button>
           </form>
+          {role === "seleksi" && (
+            <div className="text-center mt-4 pt-4 border-t border-slate-200 dark:border-white/10">
+              <p className="text-xs text-slate-500 dark:text-slate-400">
+                Belum punya akun Tim Seleksi?{" "}
+                <Link href="/admin/register" className="font-bold text-dpr-emerald dark:text-dpr-gold hover:underline">
+                  Daftar di sini
+                </Link>
+              </p>
+            </div>
+          )}
         </div>
       </motion.div>
     </div>

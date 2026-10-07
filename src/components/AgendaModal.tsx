@@ -51,12 +51,12 @@ export default function AgendaModal({ agenda, onClose }: AgendaModalProps) {
           {/* Status Badge */}
           <div className="flex items-center gap-3 mb-4">
             {agenda.status === "LIVE NOW" ? (
-              <span className="flex items-center gap-2 bg-dpr-emerald dark:bg-dpr-red text-white text-xs font-bold px-3.5 py-1.5 rounded-full animate-pulse shadow-md">
-                <span className="w-2 h-2 rounded-full bg-white animate-ping" />
+              <span className="flex items-center gap-2 bg-amber-500 text-slate-950 text-xs font-black px-3.5 py-1.5 rounded-full animate-pulse shadow-md">
+                <span className="w-2 h-2 rounded-full bg-slate-950 animate-ping" />
                 <span>SIARAN LANGSUNG</span>
               </span>
             ) : agenda.status === "SCHEDULED" ? (
-              <span className="bg-amber-100 dark:bg-dpr-gold/20 text-dpr-gold-dark dark:text-dpr-gold text-xs font-bold px-3.5 py-1.5 rounded-full border border-amber-300 dark:border-dpr-gold/40">
+              <span className="bg-amber-100 dark:bg-amber-400/20 text-amber-900 dark:text-amber-400 text-xs font-bold px-3.5 py-1.5 rounded-full border border-amber-300 dark:border-amber-400/40">
                 TERJADWAL
               </span>
             ) : (
@@ -73,7 +73,7 @@ export default function AgendaModal({ agenda, onClose }: AgendaModalProps) {
 
           {/* Video Player Embed Mock for Live Stream */}
           {agenda.status === "LIVE NOW" && (
-            <div className="relative aspect-video w-full rounded-2xl overflow-hidden mb-6 border border-dpr-emerald/40 dark:border-dpr-gold/40 shadow-2xl bg-black">
+            <div className="relative aspect-video w-full rounded-2xl overflow-hidden mb-6 border border-amber-400/40 shadow-2xl bg-black">
               <iframe
                 src="https://www.youtube.com/embed/live_stream?channel=GolkarTV"
                 title="Live Streaming GOLKAR INTERNSHIP STUDENT"
@@ -88,14 +88,14 @@ export default function AgendaModal({ agenda, onClose }: AgendaModalProps) {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 bg-slate-50 dark:bg-dpr-navy p-5 rounded-2xl border border-slate-200 dark:border-white/10 mb-6 text-xs">
             <div className="space-y-3">
               <div className="flex items-start gap-2.5">
-                <Calendar className="w-4 h-4 text-dpr-emerald dark:text-dpr-gold shrink-0 mt-0.5" />
+                <Calendar className="w-4 h-4 text-amber-600 dark:text-amber-400 shrink-0 mt-0.5" />
                 <div>
                   <span className="text-slate-500 dark:text-slate-400 block">Tanggal Pelaksanaan</span>
                   <span className="text-slate-900 dark:text-white font-semibold">{agenda.date}</span>
                 </div>
               </div>
               <div className="flex items-start gap-2.5">
-                <Clock className="w-4 h-4 text-dpr-emerald dark:text-dpr-gold shrink-0 mt-0.5" />
+                <Clock className="w-4 h-4 text-amber-600 dark:text-amber-400 shrink-0 mt-0.5" />
                 <div>
                   <span className="text-slate-500 dark:text-slate-400 block">Waktu / Durasi</span>
                   <span className="text-slate-900 dark:text-white font-semibold">{agenda.time}</span>
@@ -105,17 +105,17 @@ export default function AgendaModal({ agenda, onClose }: AgendaModalProps) {
 
             <div className="space-y-3">
               <div className="flex items-start gap-2.5">
-                <MapPin className="w-4 h-4 text-dpr-emerald dark:text-dpr-gold shrink-0 mt-0.5" />
+                <MapPin className="w-4 h-4 text-amber-600 dark:text-amber-400 shrink-0 mt-0.5" />
                 <div>
                   <span className="text-slate-500 dark:text-slate-400 block">Lokasi Ruang Rapat</span>
                   <span className="text-slate-900 dark:text-white font-semibold">{agenda.location}</span>
                 </div>
               </div>
               <div className="flex items-start gap-2.5">
-                <ShieldAlert className="w-4 h-4 text-dpr-emerald dark:text-dpr-gold shrink-0 mt-0.5" />
+                <ShieldAlert className="w-4 h-4 text-amber-600 dark:text-amber-400 shrink-0 mt-0.5" />
                 <div>
-                  <span className="text-slate-500 dark:text-slate-400 block">Mitra Kerja Terkait</span>
-                  <span className="text-dpr-emerald-dark dark:text-dpr-gold font-bold">{agenda.partner}</span>
+                  <span className="text-slate-500 dark:text-slate-400 block">Pihak Terkait</span>
+                  <span className="text-amber-700 dark:text-amber-400 font-bold">{agenda.partner}</span>
                 </div>
               </div>
             </div>
@@ -123,7 +123,7 @@ export default function AgendaModal({ agenda, onClose }: AgendaModalProps) {
 
           <div className="space-y-3 mb-6">
             <h4 className="text-slate-900 dark:text-white font-bold text-sm flex items-center gap-2">
-              <FileText className="w-4 h-4 text-dpr-emerald dark:text-dpr-gold" />
+              <FileText className="w-4 h-4 text-amber-600 dark:text-amber-400" />
               <span>Ringkasan Pokok Pembahasan Rapat</span>
             </h4>
             <p className="text-slate-700 dark:text-slate-300 text-sm leading-relaxed bg-slate-50 dark:bg-dpr-navy/50 p-4 rounded-xl border border-slate-200 dark:border-white/5 text-justify">
@@ -133,14 +133,14 @@ export default function AgendaModal({ agenda, onClose }: AgendaModalProps) {
 
           <div className="pt-4 border-t border-slate-200 dark:border-white/10 flex flex-wrap items-center justify-between gap-4">
             <div className="flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400">
-              <Video className="w-4 h-4 text-dpr-emerald dark:text-dpr-gold" />
+              <Video className="w-4 h-4 text-amber-600 dark:text-amber-400" />
               <span>Siaran Terbuka Untuk Umum & Media Parlemen</span>
             </div>
 
             <a
               href="#"
               onClick={(e) => { e.preventDefault(); alert("Risalah rapat PDF sedang diunduh..."); }}
-              className="flex items-center gap-2 bg-dpr-emerald dark:bg-gold-gradient text-white dark:text-dpr-navy font-bold text-xs px-5 py-2.5 rounded-xl shadow-md dark:shadow-gold-glow hover:opacity-90 transition-opacity"
+              className="flex items-center gap-2 bg-amber-400 text-slate-950 font-black text-xs px-5 py-2.5 rounded-xl shadow-md hover:opacity-90 transition-opacity"
             >
               <Download className="w-4 h-4" />
               <span>Unduh PDF Risalah / Handout Rapat</span>

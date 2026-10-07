@@ -5,10 +5,12 @@ import { Settings, ShieldCheck, Database, Sliders, Moon, Sun, CheckCircle2, Down
 import { SectionCard, Grid, Field, Input, PageHeader, Badge } from "@/components/admin/ui";
 import { useTheme } from "@/components/ThemeProvider";
 import { useCmsContent } from "@/components/CmsProvider";
+import { useCollection } from "@/lib/admin-collection";
 
 export default function AdminPengaturanPage() {
   const { theme, toggleTheme } = useTheme();
   const cmsContent = useCmsContent();
+  const { data: siteContent, setData: setSiteContent } = useCollection("siteContent", cmsContent.siteContent);
   const [downloading, setDownloading] = useState(false);
   const [copied, setCopied] = useState(false);
 
@@ -35,6 +37,33 @@ export default function AdminPengaturanPage() {
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         <div className="lg:col-span-8 space-y-6">
+          {/* Maintenance Mode */}
+          <SectionCard
+            icon={ShieldCheck}
+            title="Maintenance Mode"
+            description="Aktifkan mode maintenance untuk mematikan fungsi login dan pendaftaran pengguna sementara waktu (website utama tetap tampil)."
+            badge={<Badge variant="red">Sistem</Badge>}
+          >
+            <div className="flex items-center justify-between p-4 rounded-xl bg-slate-50 dark:bg-dpr-navy border border-slate-200 dark:border-white/10">
+              <div className="space-y-1">
+                <span className="text-sm font-bold text-slate-900 dark:text-white">Under Maintenance</span>
+                <p className="text-xs text-slate-500 dark:text-slate-400">
+                  Status saat ini: <strong className={siteContent?.maintenanceMode ? "text-red-500" : "text-emerald-500"}>{siteContent?.maintenanceMode ? "AKTIF" : "TIDAK AKTIF"}</strong>
+                </p>
+              </div>
+              <button
+                onClick={() => setSiteContent((prev: any) => ({ ...prev, maintenanceMode: !prev.maintenanceMode }))}
+                className={`flex items-center gap-2 font-bold text-xs px-4 py-2.5 rounded-xl shadow-md transition-all hover:scale-105 ${
+                  siteContent?.maintenanceMode
+                    ? "bg-red-500 text-white"
+                    : "bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-200"
+                }`}
+              >
+                {siteContent?.maintenanceMode ? "Nonaktifkan" : "Aktifkan"}
+              </button>
+            </div>
+          </SectionCard>
+
           {/* Tampilan & Tema */}
           <SectionCard
             icon={Sliders}

@@ -166,7 +166,7 @@ export default function MemberCard({ member }: MemberCardProps) {
                   <div>
                     <h4 className="text-slate-900 dark:text-white font-bold text-base mb-2 flex items-center gap-2">
                       <FileText className="w-4 h-4 text-dpr-emerald dark:text-dpr-gold" />
-                      <span>RUU & Agenda Pengawasan yang Ditolak/Dikawal</span>
+                      <span>Fokus Penugasan & Proyek Akhir</span>
                     </h4>
                     <ul className="space-y-2">
                       {member.billsLed.map((bill, idx) => (

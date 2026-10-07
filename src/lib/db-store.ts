@@ -76,7 +76,8 @@ export async function readDbCollection<K extends keyof CmsData>(key: K): Promise
         return rows as unknown as CmsData[K];
       }
       case "pages": {
-        const rows = await prisma.pageContent.findMany();
+        const rows = await prisma.pageContent.findMany({ where: { slug: { not: "siteContent" } } });
+        if (!rows || rows.length === 0) return null;
         return rows.map((r: { id: string; slug: string; title: string; sections: any }) => ({
           id: r.id,
           slug: r.slug,
@@ -99,6 +100,34 @@ export async function readDbCollection<K extends keyof CmsData>(key: K): Promise
         const rows = await prisma.newsSubmission.findMany({ orderBy: { createdAt: "desc" } });
         return rows as unknown as CmsData[K];
       }
+      case "tracks":
+      case "steps":
+      case "requirements":
+      case "faqs":
+      case "posisi_magang": {
+        const row = await prisma.pageContent.findUnique({ where: { slug: key } });
+        if (!row) return null;
+        let data = row.sections;
+        if (typeof data === "string") {
+          try { data = JSON.parse(data); } catch { data = []; }
+        }
+        if (!Array.isArray(data)) data = Object.values(data || {});
+        return data as unknown as CmsData[K];
+      }
+      case "timeline": {
+        const row = await prisma.pageContent.findUnique({ where: { slug: key } });
+        if (!row) return null;
+        let data = row.sections;
+        if (typeof data === "string") {
+          try { data = JSON.parse(data); } catch { data = { title: "Timeline Pelaksanaan Magang", sections: [] }; }
+        }
+        if (Array.isArray(data)) {
+          data = { title: "Timeline Pelaksanaan Magang", sections: data };
+        } else if (!data || typeof data !== "object") {
+          data = { title: "Timeline Pelaksanaan Magang", sections: [] };
+        }
+        return data as unknown as CmsData[K];
+      }
       default:
         return null;
     }
@@ -109,7 +138,7 @@ export async function readDbCollection<K extends keyof CmsData>(key: K): Promise
 }
 
 export async function writeDbCollection<K extends keyof CmsData>(key: K, value: CmsData[K]): Promise<boolean> {
-  if (!isDbConnected) return false;
+  if (!isDbConnected) return true; // Mock success in Default Mode
 
   try {
     switch (key) {
@@ -422,6 +451,15 @@ export async function writeDbCollection<K extends keyof CmsData>(key: K, value: 
         if (ids.length > 0) {
           await prisma.newsSubmission.deleteMany({ where: { id: { notIn: ids } } });
         }
+        return true;
+      }
+      case "posisi_magang":
+      case "timeline": {
+        await prisma.pageContent.upsert({
+          where: { slug: key },
+          update: { title: `Settings for ${key}`, sections: value as any },
+          create: { slug: key, title: `Settings for ${key}`, sections: value as any },
+        });
         return true;
       }
       default:

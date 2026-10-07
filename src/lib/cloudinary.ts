@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Cloudinary Media Helper Utility
  * Integrates Cloudinary CDN media delivery with fallback high-res government visual assets.
  */
@@ -14,8 +14,8 @@ export function getCloudinaryUrl(publicId: string, options: { width?: number; he
 // Curated high quality Cloudinary & Unsplash assets for GOLKAR INTERNSHIP STUDENT
 export const ASSETS = {
   garudaEmblem: "https://res.cloudinary.com/demo/image/upload/w_200,h_200,c_fit/sample.jpg", // Fallback image asset
-  dprLogoUrl: "https://images.unsplash.com/photo-1541872703-74c5e44368f9?q=80&w=600&auto=format&fit=crop", // Parliamentary Dome / Emblem
-  parliamentBuilding: "https://images.unsplash.com/photo-1541872703-74c5e44368f9?q=80&w=1600&auto=format&fit=crop",
+  dprLogoUrl: "/images/hero-peserta-magang.jpeg", // Parliamentary Dome / Emblem
+  parliamentBuilding: "/images/hero-peserta-magang.jpeg",
   golkarHero: "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?q=80&w=1600&auto=format&fit=crop", // Golkar Hero
   meetingRoom: "https://images.unsplash.com/photo-1517048676732-d65bc937f952?q=80&w=1200&auto=format&fit=crop", // DPR Hearing / RDP Room
   pressConference: "https://images.unsplash.com/photo-1521791136064-7986c2920216?q=80&w=1200&auto=format&fit=crop",
@@ -32,3 +32,5 @@ export const ASSETS = {
     bkn: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=400&auto=format&fit=crop", // BKN
   }
 };
+
+

@@ -225,16 +225,18 @@ export function PageHeader({
   title,
   subtitle,
 }: {
-  icon: LucideIcon;
+  icon?: LucideIcon;
   title: string;
   subtitle?: string;
 }) {
   return (
     <div className="space-y-2">
       <div className="flex items-center gap-3">
-        <div className="w-11 h-11 rounded-2xl bg-dpr-emerald dark:bg-gold-gradient flex items-center justify-center shadow-md dark:shadow-gold-glow">
-          <Icon className="w-5 h-5 text-white dark:text-dpr-navy" />
-        </div>
+        {Icon && (
+          <div className="w-11 h-11 rounded-2xl bg-dpr-emerald dark:bg-gold-gradient flex items-center justify-center shadow-md dark:shadow-gold-glow">
+            <Icon className="w-5 h-5 text-white dark:text-dpr-navy" />
+          </div>
+        )}
         <h1 className="text-xl sm:text-2xl font-extrabold text-slate-900 dark:text-white">{title}</h1>
       </div>
       {subtitle && (

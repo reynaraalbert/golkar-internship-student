@@ -53,20 +53,20 @@ export default function NewsModal({ article, onClose }: NewsModalProps) {
           <div style={{ position: "relative" }} className="relative h-64 sm:h-80 w-full rounded-2xl overflow-hidden mb-6">
             <Image src={article.imageUrl} alt={article.title} fill className="object-cover" />
             <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 dark:from-dpr-navy-card via-transparent to-transparent" />
-            <span className="absolute top-4 left-4 bg-dpr-emerald dark:bg-dpr-red text-white text-xs font-bold px-3.5 py-1 rounded-full shadow-md">
+            <span className="absolute top-4 left-4 bg-amber-400 text-slate-950 text-xs font-black px-3.5 py-1 rounded-full shadow-md uppercase">
               {article.category}
             </span>
           </div>
 
           {/* Meta Bar */}
-          <div className="flex items-center gap-4 text-xs text-dpr-emerald-dark dark:text-dpr-gold font-medium mb-3">
+          <div className="flex items-center gap-4 text-xs text-amber-700 dark:text-amber-400 font-bold mb-3">
             <div className="flex items-center gap-1.5">
-              <Calendar className="w-3.5 h-3.5" />
+              <Calendar className="w-3.5 h-3.5 text-amber-600 dark:text-amber-400" />
               <span>{article.date}</span>
             </div>
             <span>•</span>
             <div className="flex items-center gap-1.5">
-              <Clock className="w-3.5 h-3.5" />
+              <Clock className="w-3.5 h-3.5 text-amber-600 dark:text-amber-400" />
               <span>{article.readTime}</span>
             </div>
             <span>•</span>
@@ -77,7 +77,7 @@ export default function NewsModal({ article, onClose }: NewsModalProps) {
             {article.title}
           </h2>
 
-          <div className="bg-slate-100 dark:bg-dpr-navy p-4 rounded-2xl border-l-4 border-dpr-emerald dark:border-dpr-gold mb-6 text-slate-800 dark:text-slate-200 text-sm font-medium italic">
+          <div className="bg-amber-50 dark:bg-dpr-navy p-4 rounded-2xl border-l-4 border-amber-400 mb-6 text-slate-800 dark:text-slate-200 text-sm font-medium italic">
             &quot;{article.summary}&quot;
           </div>
 
@@ -88,12 +88,12 @@ export default function NewsModal({ article, onClose }: NewsModalProps) {
           {/* Actions */}
           <div className="pt-6 flex flex-wrap items-center justify-between gap-4">
             <div className="flex items-center gap-3">
-              <button className="flex items-center gap-2 bg-slate-100 dark:bg-dpr-navy px-4 py-2.5 rounded-xl border border-slate-200 dark:border-white/10 text-xs font-medium text-slate-700 dark:text-slate-300 hover:text-dpr-emerald dark:hover:text-white transition-all">
-                <Share2 className="w-4 h-4 text-dpr-emerald dark:text-dpr-gold" />
+              <button className="flex items-center gap-2 bg-slate-100 dark:bg-dpr-navy px-4 py-2.5 rounded-xl border border-slate-200 dark:border-white/10 text-xs font-medium text-slate-700 dark:text-slate-300 hover:text-amber-600 dark:hover:text-amber-400 transition-all">
+                <Share2 className="w-4 h-4 text-amber-600 dark:text-amber-400" />
                 <span>Bagikan Siaran Pers</span>
               </button>
-              <button className="flex items-center gap-2 bg-slate-100 dark:bg-dpr-navy px-4 py-2.5 rounded-xl border border-slate-200 dark:border-white/10 text-xs font-medium text-slate-700 dark:text-slate-300 hover:text-dpr-emerald dark:hover:text-white transition-all">
-                <Bookmark className="w-4 h-4 text-dpr-emerald dark:text-dpr-gold" />
+              <button className="flex items-center gap-2 bg-slate-100 dark:bg-dpr-navy px-4 py-2.5 rounded-xl border border-slate-200 dark:border-white/10 text-xs font-medium text-slate-700 dark:text-slate-300 hover:text-amber-600 dark:hover:text-amber-400 transition-all">
+                <Bookmark className="w-4 h-4 text-amber-600 dark:text-amber-400" />
                 <span>Simpan</span>
               </button>
             </div>
@@ -102,7 +102,7 @@ export default function NewsModal({ article, onClose }: NewsModalProps) {
               <a
                 href={article.documentUrl}
                 download
-                className="flex items-center gap-2 bg-dpr-emerald dark:bg-gold-gradient text-white dark:text-dpr-navy font-bold text-xs px-5 py-2.5 rounded-xl shadow-md dark:shadow-gold-glow hover:opacity-90 transition-opacity"
+                className="flex items-center gap-2 bg-amber-400 text-slate-950 font-black text-xs px-5 py-2.5 rounded-xl shadow-md hover:opacity-90 transition-opacity"
               >
                 <Download className="w-4 h-4" />
                 <span>Unduh Draf Lampiran PDF</span>

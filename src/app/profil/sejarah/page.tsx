@@ -17,13 +17,13 @@ const DEFAULT_MILESTONES = [
   {
     year: "Oktober 2024",
     title: "Pembentukan GOLKAR INTERNSHIP STUDENT Periode 2024–2029",
-    description: "Melalui Keputusan Rapat Paripurna DPR RI, Golkar Internship resmi dibentuk sebagai alat kelengkapan DPR RI yang membidangi reformasi hukum, HAM, keimigrasian, pemasyarakatan, dan antikorupsi. Ini menandai era baru tata kelola legislasi hukum di Indonesia.",
+    description: "Peluncuran Golkar Internship Student sebagai platform kaderisasi dan pembinaan politik bagi mahasiswa untuk mempelajari praktik legislasi secara langsung.",
     highlight: true,
   },
   {
     year: "2019–2024",
     title: "Era Komisi III – Cikal Bakal Golkar Internship",
-    description: "Sebelum terbentuk sebagai komisi independen, fungsi-fungsi yang kini diemban Golkar Internship tersebar di Komisi III (Hukum, HAM, Keamanan). Meningkatnya kompleksitas isu hukum, HAM, dan imigrasi mendorong DPR RI untuk membentuk komisi khusus yang lebih fokus.",
+    description: "Sebelum terbentuk sebagai program magang mandiri, fungsi-fungsi pembinaan politik mahasiswa dilakukan secara sporadis oleh berbagai elemen internal.",
     highlight: false,
   },
   {
@@ -47,15 +47,15 @@ const DEFAULT_MILESTONES = [
   {
     year: "1945",
     title: "Fondasi Konstitusional – DPR RI Berdiri",
-    description: "Sejak terbentuknya DPR RI berdasarkan UUD 1945, alat kelengkapan dewan yang membidangi hukum telah ada dalam berbagai bentuk. Fungsi legislasi, anggaran, dan pengawasan di bidang hukum telah menjadi DNA parlemen Indonesia sejak kemerdekaan.",
+    description: "Sejak dibentuk, Partai Golkar terus berkomitmen untuk memberikan pendidikan politik yang berkelanjutan. Fungsi legislasi dan pengawasan menjadi bagian penting dari DNA pelatihan kader.",
     highlight: false,
   },
 ];
 
 const DEFAULT_NARASI = [
-  "Golkar Internship Dewan Perwakilan Rakyat Republik Indonesia merupakan salah satu alat kelengkapan DPR RI yang dibentuk berdasarkan Keputusan Rapat Paripurna DPR RI pada awal masa jabatan 2024–2029. Pembentukan komisi ini merupakan respons strategis parlemen terhadap semakin kompleksnya tantangan hukum, hak asasi manusia, keimigrasian, pemasyarakatan, dan pemberantasan korupsi di era modern.",
-  "Sebelum terbentuk sebagai komisi yang berdiri sendiri, fungsi-fungsi pengawasan dan legislasi di bidang hukum dan HAM tersebar di berbagai komisi, terutama Komisi III. Namun, seiring dengan tumbuhnya tuntutan publik akan akuntabilitas lembaga penegak hukum dan meningkatnya kasus korupsi, TPPO, serta pelanggaran HAM, DPR RI menilai perlunya pembentukan komisi khusus yang lebih terfokus dan efektif.",
-  "Golkar Internship hadir untuk menjembatani kebijakan negara dengan aspirasi masyarakat dalam mewujudkan sistem hukum Indonesia yang adil, transparan, dan humanis. Dengan kewenangan penuh atas tiga fungsi parlemen — legislasi, anggaran, dan pengawasan — Golkar Internship berkomitmen menjadi mitra strategis pemerintah dalam mendorong reformasi hukum yang komprehensif dan berkelanjutan.",
+  "Golkar Internship Student merupakan inisiatif strategis yang dibentuk pada awal periode untuk memberikan wadah pembinaan kepemimpinan mahasiswa di era modern.",
+  "Sebelum terbentuk sebagai platform magang terstruktur, pendidikan politik mahasiswa dilakukan melalui berbagai organisasi sayap partai. Seiring tingginya antusiasme generasi muda, dirancanglah program magang intensif di parlemen.",
+  "Golkar Internship hadir untuk menjembatani mahasiswa unggul dengan praktik kerja nyata di lingkungan dewan, memberikan pengalaman langsung dalam proses perumusan kebijakan yang transparan dan humanis.",
   "Fraksi Partai Golkar, sebagai salah satu fraksi terbesar di DPR RI, menempatkan beberapa kader terbaiknya di Golkar Internship. Para anggota Fraksi Golkar di Golkar Internship membawa rekam jejak dan keahlian yang beragam — dari pakar hukum, advokat senior, dokter, hingga teknolog — untuk memastikan bahwa agenda reformasi hukum dijalankan dengan pendekatan yang komprehensif, berbasis data, dan berpihak pada kepentingan rakyat.",
 ];
 
@@ -70,7 +70,7 @@ export default function SejarahPage() {
   const headerSub = getSection("Header Halaman Sejarah")?.subsections[0]?.fields || {};
   const badge = headerSub.badge || "PROFIL Golkar Internship — SEJARAH";
   const judul = headerSub.judul || "Sejarah GOLKAR INTERNSHIP STUDENT";
-  const deskripsi = headerSub.deskripsi || "Perjalanan panjang pembentukan GOLKAR INTERNSHIP STUDENT sebagai garda terdepan reformasi hukum, perlindungan HAM, dan pemberantasan korupsi di Indonesia.";
+  const deskripsi = headerSub.deskripsi || "Perjalanan panjang pembentukan GOLKAR INTERNSHIP STUDENT sebagai garda terdepan pembinaan pemimpin bangsa.";
 
   // Facts
   const factSubs = getSection("Statistik & Fakta Komisi")?.subsections || [];
@@ -170,11 +170,11 @@ export default function SejarahPage() {
       <div className="pt-6 border-t border-slate-200 dark:border-white/10">
         <div className="grid grid-cols-2 gap-2 sm:gap-4">
           <Link
-            href="/profil/mitra-kerja"
+            href="/profil"
             className="flex items-center justify-center gap-1 sm:gap-2 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 font-bold text-xs sm:text-sm px-2.5 sm:px-5 py-3 rounded-2xl border border-slate-200 dark:border-white/10 hover:border-dpr-emerald dark:hover:border-dpr-gold transition-all text-center group min-w-0"
           >
             <ChevronLeft className="w-4 h-4 shrink-0 group-hover:-translate-x-1 transition-transform text-dpr-emerald dark:text-dpr-gold" />
-            <span className="truncate">Mitra Kerja</span>
+            <span className="truncate">Profil Utama</span>
           </Link>
 
           <Link

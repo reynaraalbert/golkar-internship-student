@@ -10,7 +10,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import FileUpload from "@/components/ui/FileUpload";
 
 type TipePenulis = "umum" | "anggota_dpr" | "pegawai_dpr";
-type KategoriBerita = "Legislasi" | "Pengawasan" | "Anggaran" | "Siaran Pers" | "Kunjungan Kerja" | "Opini" | "Lainnya";
+type KategoriBerita = "Kegiatan Magang" | "Opini Mahasiswa" | "Pengumuman" | "Siaran Pers" | "Kisah Alumni" | "Lainnya";
 
 interface Sumber { judul: string; url: string; }
 
@@ -34,7 +34,7 @@ export default function TulisBeritaPage() {
   const [instansi, setInstansi] = useState("");
 
   const [judulBerita, setJudulBerita] = useState("");
-  const [kategori, setKategori] = useState<KategoriBerita>("Legislasi");
+  const [kategori, setKategori] = useState<KategoriBerita>("Kegiatan Magang");
   const [tanggal, setTanggal] = useState("");
   const [ringkasan, setRingkasan] = useState("");
   const [isiBerita, setIsiBerita] = useState("");
@@ -59,6 +59,10 @@ export default function TulisBeritaPage() {
       if (!fraksi.trim()) errors.push("Fraksi wajib dipilih.");
       if (!dapil.trim()) errors.push("Daerah Pemilihan (Dapil) wajib diisi.");
       if (!masaJabatan.trim()) errors.push("Masa Jabatan wajib diisi.");
+    }
+    if (tipePenulis === "umum") {
+      if (!pekerjaan.trim()) errors.push("Batch magang wajib diisi.");
+      if (!instansi.trim()) errors.push("Universitas / Jurusan wajib diisi.");
     }
     if (tipePenulis === "pegawai_dpr") {
       if (!nip.trim()) errors.push("NIP wajib diisi.");
@@ -215,9 +219,9 @@ export default function TulisBeritaPage() {
                   <label className={labelClass}>Jenis Penulis <span className="text-red-500">*</span></label>
                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                     {([
-                      { value: "umum", label: "Umum / Masyarakat", icon: User },
-                      { value: "anggota_dpr", label: "Anggota DPR RI", icon: BadgeCheck },
-                      { value: "pegawai_dpr", label: "Pegawai DPR RI", icon: Building2 },
+                      { value: "umum", label: "Peserta GIS", icon: User },
+                      { value: "pegawai_dpr", label: "Tenaga Ahli Fraksi", icon: Building2 },
+                      { value: "anggota_dpr", label: "Anggota DPR RI Fraksi Golkar", icon: BadgeCheck },
                     ] as const).map(opt => {
                       const Icon = opt.icon;
                       return (
@@ -260,7 +264,7 @@ export default function TulisBeritaPage() {
                         <label className={labelClass}>Fraksi <span className="text-red-500">*</span></label>
                         <select value={fraksi} onChange={e => setFraksi(e.target.value)} className={inputClass}>
                           <option value="">-- Pilih Fraksi --</option>
-                          {["Partai Golkar", "PDI Perjuangan", "Partai Gerindra", "Partai NasDem", "PKB", "PKS", "PAN", "Partai Demokrat", "PPP"].map(f => <option key={f} value={f}>{f}</option>)}
+                          {["Partai Golkar"].map(f => <option key={f} value={f}>{f}</option>)}
                         </select>
                       </div>
                       <div>
@@ -278,7 +282,7 @@ export default function TulisBeritaPage() {
                 {tipePenulis === "pegawai_dpr" && (
                   <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} className="space-y-4 p-5 bg-slate-100 dark:bg-dpr-navy-card rounded-2xl border border-slate-200 dark:border-white/10">
                     <h3 className="text-sm font-bold text-slate-700 dark:text-white flex items-center gap-2">
-                      <Building2 className="w-4 h-4 text-dpr-emerald dark:text-dpr-gold" /> Data Kepegawaian DPR RI
+                      <Building2 className="w-4 h-4 text-dpr-emerald dark:text-dpr-gold" /> Data Tenaga Ahli / Staf
                     </h3>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       <div>
@@ -298,14 +302,22 @@ export default function TulisBeritaPage() {
                 )}
 
                 {tipePenulis === "umum" && (
-                  <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div>
-                      <label className={labelClass}>Pekerjaan</label>
-                      <input type="text" value={pekerjaan} onChange={e => setPekerjaan(e.target.value)} placeholder="Contoh: Jurnalis / Akademisi" className={inputClass} />
-                    </div>
-                    <div>
-                      <label className={labelClass}>Instansi / Lembaga</label>
-                      <input type="text" value={instansi} onChange={e => setInstansi(e.target.value)} placeholder="Contoh: Universitas Indonesia" className={inputClass} />
+                  <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} className="space-y-4 p-5 bg-dpr-emerald/5 dark:bg-dpr-gold/5 rounded-2xl border border-dpr-emerald/20 dark:border-dpr-gold/20">
+                    <h3 className="text-sm font-bold text-dpr-emerald-dark dark:text-dpr-gold flex items-center gap-2">
+                      <User className="w-4 h-4" /> Data Peserta GIS
+                    </h3>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      <div>
+                        <label className={labelClass}>Batch Magang <span className="text-red-500">*</span></label>
+                        <select value={pekerjaan} onChange={e => setPekerjaan(e.target.value)} className={inputClass}>
+                          <option value="">-- Pilih Batch --</option>
+                          {["Batch 1 (2024)", "Batch 2 (2025)", "Batch 3 (2026)"].map(f => <option key={f} value={f}>{f}</option>)}
+                        </select>
+                      </div>
+                      <div>
+                        <label className={labelClass}>Universitas / Jurusan <span className="text-red-500">*</span></label>
+                        <input type="text" value={instansi} onChange={e => setInstansi(e.target.value)} placeholder="Contoh: Universitas Indonesia - Ilmu Hukum" className={inputClass} />
+                      </div>
                     </div>
                   </motion.div>
                 )}
@@ -350,7 +362,7 @@ export default function TulisBeritaPage() {
                   <div>
                     <label className={labelClass}>Kategori <span className="text-red-500">*</span></label>
                     <select value={kategori} onChange={e => setKategori(e.target.value as KategoriBerita)} className={inputClass}>
-                      {["Legislasi", "Pengawasan", "Anggaran", "Siaran Pers", "Kunjungan Kerja", "Opini", "Lainnya"].map(k => <option key={k} value={k}>{k}</option>)}
+                      {["Kegiatan Magang", "Opini Mahasiswa", "Pengumuman", "Siaran Pers", "Kisah Alumni", "Lainnya"].map(k => <option key={k} value={k}>{k}</option>)}
                     </select>
                   </div>
                 </div>
@@ -362,7 +374,7 @@ export default function TulisBeritaPage() {
                   </div>
                   <div>
                     <label className={labelClass}><Hash className="w-4 h-4 inline mr-1" />Tags / Kata Kunci</label>
-                    <input type="text" value={tags} onChange={e => setTags(e.target.value)} placeholder="Contoh: HAM, Lapas, KPK (pisah dengan koma)" className={inputClass} />
+                    <input type="text" value={tags} onChange={e => setTags(e.target.value)} placeholder="Contoh: Magang, Seminar, Kunjungan (pisah dengan koma)" className={inputClass} />
                   </div>
                 </div>
 

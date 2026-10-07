@@ -6,6 +6,7 @@ import { useCmsContent } from "@/components/CmsProvider";
 import AgendaModal from "@/components/AgendaModal";
 import { Calendar, Clock, MapPin, Play, FileText, Filter, Video, Search, ChevronRight } from "lucide-react";
 import { motion } from "framer-motion";
+import { Reveal, FadeCard, StaggerList } from "@/components/ui/AnimationWrapper";
 
 export default function AgendaPage() {
   const { agenda } = useCmsContent();
@@ -36,21 +37,22 @@ export default function AgendaPage() {
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-12">
       
       {/* Header Banner */}
-      <div className="text-center max-w-3xl mx-auto space-y-4">
+      <Reveal className="text-center max-w-3xl mx-auto space-y-4">
         <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-dpr-emerald/10 dark:bg-dpr-gold/10 border border-dpr-emerald/30 dark:border-dpr-gold/30 text-dpr-emerald-dark dark:text-dpr-gold text-xs font-bold">
           <Calendar className="w-4 h-4 text-dpr-emerald dark:text-dpr-gold" />
-          <span>JADWAL SIDANG & KAPASITAS KOMISI</span>
+          <span>JADWAL KEGIATAN & AGENDA MAGANG</span>
         </div>
         <h1 className="text-3xl sm:text-5xl font-extrabold text-slate-900 dark:text-white">
-          Agenda Rapat <span className="text-dpr-emerald dark:text-red-600">GOLKAR INTERNSHIP STUDENT</span>
+          Agenda Kegiatan <span className="text-dpr-emerald dark:text-red-600">GOLKAR INTERNSHIP STUDENT</span>
         </h1>
         <p className="text-slate-700 dark:text-slate-300 text-xs sm:text-sm leading-relaxed">
-          Jadwal Rapat Kerja (Raker) bersama Menteri, Rapat Dengar Pendapat (RDP) mitra kerja, Uji Kelayakan (Fit & Proper Test), serta Kunjungan Kerja Lapangan.
+          Jadwal pelaksanaan program magang, mencakup sesi diskusi terbuka, pembekalan materi intensif, rapat komisi, serta kelas bimbingan teknis bersama para pakar dan mentor.
         </p>
-      </div>
+      </Reveal>
 
       {/* Live Hearing Highlight Section */}
       {liveItem && (
+        <Reveal delay={1}>
         <div className="glass-panel-emerald dark:glass-panel-red p-6 sm:p-8 rounded-3xl border border-dpr-emerald dark:border-dpr-red shadow-2xl relative overflow-hidden space-y-6">
           <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 border-b border-slate-200 dark:border-dpr-red/30 pb-4">
             <div className="flex items-center gap-3">
@@ -66,7 +68,7 @@ export default function AgendaPage() {
               className="bg-dpr-emerald dark:bg-gold-gradient text-white dark:text-dpr-navy font-bold text-xs px-5 py-2.5 rounded-full shadow-md dark:shadow-gold-glow hover:opacity-90 transition-opacity flex items-center gap-2"
             >
               <Play className="w-4 h-4" />
-              <span>Tonton Live Stream Rapat</span>
+              <span>Tonton Live Stream Agenda</span>
             </button>
           </div>
 
@@ -92,7 +94,7 @@ export default function AgendaPage() {
             </div>
 
             <div className="lg:col-span-4 bg-white dark:bg-dpr-navy/80 p-5 rounded-2xl border border-slate-200 dark:border-white/10 text-xs space-y-2 shadow-sm">
-              <span className="text-dpr-emerald-dark dark:text-dpr-gold font-bold block uppercase tracking-wider">MITRA KERJA TERDAFTAR</span>
+              <span className="text-dpr-emerald-dark dark:text-dpr-gold font-bold block uppercase tracking-wider">PIHAK TERKAIT</span>
               <p className="text-slate-900 dark:text-white font-semibold text-sm">
                 {liveItem.partner}
               </p>
@@ -100,6 +102,7 @@ export default function AgendaPage() {
             </div>
           </div>
         </div>
+        </Reveal>
       )}
 
       {/* Filter & Search Bar */}
@@ -107,13 +110,13 @@ export default function AgendaPage() {
         <div className="flex flex-col md:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-2 text-slate-900 dark:text-white font-bold text-sm">
             <Filter className="w-4 h-4 text-dpr-emerald dark:text-dpr-gold" />
-            <span>Filter Status Rapat</span>
+            <span>Filter Status Agenda</span>
           </div>
 
           <div className="relative w-full md:w-80">
             <input
               type="text"
-              placeholder="Cari topik rapat atau mitra..."
+              placeholder="Cari topik agenda atau mitra..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="w-full bg-slate-100 dark:bg-dpr-navy text-xs text-slate-900 dark:text-white placeholder-slate-400 pl-9 pr-4 py-2.5 rounded-full border border-slate-300 dark:border-white/15 focus:border-dpr-emerald dark:focus:border-dpr-gold focus:outline-none"
@@ -143,11 +146,12 @@ export default function AgendaPage() {
       </div>
 
       {/* Agenda Timeline List */}
-      <div className="space-y-4">
-        {filteredAgendas.map((item) => (
-          <motion.div
+      <StaggerList className="space-y-4">
+        {filteredAgendas.map((item, idx) => (
+          <FadeCard
             key={item.id}
-            whileHover={{ x: 4 }}
+            index={idx}
+            hover={false}
             onClick={() => setActiveAgenda(item)}
             className="glass-panel p-6 rounded-2xl border border-slate-200 dark:border-white/10 hover:border-dpr-emerald dark:hover:border-dpr-gold/40 cursor-pointer transition-all flex flex-col md:flex-row items-start md:items-center justify-between gap-6 group"
           >
@@ -201,9 +205,9 @@ export default function AgendaPage() {
                 <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </span>
             </div>
-          </motion.div>
+          </FadeCard>
         ))}
-      </div>
+      </StaggerList>
 
       <AgendaModal agenda={activeAgenda} onClose={() => setActiveAgenda(null)} />
     </div>

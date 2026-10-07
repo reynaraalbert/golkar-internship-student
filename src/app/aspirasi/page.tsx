@@ -11,7 +11,6 @@ import {
   Phone,
   Send,
   CheckCircle2,
-  Sparkles,
   HelpCircle,
   MapPin,
   Clock,
@@ -26,19 +25,21 @@ import {
   ArrowRight
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { Reveal, SlideIn, StaggerList, FadeCard } from "@/components/ui/AnimationWrapper";
 
 export default function AspirasiPage() {
   const { mitraKerja } = useCmsContent();
   const [submissionMethod, setSubmissionMethod] = useState<"Terbuka" | "Anonim">("Terbuka");
-  const [selectedTopic, setSelectedTopic] = useState<string>("Umum / Reformasi Hukum");
+  const [selectedTopic, setSelectedTopic] = useState<string>("Pendaftaran Magang");
   const [topicDropdownOpen, setTopicDropdownOpen] = useState(false);
 
   const topicOptions = [
-    { label: "Umum / Reformasi Hukum & HAM", value: "Umum / Reformasi Hukum" },
-    ...mitraKerja.map((m) => ({
-      label: `${m.acronym} - ${m.name}`,
-      value: m.name,
-    })),
+    { label: "Pendaftaran Magang", value: "Pendaftaran Magang" },
+    { label: "Proses Seleksi & Wawancara", value: "Proses Seleksi & Wawancara" },
+    { label: "Penempatan & Tugas Magang", value: "Penempatan & Tugas Magang" },
+    { label: "Sertifikat & Penilaian", value: "Sertifikat & Penilaian" },
+    { label: "Bantuan Teknis (Website/Sistem)", value: "Bantuan Teknis" },
+    { label: "Lain-lain", value: "Lain-lain" },
   ];
   const [aspirationForm, setAspirationForm] = useState({
     name: "",
@@ -88,20 +89,20 @@ export default function AspirasiPage() {
 
   const faqList = [
     {
-      q: "Apa perbedaan pengiriman aspirasi Terbuka dan Anonim?",
-      a: "Mode Terbuka menyertakan Nama dan Email Anda untuk mempermudah sekretariat memberikan balasan langsung dan nomor tiket tindak lanjut. Mode Anonim merahasiakan identitas pelapor sepenuhnya demi keamanan informasi pengaduan حساس."
+      q: "Apa perbedaan pengiriman pesan secara Terbuka dan Anonim?",
+      a: "Mode Terbuka menyertakan Nama dan Email Anda untuk mempermudah panitia magang memberikan balasan langsung. Mode Anonim merahasiakan identitas Anda sepenuhnya demi privasi dan keamanan informasi yang bersifat sensitif."
     },
     {
-      q: "Siapa saja yang akan menerima aspirasi yang dikirimkan?",
-      a: "Aspirasi akan diverifikasi terlebih dahulu oleh Tim Sekretariat Golkar Internship STUDENT, kemudian dikelompokkan sesuai komoditas pengawasan bidang Hukum, HAM, Imigrasi, Pemasyarakatan, atau Antikorupsi."
+      q: "Siapa saja yang akan menerima dan membaca pesan yang dikirimkan?",
+      a: "Pesan Anda akan diterima dan dibaca langsung oleh Tim Panitia dan Pengelola Program Golkar Internship Student (GIS) Fraksi Partai Golkar DPR RI."
     },
     {
-      q: "Berapa lama estimasi tindak lanjut aduan atau masukan rakyat?",
-      a: "Verifikasi administrasi membutuhkan waktu 1-3 hari kerja. Aspirasi prioritas yang relevan akan dimasukkan sebagai bahan materi Rapat Dengar Pendapat (RDP) Golkar Internship bersama mitra kerja terkait."
+      q: "Berapa lama estimasi waktu balasan atau tindak lanjut dari panitia?",
+      a: "Tim kami biasanya akan memproses dan memberikan balasan atas pertanyaan atau kendala Anda dalam waktu 1-3 hari kerja, tergantung pada volume pesan yang masuk."
     },
     {
-      q: "Apakah data dan identitas pengirim dijamin kerahasiaannya?",
-      a: "Ya. Sesuai dengan UU Perlindungan Data Pribadi dan standar protokol pengaduan DPR RI, seluruh data terlindungi dan aman."
+      q: "Apakah data dan identitas pendaftar magang dijamin kerahasiaannya?",
+      a: "Tentu saja. Sesuai dengan standar protokol perlindungan data, seluruh informasi pribadi dan biodata peserta magang terlindungi dan hanya digunakan untuk keperluan seleksi dan program magang GIS."
     }
   ];
 
@@ -115,7 +116,6 @@ export default function AspirasiPage() {
             animate={{ opacity: 1, y: 0 }}
             className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-100 dark:bg-dpr-gold/10 border border-emerald-300 dark:border-dpr-gold/30 text-dpr-emerald-dark dark:text-dpr-gold text-xs font-bold"
           >
-            <Sparkles className="w-4 h-4 text-dpr-emerald dark:text-dpr-gold" />
             <span>Kanal Pelayanan & Pengaduan Publik Resmi</span>
           </motion.div>
 
@@ -144,7 +144,7 @@ export default function AspirasiPage() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           
           {/* FORMULARIS ASPIRASI */}
-          <div className="lg:col-span-7 glass-panel p-6 sm:p-8 rounded-3xl border border-slate-200 dark:border-white/10 shadow-xl space-y-6 bg-white/90 dark:bg-slate-900/90">
+          <SlideIn direction="left" className="lg:col-span-7 space-y-8">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-200 dark:border-white/10 pb-4">
               <div>
                 <h2 className="text-xl sm:text-2xl font-extrabold text-slate-900 dark:text-white">
@@ -200,10 +200,10 @@ export default function AspirasiPage() {
               </div>
             </div>
 
-            {/* KATEGORI MITRA — Custom Responsive Dropdown */}
-            <div className="space-y-2 relative z-20">
-              <label className="block text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
-                KATEGORI BIDANG / MITRA TERKAIT
+            {/* KATEGORI BIDANG / TOPIK */}
+            <div className="space-y-3 relative z-20">
+              <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
+                KATEGORI TOPIK / PERTANYAAN
               </label>
               <div className="relative">
                 <button
@@ -274,7 +274,7 @@ export default function AspirasiPage() {
                 </p>
               </motion.div>
             ) : (
-              <form onSubmit={handleAspirationSubmit} className="space-y-4">
+              <form onSubmit={handleAspirationSubmit} className="space-y-6">
                 <AnimatePresence mode="wait">
                   {submissionMethod === "Terbuka" && (
                     <motion.div
@@ -284,7 +284,7 @@ export default function AspirasiPage() {
                       className="grid grid-cols-1 sm:grid-cols-2 gap-4 overflow-hidden"
                     >
                       <div>
-                        <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1 flex items-center gap-1">
+                        <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-2 flex items-center gap-1">
                           <User className="w-3.5 h-3.5 text-slate-500" />
                           <span>Nama Lengkap *</span>
                         </label>
@@ -298,7 +298,7 @@ export default function AspirasiPage() {
                         />
                       </div>
                       <div>
-                        <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1 flex items-center gap-1">
+                        <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-2 flex items-center gap-1">
                           <Mail className="w-3.5 h-3.5 text-slate-500" />
                           <span>Alamat Email *</span>
                         </label>
@@ -316,7 +316,7 @@ export default function AspirasiPage() {
                 </AnimatePresence>
 
                 <div>
-                  <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1 flex items-center gap-1">
+                  <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-2 flex items-center gap-1">
                     <Phone className="w-3.5 h-3.5 text-slate-500" />
                     <span>Nomor WhatsApp {submissionMethod === "Anonim" && "(Opsional)"}</span>
                   </label>
@@ -330,7 +330,7 @@ export default function AspirasiPage() {
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1 flex items-center gap-1">
+                  <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-2 flex items-center gap-1">
                     <MessageSquare className="w-3.5 h-3.5 text-slate-500" />
                     <span>Subjek Aspirasi / Pengaduan *</span>
                   </label>
@@ -345,13 +345,13 @@ export default function AspirasiPage() {
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">
+                  <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-2">
                     Detail Isi Aspirasi / Aduan Rakyat *
                   </label>
                   <textarea
                     rows={5}
                     required
-                    placeholder="Tuliskan latar belakang masalah, rekomendasi, usulan RUU, atau keluhan penegakan hukum secara rinci..."
+                    placeholder="Tuliskan pertanyaan, masukan, usulan program, atau kendala Anda secara rinci..."
                     value={aspirationForm.message}
                     onChange={(e) => setAspirationForm({ ...aspirationForm, message: e.target.value })}
                     className="w-full bg-slate-50 dark:bg-slate-800 text-xs sm:text-sm text-slate-900 dark:text-white p-3.5 rounded-xl border border-slate-200 dark:border-white/10 focus:border-blue-500 focus:outline-none font-medium leading-relaxed"
@@ -368,10 +368,10 @@ export default function AspirasiPage() {
                 </button>
               </form>
             )}
-          </div>
+          </SlideIn>
 
           {/* KANAN: INFORMASI KANTOR SEKRETARIAT & PROSEDUR */}
-          <div className="lg:col-span-5 space-y-6">
+          <SlideIn direction="right" className="lg:col-span-5 space-y-6">
             <div className="glass-panel p-6 rounded-3xl border border-slate-200 dark:border-white/10 space-y-4 bg-white/90 dark:bg-slate-900/90 shadow-lg">
               <h3 className="text-lg font-extrabold text-slate-900 dark:text-white flex items-center gap-2">
                 <Building2 className="w-5 h-5 text-dpr-emerald dark:text-dpr-gold" />
@@ -433,25 +433,24 @@ export default function AspirasiPage() {
                 </li>
               </ol>
             </div>
-          </div>
+          </SlideIn>
 
         </div>
       </section>
 
       {/* FAQ ACCORDION SECTION */}
       <section className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
-        <div className="text-center space-y-2">
+        <Reveal className="text-center space-y-2">
           <span className="text-xs font-bold text-dpr-emerald-dark dark:text-dpr-gold uppercase tracking-widest flex items-center justify-center gap-1.5">
             <HelpCircle className="w-4 h-4" />
             <span>PERTANYAAN UMUM</span>
           </span>
           <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white">Pertanyaan Sering Diajukan (FAQ)</h2>
-        </div>
+        </Reveal>
 
-        <div className="space-y-3">
+        <StaggerList className="space-y-3">
           {faqList.map((faq, idx) => (
-            <div
-              key={idx}
+            <FadeCard key={idx} index={idx} hover={false}
               className="glass-panel rounded-2xl border border-slate-200 dark:border-white/10 overflow-hidden bg-white/80 dark:bg-slate-900/80"
             >
               <button
@@ -473,9 +472,9 @@ export default function AspirasiPage() {
                   </motion.div>
                 )}
               </AnimatePresence>
-            </div>
+            </FadeCard>
           ))}
-        </div>
+        </StaggerList>
       </section>
     </div>
   );

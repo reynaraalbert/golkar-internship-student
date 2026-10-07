@@ -11,16 +11,17 @@ import FileUpload from "@/components/ui/FileUpload";
 import { motion, AnimatePresence } from "framer-motion";
 
 import { apiPut } from "@/lib/admin-client";
+import { DownloadCloud } from "lucide-react";
 
-const ROLES = ["Ketua Komisi", "Wakil Ketua Komisi", "Anggota Komisi"] as const;
-const FRAKSI = ["PDI Perjuangan", "Partai Golkar", "Partai Gerindra", "Partai NasDem", "PKB", "PKS", "PAN", "Partai Demokrat"] as const;
+const ROLES = ["Ketua Program (Pimpinan)", "Peserta Magang (Biasa)"] as const;
+const BATCHES = ["Batch 1 (2024)", "Batch 2 (2025)", "Batch 3 (2026)"] as const;
 
 const emptyMember = (): Member => ({
   id: `m-${Date.now()}`,
   nomorAnggota: "A-000",
   name: "",
-  role: "Anggota Komisi",
-  fraksi: "Partai Golkar",
+  role: "Peserta Magang (Biasa)",
+  fraksi: "Batch 3 (2026)",
   dapil: "",
   photoUrl: "",
   email: "",
@@ -56,6 +57,58 @@ export default function AdminAnggotaPage() {
       await apiPut("/api/data/pimpinan", pimpinanList);
     } catch (err: any) {
       alert(`Gagal menyimpan ke database: ${err?.message || "Pastikan server berjalan."}`);
+    }
+  };
+
+  const handleSyncPendaftar = () => {
+    try {
+      const stored = localStorage.getItem("golkar_pendaftar_magang_db");
+      if (!stored) {
+        alert("Belum ada data pendaftar magang.");
+        return;
+      }
+      const pendaftar = JSON.parse(stored);
+      const lolosList = pendaftar.filter((p: any) => p.status === "LOLOS_WAWANCARA");
+      
+      if (lolosList.length === 0) {
+        alert("Tidak ada pendaftar dengan status LOLOS_WAWANCARA.");
+        return;
+      }
+
+      let updatedData = [...data];
+      let added = 0;
+
+      lolosList.forEach((p: any) => {
+        // Cek duplicate by email
+        if (!updatedData.find(m => m.email === p.email)) {
+          updatedData.push({
+            id: `m-${Date.now()}-${added}`,
+            nomorAnggota: `GIS-${p.nim.substring(0,4)}`,
+            name: p.nama,
+            email: p.email,
+            role: "Peserta Magang (Biasa)",
+            fraksi: "Batch 4 (2026)",
+            dapil: p.universitas,
+            photoUrl: "",
+            bio: `Peserta dari ${p.universitas} - Jurusan ${p.jurusan}. Posisi: ${p.posisiTitle}`,
+            billsLed: [],
+            pendidikan: p.jurusan,
+            masaJabatan: "Magang",
+            komisi: p.komisi
+          });
+          added++;
+        }
+      });
+
+      if (added > 0) {
+        persist(updatedData);
+        alert(`Berhasil mensinkronisasi ${added} peserta magang baru!`);
+      } else {
+        alert("Peserta magang yang lolos wawancara sudah disinkronisasi semua (tidak ada yang baru).");
+      }
+    } catch (err) {
+      console.error(err);
+      alert("Terjadi kesalahan saat memproses data pendaftar.");
     }
   };
 
@@ -96,26 +149,35 @@ export default function AdminAnggotaPage() {
       <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
         <PageHeader
           icon={Users}
-          title="Kelola Anggota"
-          subtitle={`Kelola data pimpinan & anggota Golkar Internship. Saat ini ${pimpinanCount} pimpinan dan ${data.length - pimpinanCount} anggota.`}
+          title="Kelola Peserta Magang (Diterima)"
+          subtitle={`Kelola data peserta GIS yang sudah diterima. Saat ini ${pimpinanCount} ketua dan ${data.length - pimpinanCount} peserta biasa.`}
         />
-        <button
-          onClick={openNew}
-          className="inline-flex items-center gap-2 bg-dpr-emerald dark:bg-gold-gradient text-white dark:text-dpr-navy font-bold text-xs px-5 py-2.5 rounded-full shadow-md dark:shadow-gold-glow hover:opacity-90 transition-opacity self-start sm:self-auto"
-        >
-          <Plus className="w-4 h-4" />
-          <span>Tambah Anggota</span>
-        </button>
+        <div className="flex flex-col sm:flex-row gap-2 self-start sm:self-auto">
+          <button
+            onClick={handleSyncPendaftar}
+            className="inline-flex items-center gap-2 bg-blue-100 hover:bg-blue-200 text-blue-700 dark:bg-blue-900/40 dark:text-blue-300 font-bold text-xs px-5 py-2.5 rounded-full shadow-sm transition-colors"
+          >
+            <DownloadCloud className="w-4 h-4" />
+            <span>Tarik Data Lolos Wawancara</span>
+          </button>
+          <button
+            onClick={openNew}
+            className="inline-flex items-center gap-2 bg-dpr-emerald dark:bg-gold-gradient text-white dark:text-dpr-navy font-bold text-xs px-5 py-2.5 rounded-full shadow-md dark:shadow-gold-glow hover:opacity-90 transition-opacity"
+          >
+            <Plus className="w-4 h-4" />
+            <span>Tambah Peserta</span>
+          </button>
+        </div>
       </div>
 
       {/* Pimpinan */}
       <div className="space-y-3">
         <div className="flex items-center gap-2 text-xs font-bold text-dpr-emerald dark:text-dpr-gold uppercase tracking-wider">
           <Award className="w-4 h-4" />
-          Pimpinan Komisi
+          Ketua Program (Pimpinan)
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {data.filter((m) => m.role !== "Anggota Komisi").map((m) => (
+          {data.filter((m) => m.role !== "Peserta Magang (Biasa)").map((m) => (
             <AnggotaCard key={m.id} m={m} onEdit={() => openEdit(m)} onDelete={() => handleDelete(m.id)} />
           ))}
         </div>
@@ -125,13 +187,13 @@ export default function AdminAnggotaPage() {
       <div className="space-y-3">
         <div className="flex items-center gap-2 text-xs font-bold text-dpr-emerald dark:text-dpr-gold uppercase tracking-wider">
           <Users className="w-4 h-4" />
-          Anggota Komisi
+          Peserta Magang Biasa
         </div>
-        {data.filter((m) => m.role === "Anggota Komisi").length === 0 ? (
-          <EmptyState icon={Users} title="Belum Ada Anggota" description="Klik 'Tambah Anggota' untuk menambahkan data anggota." />
+        {data.filter((m) => m.role === "Peserta Magang (Biasa)").length === 0 ? (
+          <EmptyState icon={Users} title="Belum Ada Peserta" description="Klik 'Tambah Peserta' untuk menambahkan." />
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {data.filter((m) => m.role === "Anggota Komisi").map((m) => (
+            {data.filter((m) => m.role === "Peserta Magang (Biasa)").map((m) => (
               <AnggotaCard key={m.id} m={m} onEdit={() => openEdit(m)} onDelete={() => handleDelete(m.id)} />
             ))}
           </div>
@@ -157,28 +219,33 @@ export default function AdminAnggotaPage() {
 
               <div className="p-6 space-y-5">
                 <Grid cols={2}>
-                  <Field label="Nama Lengkap" required>
+                  <Field label="Nama Peserta" required>
                     <Input value={editing.name} onChange={(e) => setEditing({ ...editing, name: e.target.value })} className="w-full" />
                   </Field>
-                  <Field label="Nomor Anggota">
-                    <Input value={editing.nomorAnggota} onChange={(e) => setEditing({ ...editing, nomorAnggota: e.target.value })} className="w-full" placeholder="Contoh: A-001" />
+                  <Field label="NRP / ID Magang">
+                    <Input value={editing.nomorAnggota} onChange={(e) => setEditing({ ...editing, nomorAnggota: e.target.value })} className="w-full" placeholder="Contoh: GIS-2026-001" />
                   </Field>
                 </Grid>
                 <Grid cols={2}>
-                  <Field label="Jabatan / Role">
+                  <Field label="Jabatan">
                     <Select value={editing.role} onChange={(e) => setEditing({ ...editing, role: e.target.value as Member["role"] })} className="w-full">
                       {ROLES.map((r) => <option key={r} value={r}>{r}</option>)}
                     </Select>
                   </Field>
-                  <Field label="Fraksi">
+                  <Field label="Batch">
                     <Select value={editing.fraksi} onChange={(e) => setEditing({ ...editing, fraksi: e.target.value as Member["fraksi"] })} className="w-full">
-                      {FRAKSI.map((f) => <option key={f} value={f}>{f}</option>)}
+                      {BATCHES.map((f) => <option key={f} value={f}>{f}</option>)}
                     </Select>
                   </Field>
                 </Grid>
-                <Field label="Daerah Pemilihan (Dapil)">
-                  <Input value={editing.dapil} onChange={(e) => setEditing({ ...editing, dapil: e.target.value })} className="w-full" placeholder="Contoh: Jawa Barat IV" />
-                </Field>
+                <Grid cols={2}>
+                  <Field label="Asal Universitas / Jurusan">
+                    <Input value={editing.dapil} onChange={(e) => setEditing({ ...editing, dapil: e.target.value })} className="w-full" placeholder="Contoh: UI - Ilmu Hukum" />
+                  </Field>
+                  <Field label="Penempatan (Mitra Kerja / Komisi)">
+                    <Input value={editing.komisi || ""} onChange={(e) => setEditing({ ...editing, komisi: e.target.value })} className="w-full" placeholder="Contoh: Komisi I" />
+                  </Field>
+                </Grid>
                 <Grid cols={2}>
                   <Field label="Upload Foto">
                     <FileUpload value={editing.photoUrl} onChange={(url) => setEditing({ ...editing, photoUrl: url })} accept="image" />
@@ -188,10 +255,10 @@ export default function AdminAnggotaPage() {
                   </Field>
                 </Grid>
                 <Grid cols={2}>
-                  <Field label="Pendidikan">
-                    <Input value={editing.pendidikan || ""} onChange={(e) => setEditing({ ...editing, pendidikan: e.target.value })} className="w-full" />
+                  <Field label="Posisi Magang">
+                    <Input value={editing.pendidikan || ""} onChange={(e) => setEditing({ ...editing, pendidikan: e.target.value })} className="w-full" placeholder="Contoh: Analis Kebijakan" />
                   </Field>
-                  <Field label="Masa Jabatan">
+                  <Field label="Periode (Bulan - Tahun)">
                     <Input value={editing.masaJabatan || ""} onChange={(e) => setEditing({ ...editing, masaJabatan: e.target.value })} className="w-full" />
                   </Field>
                 </Grid>
@@ -199,8 +266,8 @@ export default function AdminAnggotaPage() {
                   <Textarea value={editing.bio} onChange={(e) => setEditing({ ...editing, bio: e.target.value })} rows={4} />
                 </Field>
 
-                {/* billsLed */}
-                <Field label="RUU / Agenda yang Dikawal">
+                {/* billsLed -> outputs/projects */}
+                <Field label="Project / Output Magang">
                   <div className="space-y-2 pt-1">
                     <div className="flex items-center justify-end">
                       <button onClick={addBill} className="text-xs font-semibold text-dpr-emerald dark:text-dpr-gold hover:underline">
@@ -250,12 +317,12 @@ function AnggotaCard({ m, onEdit, onDelete }: { m: Member; onEdit: () => void; o
         )}
       </div>
       <div className="flex-1 min-w-0">
-        <span className={`px-1.5 py-0.5 rounded text-[9px] font-bold uppercase ${m.role !== "Anggota Komisi" ? "bg-dpr-emerald dark:bg-gold-gradient text-white dark:text-dpr-navy" : "bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300"}`}>
+        <span className={`px-1.5 py-0.5 rounded text-[9px] font-bold uppercase ${m.role !== "Peserta Magang (Biasa)" ? "bg-dpr-emerald dark:bg-gold-gradient text-white dark:text-dpr-navy" : "bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300"}`}>
           {m.role}
         </span>
         <h3 className="text-sm font-bold text-slate-900 dark:text-white line-clamp-1 mt-1">{m.name || "(Tanpa Nama)"}</h3>
         <p className="text-[11px] text-slate-500 dark:text-slate-400 flex items-center gap-1">
-          <MapPin className="w-3 h-3" /> {m.dapil}
+          <MapPin className="w-3 h-3" /> {m.dapil || "Belum ada univ/jurusan"}
         </p>
       </div>
       <div className="flex items-center gap-1 shrink-0">

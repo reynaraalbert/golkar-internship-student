@@ -45,6 +45,12 @@ export interface CmsData {
   submissions: NewsSubmission[];
   aspirasi: Aspirasi[];
   pages: PageContent[];
+  tracks: any[];
+  steps: any[];
+  requirements: any[];
+  faqs: any[];
+  posisi_magang: any[];
+  timeline: any;
 }
 
 /**
@@ -74,6 +80,23 @@ export function defaultCollection<K extends keyof CmsData>(key: K): CmsData[K] {
       return [] as unknown as CmsData[K];
     case "pages":
       return JSON.parse(JSON.stringify(PAGES)) as unknown as CmsData[K];
+    case "tracks":
+      return [] as unknown as CmsData[K];
+    case "steps":
+      return [] as unknown as CmsData[K];
+    case "requirements":
+      return [] as unknown as CmsData[K];
+    case "faqs":
+      return [] as unknown as CmsData[K];
+    case "timeline":
+      return {
+        title: "Timeline Pelaksanaan Magang",
+        sections: [
+          { id: "1", type: "timeline", title: "Pendaftaran Dibuka", content: "25 Agustus 2026", order: 1 },
+          { id: "2", type: "timeline", title: "Seleksi Berkas", content: "1 - 5 September 2026", order: 2 },
+          { id: "3", type: "timeline", title: "Pengumuman Lolos", content: "10 September 2026", order: 3 },
+        ]
+      } as unknown as CmsData[K];
     default:
       return [] as unknown as CmsData[K];
   }

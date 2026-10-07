@@ -58,6 +58,7 @@ export default function PimpinanPage() {
         </div>
 
         {/* Ketua */}
+        {pimpinan.length > 0 && (
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -110,6 +111,7 @@ export default function PimpinanPage() {
             </div>
           </div>
         </motion.div>
+        )}
 
         {/* Wakil Ketua */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
@@ -202,10 +204,10 @@ export default function PimpinanPage() {
           </Link>
 
           <Link
-            href="/profil/mitra-kerja"
+            href="/anggota"
             className="flex items-center justify-center gap-1 sm:gap-2 bg-dpr-emerald dark:bg-gold-gradient text-white dark:text-dpr-navy font-bold text-xs sm:text-sm px-2.5 sm:px-5 py-3 rounded-2xl shadow-md hover:opacity-90 transition-all text-center group min-w-0"
           >
-            <span className="truncate">Daftar Mitra Kerja</span>
+            <span className="truncate">Peserta Magang</span>
             <ChevronRight className="w-4 h-4 shrink-0 group-hover:translate-x-1 transition-transform" />
           </Link>
         </div>

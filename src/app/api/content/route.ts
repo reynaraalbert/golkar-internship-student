@@ -3,6 +3,7 @@ import { readDbCollectionSafe } from "@/lib/db-store";
 import { defaultCollection } from "@/lib/cms-store";
 
 export const dynamic = "force-dynamic";
+// Force HMR reload
 
 let cachedContent: { data: any; timestamp: number } | null = null;
 const CACHE_TTL_MS = 10000; // 10 seconds in-memory cache
@@ -23,7 +24,7 @@ export async function GET() {
     });
   }
 
-  const [stats, anggota, pimpinan, mitraKerja, berita, agenda, pages, siteContent] = await Promise.all([
+  const [stats, anggota, pimpinan, mitraKerja, berita, agenda, pages, siteContent, tracks, steps, requirements, faqs, posisi_magang] = await Promise.all([
     readDbCollectionSafe("stats"),
     readDbCollectionSafe("anggota"),
     readDbCollectionSafe("pimpinan"),
@@ -32,6 +33,11 @@ export async function GET() {
     readDbCollectionSafe("agenda"),
     readDbCollectionSafe("pages"),
     readDbCollectionSafe("siteContent"),
+    readDbCollectionSafe("tracks"),
+    readDbCollectionSafe("steps"),
+    readDbCollectionSafe("requirements"),
+    readDbCollectionSafe("faqs"),
+    readDbCollectionSafe("posisi_magang"),
   ]);
 
   const payload = {
@@ -43,6 +49,11 @@ export async function GET() {
     agenda: agenda ?? defaultCollection("agenda"),
     siteContent: siteContent ?? defaultCollection("siteContent"),
     pages: pages ?? defaultCollection("pages"),
+    tracks: tracks ?? defaultCollection("tracks"),
+    steps: steps ?? defaultCollection("steps"),
+    requirements: requirements ?? defaultCollection("requirements"),
+    faqs: faqs ?? defaultCollection("faqs"),
+    posisi_magang: posisi_magang ?? defaultCollection('posisi_magang'),
   };
 
   // Only update in-memory cache if at least some DB collections were retrieved

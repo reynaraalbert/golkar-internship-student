@@ -34,6 +34,7 @@ export interface NewsArticle {
   imageUrl: string;
   documentUrl?: string;
   isFeatured?: boolean;
+  pinned?: boolean;
 }
 
 export interface AgendaItem {
@@ -164,6 +165,12 @@ export interface HeroContent {
 }
 
 export interface StatBarContent {
+  // Values (the big numbers shown)
+  value1: string;
+  value2: string;
+  value3: string;
+  value4: string;
+  // Labels shown below the numbers
   label1: string;
   label2: string;
   label3: string;
@@ -190,13 +197,95 @@ export interface KontakContent {
   aspirasiCta: string;
 }
 
+export interface InternshipTrack {
+  id: string;
+  title: string;
+  category: string;
+  desc: string;
+  skills: string; // comma-separated
+}
+
+export interface SelectionStep {
+  id: string;
+  step: string;
+  title: string;
+  subtitle: string;
+  desc: string;
+}
+
+export interface Requirement {
+  id: string;
+  text: string;
+}
+
+export interface TestimonialItem {
+  id: string;
+  name: string;
+  univ: string;
+  major: string;
+  role: string;
+  quote: string;
+  photo: string;
+}
+
+export interface FaqItem {
+  id: string;
+  q: string;
+  a: string;
+}
+
+export interface AnnouncementBar {
+  badge: string;
+  text: string;
+  ctaLabel: string;
+  ctaHref: string;
+}
+
+export interface SectionHeader {
+  title: string;
+  subtitle: string;
+  description?: string;
+}
+
+export interface MedsosContent {
+  title: string;
+  subtitle: string;
+  instagram: string;
+  twitter: string;
+  youtube: string;
+  facebook: string;
+}
+
+export interface CtaContent {
+  title: string;
+  subtitle: string;
+  buttonText: string;
+  buttonLink: string;
+}
+
 export interface SiteContent {
   hero: HeroContent;
   statBar: StatBarContent;
-  mitraSection: MitraSectionContent;
+  keunggulan: SectionHeader;
+  lowongan: SectionHeader;
+  tahapan: SectionHeader;
+  syarat: SectionHeader;
+  alumni: SectionHeader;
+  berita: SectionHeader;
+  faq: SectionHeader;
   kontak: KontakContent;
+  medsos: MedsosContent;
+  cta: CtaContent;
   footer: FooterContent;
   maps: MapsContent;
+  announcement?: AnnouncementBar;
+  navbarLink?: { label: string; url: string; };
+  keunggulanItems?: any[];
+  tahapanItems?: any[];
+  syaratItems?: string[];
+  alumniItems?: any[];
+  mitraSection?: MitraSectionContent;
+  maintenanceMode?: boolean;
 }
 
 // --- DATA ---
@@ -227,61 +316,71 @@ export const STATS = {
 export const SiteContent: SiteContent = {
   hero: {
     badge: "GOLKAR INTERNSHIP STUDENT",
-    title1: "Partai Golkar",
+    title1: "Program Magang",
     title2: "GOLKAR INTERNSHIP STUDENT",
-    subtitle: "Program Magang Mahasiswa",
-    description:
-      "Program magang resmi Partai Golkar untuk mahasiswa Indonesia.",
-    ctaPrimaryLabel: "Daftar Peserta",
-    ctaPrimaryHref: "/anggota",
-    ctaSecondaryLabel: "Lihat Program",
+    subtitle: "Pendidikan Politik & Praktik Parlemen Terpadu",
+    description: "Program magang resmi terintegrasi dari Fraksi Partai Golkar untuk mahasiswa unggul Indonesia dalam membentuk pemimpin masa depan yang inovatif.",
+    ctaPrimaryLabel: "Mulai Pendaftaran",
+    ctaPrimaryHref: "/user/login",
+    ctaSecondaryLabel: "Jelajahi Program",
     ctaSecondaryHref: "/agenda",
-    statuteQuote:
-      "Membangun generasi muda Indonesia yang berkarakter, kompeten, dan berdedikasi.",
-    statuteProgressLabel: "Program Internship",
-    statuteProgressValue: "Aktif",
+    statuteQuote: "3 - 6 Bulan",
+    statuteProgressLabel: "Pilihan Posisi",
+    statuteProgressValue: "5 Divisi",
   },
   statBar: {
-    label1: "Peserta Magang",
-    label2: "Departemen",
-    label3: "Program Kegiatan",
-    label4: "Alumni",
+    value1: "1,500+", value2: "30+", value3: "98%", value4: "100+",
+    label1: "Alumni Magang", label2: "Universitas Partner", label3: "Kepuasan Mentorship", label4: "Policy Brief Dihasilkan",
   },
-  mitraSection: {
-    tagline: "PROGRAM UNGGULAN",
-    title: "Program GOLKAR INTERNSHIP STUDENT",
-    description:
-      "Program magang Golkar untuk mahasiswa Indonesia berprestasi.",
-  },
+  keunggulan: { title: "Keunggulan Program Magang", subtitle: "Mengapa Golkar Internship Student Menjadi Pilihan Tepat untuk Karir Anda?" },
+  lowongan: { title: "Posisi Magang Tersedia", subtitle: "Temukan peluang pengembangan karir yang sesuai dengan kompetensi Anda." },
+  tahapan: { title: "Proses Seleksi Magang", subtitle: "Alur rekrutmen transparan dan terstruktur." },
+  syarat: { title: "Persyaratan & Dokumen", subtitle: "Kriteria kualifikasi bagi calon peserta magang." },
+  alumni: { title: "Kisah Sukses Alumni", subtitle: "Simak testimoni inspiratif dari lulusan program Golkar Internship Student." },
+  berita: { title: "Informasi Publik & Siaran Pers", subtitle: "Pembaruan terkini seputar kegiatan dan pencapaian magang." },
+  faq: { title: "Pertanyaan Umum (FAQ)", subtitle: "Temukan jawaban atas pertanyaan seputar program magang." },
   kontak: {
-    serviceTitle: "Informasi Kontak",
-    serviceHours: "Senin - Jumat: 09.00 – 17.00 WIB",
+    serviceTitle: "Pusat Bantuan & Layanan",
+    serviceHours: "Senin - Jumat, 08.00 - 16.00 WIB",
     email: "golkarinternshipstudent@gmail.com",
-    mediaTitle: "Media Sosial Resmi",
-    instagramHandle: "@golkarinternshipstudent",
-    youtubeLabel: "Golkar Official",
-    twitterHandle: "@partaigolkar",
-    websiteLabel: "golkar.or.id",
-    aspirasiTitle: "Punya Pertanyaan?",
-    aspirasiDesc: "Sampaikan pertanyaan dan aspirasi Anda.",
-    aspirasiCta: "Hubungi Kami",
+    mediaTitle: "Media & Kemitraan",
+    instagramHandle: "@fraksigolkar",
+    youtubeLabel: "Fraksi Partai Golkar DPR RI",
+    twitterHandle: "@fraksigolkar",
+    websiteLabel: "fraksigolkar.com",
+    aspirasiTitle: "Ruang Aspirasi Peserta",
+    aspirasiDesc: "Sampaikan laporan, masukan, dan evaluasi Anda untuk pengembangan program yang lebih baik.",
+    aspirasiCta: "Sampaikan Aspirasi",
   },
+  medsos: { title: "Jejaring Sosial Kami", subtitle: "Dapatkan informasi terkini melalui kanal resmi kami.", instagram: "https://instagram.com/fraksigolkar", twitter: "https://twitter.com/fraksigolkar", youtube: "https://youtube.com/fraksigolkar", facebook: "https://facebook.com/fraksigolkar" },
+  cta: { title: "Tentukan Arah Karir Anda", subtitle: "Mari berkembang bersama para profesional di legislatif tingkat nasional.", buttonText: "Mulai Registrasi", buttonLink: "/user/login" },
   footer: {
-    brandDescription:
-      "GOLKAR INTERNSHIP STUDENT adalah program magang resmi Partai Golkar untuk mahasiswa Indonesia.",
-    address: "DPP Partai Golkar, Jl. Anggrek Nelly Murni, Jakarta Barat",
-    phone: "(021) 530-0652",
+    brandDescription: "Golkar Internship Student (GIS) merupakan program pembinaan eksekutif antara Fraksi Partai Golkar DPR RI dan Perguruan Tinggi terkemuka di Indonesia.",
+    address: `Gedung Nusantara I Lt. 12
+Jl. Jenderal Gatot Subroto
+Jakarta Pusat, DKI Jakarta 10270`,
+    phone: "(021) 5715878",
     email: "golkarinternshipstudent@gmail.com",
-    transparencyText:
-      "Program GOLKAR INTERNSHIP STUDENT berkomitmen pada transparansi dan akuntabilitas.",
-    ppidText: "Jam Kerja: Senin - Jumat (09:00 - 17:00 WIB)",
-    copyrightText: "© Build by Reynara Albert Pradana. Hak Cipta Dilindungi Undang-Undang.",
+    transparencyText: "Fraksi Partai Golkar DPR RI senantiasa memegang teguh prinsip keterbukaan informasi dan akuntabilitas kelembagaan.",
+    ppidText: "Layanan informasi publik dikelola melalui Pejabat Pengelola Informasi dan Dokumentasi (PPID).",
+    copyrightText: "© 2024 Golkar Internship Student. Hak Cipta Dilindungi.",
   },
   maps: {
-    embedUrl:
-      "https://maps.google.com/maps?q=DPP+Partai+Golkar+Jakarta&t=&z=15&ie=UTF8&iwloc=&output=embed",
-    openUrl: "https://maps.google.com",
-    address: "DPP Partai Golkar, Jl. Anggrek Nelly Murni, Jakarta Barat.",
-    description: "DPP Partai Golkar, Jl. Anggrek Nelly Murni, Jakarta Barat.",
+    embedUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3966.4527710352516!2d106.79737117582522!3d-6.203953562497672!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69f6baaa569f1d%3A0x8f3c734493b82a0b!2sGedung%20DPR%2FMPR%20RI!5e0!3m2!1sid!2sid!4v1707010537482!5m2!1sid!2sid",
+    openUrl: "https://maps.app.goo.gl/3QWjE4vUu4V7hAxb9",
+    address: `Gedung Nusantara I Lt. 12
+Jl. Jenderal Gatot Subroto
+Jakarta Pusat, 10270`,
+    description: "Kantor Pusat Operasional Golkar Internship Student",
+  },
+  announcement: {
+    badge: "PENGUMUMAN PENTING",
+    text: "Pendaftaran Golkar Internship Student Batch Terbaru resmi dibuka!",
+    ctaLabel: "Registrasi Disini",
+    ctaHref: "/user/login",
+  },
+  navbarLink: {
+    label: "GOLKAR",
+    url: "https://fraksigolkar.com/",
   },
 };

@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { Layout } from "lucide-react";
+import { Layout, Home } from "lucide-react";
 import { SectionCard, Grid, Field, Input, Textarea, SaveBar, PageHeader } from "@/components/admin/ui";
 import { useCollection } from "@/lib/admin-collection";
 import { EMPTY_SITECONTENT } from "@/lib/defaults";
@@ -17,12 +17,17 @@ export default function AdminBerandaHeroPage() {
   }
 
   const hero = data.hero;
+  const navbarLink = data.navbarLink || { label: "GOLKAR", url: "https://fraksigolkar.com/" };
 
   const update = (patch: Record<string, string>) => {
     setData((prev) => ({
       ...prev,
       hero: { ...prev.hero, ...patch },
     }));
+  };
+
+  const updateNavbarLink = (patch: Partial<typeof navbarLink>) => {
+    setData((prev) => ({ ...prev, navbarLink: { ...prev.navbarLink!, ...patch } }));
   };
 
   return (
@@ -71,17 +76,17 @@ export default function AdminBerandaHeroPage() {
               <Input value={hero.ctaSecondaryHref} onChange={(e) => update({ ctaSecondaryHref: e.target.value })} className="w-full" />
             </Field>
           </Grid>
+        </SectionCard>
+
+        <SectionCard icon={Home} title="Link Eksternal Navbar" description="Link khusus (biasanya GOLKAR) yang terletak di ujung kanan navigasi website.">
           <Grid cols={2}>
-            <Field label="Label Progress Statuta">
-              <Input value={hero.statuteProgressLabel} onChange={(e) => update({ statuteProgressLabel: e.target.value })} className="w-full" />
+            <Field label="Teks Menu Navbar">
+              <Input value={navbarLink.label} onChange={(e) => updateNavbarLink({ label: e.target.value })} className="w-full" />
             </Field>
-            <Field label="Nilai Progress Statuta">
-              <Input value={hero.statuteProgressValue} onChange={(e) => update({ statuteProgressValue: e.target.value })} className="w-full" />
+            <Field label="URL Link Eksternal">
+              <Input value={navbarLink.url} onChange={(e) => updateNavbarLink({ url: e.target.value })} className="w-full" />
             </Field>
           </Grid>
-          <Field label="Kutipan Statuta (Quote)">
-            <Textarea value={hero.statuteQuote} onChange={(e) => update({ statuteQuote: e.target.value })} rows={2} />
-          </Field>
         </SectionCard>
       </div>
 

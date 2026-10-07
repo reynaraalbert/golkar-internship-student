@@ -1,0 +1,19 @@
+[
+  {
+    "id": "user-default-1",
+    "name": "Reynara Albert Pradana",
+    "email": "reynara@ui.ac.id",
+    "passwordHash": "peserta123",
+    "university": "Universitas Indonesia",
+    "major": "Ilmu Hukum & Kebijakan Publik",
+    "phone": "081234567890",
+    "photoUrl": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&auto=format&fit=crop&q=80",
+    "statusMagang": "Terverifikasi",
+    "posisiDilamar": "Program Magang Analisis Kebijakan & Riset Legislatif",
+    "nim": "2006123456",
+    "ipk": "3.85",
+    "semester": "Semester 6",
+    "bio": "Mahasiswa tingkat akhir dengan ketertarikan tinggi pada analisis hukum legislatif dan kebijakan publik Indonesia.",
+    "createdAt": "2026-09-01T00:00:00.000Z"
+  }
+]

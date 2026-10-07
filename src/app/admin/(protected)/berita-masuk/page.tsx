@@ -253,7 +253,7 @@ export default function AdminBeritaMasukPage() {
                       onChange={(e) => setProofread({ ...proofread, category: e.target.value })}
                       className="w-full"
                     >
-                      {["Legislasi", "Pengawasan", "Anggaran", "Siaran Pers", "Kunjungan Kerja"].map((c) => <option key={c} value={c}>{c}</option>)}
+                      {["Kegiatan Magang", "Opini Mahasiswa", "Pengumuman", "Siaran Pers", "Kisah Alumni"].map((c) => <option key={c} value={c}>{c}</option>)}
                     </Select>
                   </Field>
                   <Field label="Ringkasan (Lead)">

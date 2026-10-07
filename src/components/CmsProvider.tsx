@@ -15,6 +15,11 @@ export interface CmsContent {
   agenda: AgendaItem[];
   siteContent: SiteContent;
   pages: PageContent[];
+  posisi_magang: any[];
+  tracks: any[];
+  steps: any[];
+  requirements: any[];
+  faqs: any[];
 }
 
 const INITIAL_CONTENT: CmsContent = {
@@ -26,6 +31,11 @@ const INITIAL_CONTENT: CmsContent = {
   agenda: defaultCollection("agenda"),
   siteContent: defaultCollection("siteContent"),
   pages: defaultCollection("pages"),
+  posisi_magang: defaultCollection("posisi_magang"),
+  tracks: defaultCollection("tracks"),
+  steps: defaultCollection("steps"),
+  requirements: defaultCollection("requirements"),
+  faqs: defaultCollection("faqs"),
 };
 
 interface CmsContextValue {

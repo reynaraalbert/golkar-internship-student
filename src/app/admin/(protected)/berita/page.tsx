@@ -10,13 +10,13 @@ import type { NewsArticle } from "@/lib/data";
 import FileUpload from "@/components/ui/FileUpload";
 import { motion, AnimatePresence } from "framer-motion";
 
-const CATEGORIES = ["Legislasi", "Pengawasan", "Anggaran", "Siaran Pers", "Kunjungan Kerja"];
+const CATEGORIES = ["Kegiatan Magang", "Opini Mahasiswa", "Pengumuman", "Siaran Pers", "Kisah Alumni"];
 
 const emptyArticle = (): NewsArticle => ({
   id: `news-${Date.now()}`,
   title: "",
   slug: "",
-  category: "Legislasi",
+  category: "Kegiatan Magang",
   date: "",
   readTime: "3 Menit Baca",
   author: "Humas GOLKAR INTERNSHIP STUDENT",

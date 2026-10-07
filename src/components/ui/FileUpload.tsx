@@ -66,26 +66,48 @@ export default function FileUpload({
 
   const maxBytes = maxSizeBytes ?? (accept === "image" ? IMAGE_MAX : DOC_MAX);
 
+  const CLOUDINARY_URL = "https://api.cloudinary.com/v1_1/aeknpwzs/upload";
+  const UPLOAD_PRESET = "golkar_uploads";
+
   const handleFile = async (file: File) => {
     setError(null);
 
-    if (file.size > maxBytes) {
-      setError(`File terlalu besar (${(file.size / 1024 / 1024).toFixed(1)} MB). Maks. ${(maxBytes / 1024 / 1024).toFixed(0)} MB.`);
+    // Limit to 2MB for images and 2MB for PDFs to save space and ensure speed
+    const currentMax = 2 * 1024 * 1024; // STRICT 2MB LIMIT FOR EVERYTHING
+    
+    if (file.size > currentMax) {
+      setError(`File terlalu besar (${(file.size / 1024 / 1024).toFixed(1)} MB). Maks. 2 MB agar server aman.`);
       return;
     }
 
     setLoading(true);
     try {
-      let dataUrl: string;
+      const formData = new FormData();
+      formData.append("upload_preset", UPLOAD_PRESET);
+      
+      // If it's an image, compress it first
       if (file.type.startsWith("image/")) {
-        // Compress images before encoding to keep stored text size manageable
-        dataUrl = await compressImage(file);
+        const compressedBase64 = await compressImage(file);
+        // Cloudinary accepts base64 data URLs directly in the 'file' field!
+        formData.append("file", compressedBase64);
       } else {
-        dataUrl = await fileToDataUrl(file);
+        formData.append("file", file);
       }
-      onChange(dataUrl);
-    } catch {
-      setError("Gagal memproses file. Coba lagi.");
+
+      const res = await fetch(CLOUDINARY_URL, {
+        method: "POST",
+        body: formData,
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.error?.message || "Gagal mengunggah. Pastikan Upload Preset sudah dibuat.");
+      }
+
+      onChange(data.secure_url);
+    } catch (err: any) {
+      setError(err.message || "Gagal memproses file. Coba lagi.");
     } finally {
       setLoading(false);
     }

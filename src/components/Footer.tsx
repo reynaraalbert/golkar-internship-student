@@ -13,7 +13,7 @@ export default function Footer() {
   return (
     <footer className="bg-slate-900 dark:bg-[#050A14] text-slate-300 dark:text-slate-400 border-t border-slate-700 dark:border-white/10 relative overflow-hidden transition-colors duration-300">
       {/* Background Glow Overlay */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-px bg-gradient-to-r from-transparent via-dpr-emerald dark:via-dpr-gold to-transparent opacity-40" />
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-px bg-gradient-to-r from-transparent via-amber-400 dark:via-dpr-gold to-transparent opacity-40" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-16">
         <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-10">
@@ -32,7 +32,7 @@ export default function Footer() {
                 <h3 className="text-white font-extrabold text-base leading-tight">Dewan Perwakilan Rakyat</h3>
                 <div className="flex items-center gap-2 mt-0.5">
                   <p className="text-xs text-slate-300 font-bold">Republik Indonesia</p>
-                  <span className="bg-dpr-emerald dark:bg-dpr-red text-white text-[10px] font-black px-2.5 py-0.5 rounded-full uppercase tracking-wider">
+                  <span className="bg-amber-400 text-slate-950 text-[10px] font-black px-2.5 py-0.5 rounded-full uppercase tracking-wider">
                     GOLKAR INTERNSHIP
                   </span>
                 </div>

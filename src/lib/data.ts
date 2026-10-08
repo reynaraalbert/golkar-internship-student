@@ -366,12 +366,12 @@ Jakarta Pusat, DKI Jakarta 10270`,
     copyrightText: "© 2024 Golkar Internship Student. Hak Cipta Dilindungi.",
   },
   maps: {
-    embedUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3966.4527710352516!2d106.79737117582522!3d-6.203953562497672!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69f6baaa569f1d%3A0x8f3c734493b82a0b!2sGedung%20DPR%2FMPR%20RI!5e0!3m2!1sid!2sid!4v1707010537482!5m2!1sid!2sid",
-    openUrl: "https://maps.app.goo.gl/3QWjE4vUu4V7hAxb9",
+    embedUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3966.44977461462!2d106.79727507582531!3d-6.204342260775988!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69f6ba89b33a59%3A0xb35a507cb8e2db26!2sGedung%20Nusantara%20I%20DPR%20RI!5e0!3m2!1sid!2sid!4v1710000000000!5m2!1sid!2sid",
+    openUrl: "https://maps.google.com/?q=Gedung+Nusantara+I+DPR+RI",
     address: `Gedung Nusantara I Lt. 12
 Jl. Jenderal Gatot Subroto
 Jakarta Pusat, 10270`,
-    description: "Kantor Pusat Operasional Golkar Internship Student",
+    description: "Kantor Pusat Operasional Sekretariat Golkar Internship Student",
   },
   announcement: {
     badge: "PENGUMUMAN PENTING",

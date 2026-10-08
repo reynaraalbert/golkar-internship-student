@@ -10,8 +10,8 @@ export default function UserLoginPage() {
   const router = useRouter();
   const { siteContent } = useCmsContent();
   const isMaintenance = siteContent?.maintenanceMode;
-  const [email, setEmail] = useState("reynara@ui.ac.id");
-  const [password, setPassword] = useState("peserta123");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(true);
   const [loading, setLoading] = useState(false);
@@ -185,17 +185,6 @@ export default function UserLoginPage() {
               </p>
             </div>
           </form>
-
-          {/* Demo Credentials Box */}
-          <div className="mt-4 pt-4 border-t border-slate-100 dark:border-slate-800 text-xs text-slate-500 dark:text-slate-400">
-            <p className="font-bold text-amber-700 dark:text-amber-400 mb-1.5 flex items-center gap-1.5">
-              <ShieldCheck className="w-4 h-4" /> Akun Pengujian (Demo):
-            </p>
-            <div className="bg-amber-500/10 dark:bg-amber-500/5 p-2.5 rounded-xl border border-amber-500/20 font-mono text-[11px] text-slate-700 dark:text-slate-300">
-              Email: reynara@ui.ac.id <br />
-              Password: peserta123
-            </div>
-          </div>
         </div>
       </div>
 

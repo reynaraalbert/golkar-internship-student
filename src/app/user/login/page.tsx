@@ -65,35 +65,54 @@ export default function UserLoginPage() {
 
   return (
     <div className="min-h-screen lg:h-screen w-full flex flex-col lg:flex-row bg-slate-50 dark:bg-slate-950 font-sans text-slate-800 dark:text-slate-100 overflow-y-auto lg:overflow-hidden">
-      {/* LEFT COLUMN: FORM */}
-      <div className="w-full lg:w-1/2 flex flex-col justify-center px-6 sm:px-10 lg:px-12 bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 z-10 overflow-y-auto">
-        <div className="max-w-md w-full mx-auto lg:mx-0 py-3">
+      
+      {/* MOBILE HERO BANNER (HEADER IMAGE ON MOBILE) */}
+      <div className="lg:hidden relative h-40 sm:h-48 w-full overflow-hidden bg-slate-900 shrink-0">
+        <img
+          src="/images/hero-peserta-magang.png"
+          alt="DPR RI Gedung Pembinaan"
+          className="w-full h-full object-cover object-center brightness-60 opacity-85"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-transparent" />
+        <div className="absolute bottom-4 left-6 right-6 text-white space-y-1 z-10">
+          <div className="w-10 h-1 bg-amber-400 rounded-full mb-1.5" />
+          <h2 className="text-lg font-black text-amber-100 leading-tight">
+            Golkar Internship Student
+          </h2>
+          <p className="text-xs text-slate-300 font-normal">
+            Portal Resmi Pendaftaran & Pembinaan Magang
+          </p>
+        </div>
+      </div>
 
+      {/* FORM CONTAINER (BALANCED SPACING & VERTICALLY CENTERED ON MOBILE & DESKTOP) */}
+      <div className="w-full lg:w-1/2 flex flex-col justify-center px-6 sm:px-10 lg:px-12 py-8 sm:py-12 bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 z-10 flex-1 my-auto">
+        <div className="max-w-md w-full mx-auto lg:mx-0">
 
-          <h1 className="text-2xl font-black text-slate-900 dark:text-white tracking-tight mb-0.5">
+          <h1 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white tracking-tight mb-1">
             Masuk Akun
           </h1>
-          <p className="text-xs text-slate-600 dark:text-slate-400 mb-3">
+          <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 mb-4">
             Gunakan email dan password terdaftar untuk mengakses portal magang.
           </p>
 
           <Link
             href="/"
-            className="inline-flex items-center gap-2 text-xs font-bold text-amber-700 dark:text-amber-400 border border-amber-600/30 dark:border-amber-400/30 hover:bg-amber-500/10 px-3 py-1 rounded-full transition-all mb-3 shadow-xs"
+            className="inline-flex items-center gap-2 text-xs font-bold text-amber-700 dark:text-amber-400 border border-amber-600/30 dark:border-amber-400/30 hover:bg-amber-500/10 px-3.5 py-1.5 rounded-full transition-all mb-4 shadow-xs"
           >
-            <ArrowLeft className="w-3 h-3" /> Kembali ke Beranda
+            <ArrowLeft className="w-3.5 h-3.5" /> Kembali ke Beranda
           </Link>
 
           {error && (
-            <div className="mb-3 p-2.5 rounded-xl bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-800/50 text-red-700 dark:text-red-300 text-xs font-medium">
+            <div className="mb-4 p-3 rounded-xl bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-800/50 text-red-700 dark:text-red-300 text-xs font-medium">
               {error}
             </div>
           )}
 
           {/* Form */}
-          <form onSubmit={handleSubmit} className="space-y-3">
+          <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label className="block text-[10px] font-bold text-slate-700 dark:text-slate-300 mb-1 uppercase tracking-wide">
+              <label className="block text-[11px] font-bold text-slate-700 dark:text-slate-300 mb-1.5 uppercase tracking-wide">
                 Alamat Email
               </label>
               <input
@@ -102,12 +121,12 @@ export default function UserLoginPage() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="contoh@email.com"
-                className="w-full px-3.5 py-2 text-sm rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-amber-500 focus:border-amber-500 outline-none transition-all"
+                className="w-full px-4 py-2.5 text-sm rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-amber-500 focus:border-amber-500 outline-none transition-all"
               />
             </div>
 
             <div>
-              <label className="block text-[10px] font-bold text-slate-700 dark:text-slate-300 mb-1 uppercase tracking-wide">
+              <label className="block text-[11px] font-bold text-slate-700 dark:text-slate-300 mb-1.5 uppercase tracking-wide">
                 Kata Sandi
               </label>
               <div className="relative">
@@ -117,7 +136,7 @@ export default function UserLoginPage() {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="Masukkan kata sandi"
-                  className="w-full pl-3.5 pr-11 py-2 text-sm rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-amber-500 focus:border-amber-500 outline-none transition-all"
+                  className="w-full pl-4 pr-11 py-2.5 text-sm rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-amber-500 focus:border-amber-500 outline-none transition-all"
                 />
                 <button
                   type="button"
@@ -129,7 +148,7 @@ export default function UserLoginPage() {
               </div>
             </div>
 
-            <div className="flex items-center justify-between text-xs font-semibold">
+            <div className="flex items-center justify-between text-xs font-semibold pt-1">
               <label className="flex items-center gap-2 cursor-pointer text-slate-600 dark:text-slate-400 select-none">
                 <input
                   type="checkbox"
@@ -147,12 +166,12 @@ export default function UserLoginPage() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-2.5 px-6 rounded-xl font-black text-sm text-slate-950 bg-gradient-to-r from-amber-400 via-amber-500 to-yellow-500 hover:from-amber-500 hover:to-amber-600 shadow-md hover:shadow-lg transition-all transform active:scale-[0.99] flex items-center justify-center gap-2"
+              className="w-full py-3 px-6 rounded-xl font-black text-sm text-slate-950 bg-gradient-to-r from-amber-400 via-amber-500 to-yellow-500 hover:from-amber-500 hover:to-amber-600 shadow-md hover:shadow-lg transition-all transform active:scale-[0.99] flex items-center justify-center gap-2 cursor-pointer"
             >
               {loading ? <span>Memproses...</span> : <span>Masuk Sekarang</span>}
             </button>
 
-            <div className="text-center space-y-1 text-xs font-semibold">
+            <div className="text-center space-y-1.5 text-xs font-semibold pt-2">
               <p className="text-slate-600 dark:text-slate-400">
                 Belum punya akun?{" "}
                 <Link href="/user/register" className="text-amber-700 dark:text-amber-400 font-extrabold hover:underline">
@@ -168,11 +187,11 @@ export default function UserLoginPage() {
           </form>
 
           {/* Demo Credentials Box */}
-          <div className="mt-3 pt-3 border-t border-slate-100 dark:border-slate-800 text-xs text-slate-500 dark:text-slate-400">
-            <p className="font-bold text-amber-700 dark:text-amber-400 mb-1 flex items-center gap-1.5">
-              <ShieldCheck className="w-3.5 h-3.5" /> Akun Pengujian (Demo):
+          <div className="mt-4 pt-4 border-t border-slate-100 dark:border-slate-800 text-xs text-slate-500 dark:text-slate-400">
+            <p className="font-bold text-amber-700 dark:text-amber-400 mb-1.5 flex items-center gap-1.5">
+              <ShieldCheck className="w-4 h-4" /> Akun Pengujian (Demo):
             </p>
-            <div className="bg-amber-500/10 dark:bg-amber-500/5 p-2 rounded-lg border border-amber-500/20 font-mono text-[11px] text-slate-700 dark:text-slate-300">
+            <div className="bg-amber-500/10 dark:bg-amber-500/5 p-2.5 rounded-xl border border-amber-500/20 font-mono text-[11px] text-slate-700 dark:text-slate-300">
               Email: reynara@ui.ac.id <br />
               Password: peserta123
             </div>
@@ -180,7 +199,7 @@ export default function UserLoginPage() {
         </div>
       </div>
 
-      {/* RIGHT COLUMN: HERO BANNER */}
+      {/* RIGHT COLUMN: HERO BANNER (DESKTOP) */}
       <div className="hidden lg:flex w-full lg:w-1/2 relative h-full items-end justify-start p-8 sm:p-16 overflow-hidden bg-slate-900">
         {/* Background Image */}
         <div className="absolute inset-0 z-0">
@@ -207,5 +226,3 @@ export default function UserLoginPage() {
     </div>
   );
 }
-
-

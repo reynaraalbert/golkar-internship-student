@@ -82,10 +82,30 @@ export default function UserRegisterPage() {
 
   return (
     <div className="min-h-screen w-full flex flex-col lg:flex-row bg-slate-50 dark:bg-slate-950 font-sans text-slate-800 dark:text-slate-100">
+      
+      {/* MOBILE HERO BANNER (HEADER IMAGE ON MOBILE) */}
+      <div className="lg:hidden relative h-36 sm:h-44 w-full overflow-hidden bg-slate-900 shrink-0">
+        <img
+          src="/images/hero-peserta-magang.png"
+          alt="DPR RI Gedung Pembinaan"
+          className="w-full h-full object-cover object-center brightness-60 opacity-85"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-transparent" />
+        <div className="absolute bottom-4 left-6 right-6 text-white space-y-1 z-10">
+          <div className="w-10 h-1 bg-amber-400 rounded-full mb-1.5" />
+          <h2 className="text-lg font-black text-amber-100 leading-tight">
+            Golkar Internship Student
+          </h2>
+          <p className="text-xs text-slate-300 font-normal">
+            Pendaftaran Peserta Magang
+          </p>
+        </div>
+      </div>
+
       {/* LEFT COLUMN: REGISTRATION FORM */}
-      <div className="w-full lg:w-1/2 flex flex-col justify-between p-6 sm:p-12 lg:p-16 bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 z-10 overflow-y-auto">
-        <div>
-          <div className="flex items-center gap-3 mb-8">
+      <div className="w-full lg:w-1/2 flex flex-col justify-center p-6 sm:p-10 lg:p-16 bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 z-10 overflow-y-auto flex-1 my-auto">
+        <div className="max-w-md w-full mx-auto lg:mx-0">
+          <div className="flex items-center gap-3 mb-6">
             <div className="w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-600 dark:text-amber-400 font-extrabold text-xl">
               G
             </div>
@@ -99,27 +119,27 @@ export default function UserRegisterPage() {
             </div>
           </div>
 
-          <h1 className="text-3xl font-black text-slate-900 dark:text-white tracking-tight mb-2">
+          <h1 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white tracking-tight mb-1.5">
             Buat Akun Baru
           </h1>
-          <p className="text-sm text-slate-600 dark:text-slate-400 mb-6">
+          <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 mb-5">
             Lengkapi data diri Anda untuk mendaftar program magang Golkar Internship Student.
           </p>
 
           <Link
             href="/user/login"
-            className="inline-flex items-center gap-2 text-xs font-bold text-amber-700 dark:text-amber-400 border border-amber-600/30 dark:border-amber-400/30 hover:bg-amber-500/10 px-4 py-2 rounded-full transition-all mb-6"
+            className="inline-flex items-center gap-2 text-xs font-bold text-amber-700 dark:text-amber-400 border border-amber-600/30 dark:border-amber-400/30 hover:bg-amber-500/10 px-4 py-2 rounded-full transition-all mb-5"
           >
             <ArrowLeft className="w-3.5 h-3.5" /> Sudah Memiliki Akun? Masuk
           </Link>
 
           {error && (
-            <div className="mb-6 p-4 rounded-xl bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-800/50 text-red-700 dark:text-red-300 text-xs font-medium">
+            <div className="mb-5 p-3.5 rounded-xl bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-800/50 text-red-700 dark:text-red-300 text-xs font-medium">
               {error}
             </div>
           )}
 
-          <form onSubmit={handleSubmit} className="space-y-4 max-w-md">
+          <form onSubmit={handleSubmit} className="space-y-3.5">
             <div>
               <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">
                 Nama Lengkap (Sesuai KTP/KTM) *
@@ -257,7 +277,7 @@ export default function UserRegisterPage() {
         </div>
       </div>
 
-      {/* RIGHT COLUMN: HERO BANNER */}
+      {/* RIGHT COLUMN: HERO BANNER (DESKTOP) */}
       <div className="hidden lg:flex w-full lg:w-1/2 relative min-h-[400px] lg:min-h-screen flex items-end justify-start p-8 sm:p-16 overflow-hidden bg-slate-900">
         <div className="absolute inset-0 z-0">
           <img

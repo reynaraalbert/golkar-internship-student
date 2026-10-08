@@ -130,13 +130,26 @@ export async function findStudentUserById(id: string): Promise<StudentUser | und
 }
 
 export async function saveStudentUser(user: Partial<StudentUser> & { id: string; email: string }): Promise<StudentUser> {
-  const { experiences, createdAt, id, passwordHash, ...data } = user;
+  const allowedKeys = [
+    "name", "email", "university", "major", "phone", "whatsapp", "domisili",
+    "photoUrl", "statusMagang", "posisiDilamar", "nim", "ipk", "semester",
+    "bio", "cvUrl", "tipeInstitusi", "programPendidikan", "statusPtnPts",
+    "lokasiKampus", "fakultas"
+  ];
 
-  const prismaData: Prisma.StudentUserUpdateInput = {
-    ...data,
-    socialMedia: user.socialMedia !== undefined ? (user.socialMedia as unknown as Prisma.InputJsonValue) : undefined,
-    documents: user.documents !== undefined ? (user.documents as unknown as Prisma.InputJsonValue) : undefined,
-  };
+  const prismaData: any = {};
+  for (const key of allowedKeys) {
+    if ((user as any)[key] !== undefined) {
+      prismaData[key] = (user as any)[key];
+    }
+  }
+
+  if (user.socialMedia !== undefined) {
+    prismaData.socialMedia = user.socialMedia || {};
+  }
+  if (user.documents !== undefined) {
+    prismaData.documents = user.documents || {};
+  }
 
   // Check if user exists
   const existing = await prisma.studentUser.findUnique({ where: { id: user.id } });

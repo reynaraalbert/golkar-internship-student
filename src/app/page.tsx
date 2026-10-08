@@ -209,24 +209,18 @@ export default function HomePage() {
 
       {/* --- RUNNING ANNOUNCEMENT MARQUEE TICKER --- */}
       {siteContent.announcement?.text && (
-        <div className="bg-gradient-to-r from-amber-400 via-amber-500 to-yellow-400 text-slate-950 py-2.5 px-4 font-bold text-xs shadow-md border-b border-amber-300 flex items-center justify-between gap-4">
-          <div className="max-w-7xl mx-auto w-full flex items-center justify-between gap-3">
-            <div className="flex items-center gap-2 shrink-0">
-              <span className="bg-slate-950 text-amber-300 text-[10px] font-black px-2.5 py-0.5 rounded-full uppercase tracking-wider animate-pulse">
+        <div className="bg-gradient-to-r from-amber-400 via-amber-500 to-yellow-400 text-slate-950 py-2 sm:py-2.5 px-2 sm:px-4 font-bold text-xs shadow-md border-b border-amber-300 w-full relative z-30">
+          <div className="max-w-7xl mx-auto w-full flex items-center justify-between gap-1.5 sm:gap-3">
+            <div className="flex items-center gap-1.5 shrink-0">
+              <span className="bg-slate-950 text-amber-300 text-[9px] sm:text-[10px] font-black px-1.5 sm:px-2.5 py-0.5 rounded-full uppercase tracking-wider animate-pulse whitespace-nowrap">
                 {siteContent.announcement.badge || "PENGUMUMAN"}
               </span>
             </div>
 
-            <div 
-              className="overflow-hidden flex-1 mx-2 flex items-center"
-              style={{ 
-                maskImage: "linear-gradient(to right, transparent, black 15px, black calc(100% - 15px), transparent)", 
-                WebkitMaskImage: "linear-gradient(to right, transparent, black 15px, black calc(100% - 15px), transparent)" 
-              }}
-            >
+            <div className="overflow-hidden flex-1 mx-1 sm:mx-2 flex items-center min-w-0">
               {React.createElement(
                 "marquee",
-                { className: "text-[11px] sm:text-xs font-semibold whitespace-nowrap pt-0.5", scrollamount: "5" },
+                { className: "text-[10px] sm:text-xs font-semibold whitespace-nowrap pt-0.5 w-full", scrollamount: "5" },
                 siteContent.announcement.text
               )}
             </div>
@@ -234,10 +228,10 @@ export default function HomePage() {
             {siteContent.announcement.ctaHref && (
               <Link
                 href={siteContent.announcement.ctaHref}
-                className="shrink-0 bg-slate-950 text-amber-300 hover:bg-slate-900 text-[11px] font-black px-3 py-1 rounded-full flex items-center gap-1 transition-transform hover:scale-105"
+                className="shrink-0 bg-slate-950 text-amber-300 hover:bg-slate-900 text-[9px] sm:text-[11px] font-black px-2 sm:px-3 py-1 rounded-full flex items-center gap-0.5 sm:gap-1 transition-transform hover:scale-105 whitespace-nowrap"
               >
-                <span>{siteContent.announcement.ctaLabel || "Selengkapnya"}</span>
-                <ArrowRight className="w-3 h-3" />
+                <span>{siteContent.announcement.ctaLabel || "Registrasi"}</span>
+                <ArrowRight className="w-2.5 h-2.5 sm:w-3 sm:h-3" />
               </Link>
             )}
           </div>

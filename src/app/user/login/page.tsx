@@ -64,7 +64,7 @@ export default function UserLoginPage() {
   }
 
   return (
-    <div className="h-screen w-full flex flex-col lg:flex-row bg-slate-50 dark:bg-slate-950 font-sans text-slate-800 dark:text-slate-100 overflow-hidden">
+    <div className="min-h-screen lg:h-screen w-full flex flex-col lg:flex-row bg-slate-50 dark:bg-slate-950 font-sans text-slate-800 dark:text-slate-100 overflow-y-auto lg:overflow-hidden">
       {/* LEFT COLUMN: FORM */}
       <div className="w-full lg:w-1/2 flex flex-col justify-center px-6 sm:px-10 lg:px-12 bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 z-10 overflow-y-auto">
         <div className="max-w-md w-full mx-auto lg:mx-0 py-3">

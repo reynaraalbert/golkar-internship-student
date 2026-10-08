@@ -258,7 +258,7 @@ export default function UserRegisterPage() {
       </div>
 
       {/* RIGHT COLUMN: HERO BANNER */}
-      <div className="w-full lg:w-1/2 relative min-h-[400px] lg:min-h-screen flex items-end justify-start p-8 sm:p-16 overflow-hidden bg-slate-900">
+      <div className="hidden lg:flex w-full lg:w-1/2 relative min-h-[400px] lg:min-h-screen flex items-end justify-start p-8 sm:p-16 overflow-hidden bg-slate-900">
         <div className="absolute inset-0 z-0">
           <img
             src="/images/hero-peserta-magang.png"

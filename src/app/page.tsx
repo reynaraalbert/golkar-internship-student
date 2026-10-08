@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { NewsArticle, AgendaItem } from "@/lib/data";
 import { useCmsContent } from "@/components/CmsProvider";
+import { EMPTY_SITECONTENT } from "@/lib/defaults";
 import NewsModal from "@/components/NewsModal";
 import AgendaModal from "@/components/AgendaModal";
 import {
@@ -175,32 +176,9 @@ export default function HomePage() {
   ];
 
   // Testimonials
-  const testimonials = [
-    {
-      name: "Reynara Albert Pradana",
-      univ: "Universitas Indonesia",
-      major: "'25",
-      role: "Alumni GIS batch 3",
-      quote: "Pengalaman luar biasa dibimbing langsung oleh tenaga ahli dan politisi senior. Saya belajar menyusun policy brief RUU secara riil!",
-      photo: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=300&auto=format&fit=crop&q=80"
-    },
-    {
-      name: "Maura",
-      univ: "Universitas Brawijaya",
-      major: "Hubungan Internasional '22",
-      role: "Alumni GIS batch 1",
-      quote: "Sangat membantu konversi SKS kuliah dan menambah jejaring nasional. Ruang diskusi yang inklusif dan profesional!",
-      photo: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=300&auto=format&fit=crop&q=80"
-    },
-    {
-      name: "Imara Syafira Rachmania",
-      univ: "UIN Bandung",
-      major: "Ilmu Komunikasi '23",
-      role: "Alumni GIS batch 2",
-      quote: "Mengembangkan portal digital publik dengan tantangan data riil. Mentorship yang diberikan sangat intensif dan berbobot.",
-      photo: "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=300&auto=format&fit=crop&q=80"
-    }
-  ];
+  const testimonials = (siteContent.alumniItems && siteContent.alumniItems.length > 0)
+    ? siteContent.alumniItems
+    : EMPTY_SITECONTENT.alumniItems || [];
 
   // FAQ list
   const faqs = (cmsFaqs && cmsFaqs.length > 0) ? cmsFaqs : [
@@ -778,10 +756,10 @@ export default function HomePage() {
         <Reveal className="text-center max-w-3xl mx-auto space-y-3">
           <span className="text-xs font-black text-[#B45309] dark:text-[#F5C518] uppercase tracking-widest">PENGALAMAN PESERTA MAGANG</span>
           <h2 className="text-2xl sm:text-4xl font-black text-slate-950 dark:text-white tracking-tight">
-            Kata Alumni Golkar Internship Student
+            {siteContent.alumni?.title || "Kata Alumni Golkar Internship Student"}
           </h2>
           <p className="text-slate-600 dark:text-slate-300 text-xs sm:text-sm font-medium">
-            Kisah dan kesan langsung dari para alumni mahasiswa yang telah menyelesaikan program magang.
+            {siteContent.alumni?.subtitle || "Kisah dan kesan langsung dari para alumni mahasiswa yang telah menyelesaikan program magang."}
           </p>
         </Reveal>
 

@@ -59,6 +59,7 @@ model Member {
   updatedAt    DateTime @updatedAt
 }
 
+
 model MitraKerja {
   id             String   @id @default(uuid())
   name           String
@@ -112,4 +113,49 @@ model SiteStat {
   completedHearings    Int
   aspirationsProcessed Int
   updatedAt            DateTime @updatedAt
+}
+
+model StudentUser {
+  id               String   @id @default(uuid())
+  name             String
+  email            String   @unique
+  passwordHash     String
+  university       String
+  major            String
+  phone            String   @default("")
+  whatsapp         String?
+  domisili         String?
+  photoUrl         String   @default("")
+  statusMagang     String   @default("Belum Melamar")
+  posisiDilamar    String   @default("")
+  nim              String?
+  ipk              String?
+  semester         String?
+  bio              String?  @db.Text
+  cvUrl            String?
+  tipeInstitusi    String?
+  programPendidikan String?
+  statusPtnPts     String?
+  lokasiKampus     String?
+  fakultas         String?
+  socialMedia      Json?
+  documents        Json?
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+  experiences      UserExperience[]
+}
+
+model UserExperience {
+  id            String      @id @default(uuid())
+  studentUserId String
+  type          String
+  title         String
+  role          String      @default("")
+  startDate     String      @default("")
+  endDate       String      @default("")
+  isCurrent     Boolean     @default(false)
+  description   String      @db.Text @default("")
+  url           String?
+  createdAt     DateTime    @default(now())
+  studentUser   StudentUser @relation(fields: [studentUserId], references: [id], onDelete: Cascade)
 }

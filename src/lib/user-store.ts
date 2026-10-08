@@ -1,107 +1,292 @@
-import fs from "fs";
-import path from "path";
+import { prisma } from "@/lib/prisma";
+import type { StudentUser as PrismaStudent, UserExperience as PrismaExperience, Prisma } from "@prisma/client";
 
 export type ExperienceType = "organisasi" | "professional" | "project";
 
 export interface UserExperience {
   id: string;
   type: ExperienceType;
-  /** Nama organisasi / perusahaan / project */
   title: string;
-  /** Jabatan / peran */
   role: string;
-  /** Format YYYY-MM */
   startDate: string;
-  /** Format YYYY-MM, kosong jika masih berjalan */
   endDate: string;
   isCurrent: boolean;
   description: string;
-  /** Link project / portofolio / bukti (opsional) */
   url: string;
   createdAt: string;
+}
+
+export interface SocialMedia {
+  linkedin?: string;
+  github?: string;
+  instagram?: string;
+  twitter?: string;
+  tiktok?: string;
+  website?: string;
 }
 
 export interface StudentUser {
   id: string;
   name: string;
   email: string;
-  passwordHash: string; // stored plainly or hashed for simple demo
+  passwordHash: string;
   university: string;
   major: string;
   phone: string;
+  whatsapp?: string;
+  domisili?: string;
   photoUrl: string;
-  statusMagang: "Terverifikasi" | "Dalam Seleksi" | "Aktif" | "Belum Melamar";
+  statusMagang: "Terverifikasi" | "Dalam Seleksi" | "Aktif" | "Belum Melamar" | string;
   posisiDilamar: string;
   nim?: string;
   ipk?: string;
   semester?: string;
   bio?: string;
   cvUrl?: string;
+  tipeInstitusi?: string;
+  programPendidikan?: string;
+  statusPtnPts?: string;
+  lokasiKampus?: string;
+  fakultas?: string;
+  socialMedia?: SocialMedia;
+  documents?: Record<string, string>;
   experiences?: UserExperience[];
   createdAt: string;
 }
 
-const DATA_DIR = path.join(process.cwd(), "data");
-const USERS_FILE = path.join(DATA_DIR, "users.json");
+type StudentUserWithExperiences = PrismaStudent & {
+  experiences?: PrismaExperience[];
+};
 
-const DEFAULT_USERS: StudentUser[] = [
-  {
-    id: "user-default-1",
-    name: "Reynara Albert Pradana",
-    email: "reynara@ui.ac.id",
-    passwordHash: "peserta123",
-    university: "Universitas Indonesia",
-    major: "Ilmu Hukum & Kebijakan Publik",
-    phone: "081234567890",
-    photoUrl: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&auto=format&fit=crop&q=80",
-    statusMagang: "Terverifikasi",
-    posisiDilamar: "Program Magang Analisis Kebijakan & Riset Legislatif",
-    nim: "2006123456",
-    ipk: "3.85",
-    semester: "Semester 6",
-    bio: "Mahasiswa tingkat akhir dengan ketertarikan tinggi pada analisis hukum legislatif dan kebijakan publik Indonesia.",
-    createdAt: "2026-09-01T00:00:00.000Z",
-  },
-];
-
-function ensureFileExists() {
-  if (!fs.existsSync(DATA_DIR)) {
-    fs.mkdirSync(DATA_DIR, { recursive: true });
-  }
-  if (!fs.existsSync(USERS_FILE)) {
-    fs.writeFileSync(USERS_FILE, JSON.stringify(DEFAULT_USERS, null, 2), "utf8");
-  }
+// ─── Helper: Convert Prisma row to our interface ───
+function rowToStudentUser(row: StudentUserWithExperiences): StudentUser {
+  return {
+    id: row.id,
+    name: row.name,
+    email: row.email,
+    passwordHash: row.passwordHash,
+    university: row.university,
+    major: row.major,
+    phone: row.phone || "",
+    whatsapp: row.whatsapp || undefined,
+    domisili: row.domisili || undefined,
+    photoUrl: row.photoUrl || "",
+    statusMagang: row.statusMagang || "Belum Melamar",
+    posisiDilamar: row.posisiDilamar || "",
+    nim: row.nim || undefined,
+    ipk: row.ipk || undefined,
+    semester: row.semester || undefined,
+    bio: row.bio || undefined,
+    cvUrl: row.cvUrl || undefined,
+    tipeInstitusi: row.tipeInstitusi || undefined,
+    programPendidikan: row.programPendidikan || undefined,
+    statusPtnPts: row.statusPtnPts || undefined,
+    lokasiKampus: row.lokasiKampus || undefined,
+    fakultas: row.fakultas || undefined,
+    socialMedia: (row.socialMedia as SocialMedia) || undefined,
+    documents: (row.documents as Record<string, string>) || undefined,
+    experiences: row.experiences
+      ? row.experiences.map((e: PrismaExperience) => ({
+        id: e.id,
+        type: e.type as ExperienceType,
+        title: e.title,
+        role: e.role || "",
+        startDate: e.startDate || "",
+        endDate: e.endDate || "",
+        isCurrent: e.isCurrent,
+        description: e.description || "",
+        url: e.url || "",
+        createdAt: e.createdAt.toISOString(),
+      }))
+      : [],
+    createdAt: row.createdAt.toISOString(),
+  };
 }
 
-export function getAllStudentUsers(): StudentUser[] {
-  try {
-    ensureFileExists();
-    const content = fs.readFileSync(USERS_FILE, "utf8");
-    return JSON.parse(content);
-  } catch {
-    return DEFAULT_USERS;
-  }
+// ─── Public functions (all async, using Prisma) ───
+
+export async function getAllStudentUsers(): Promise<StudentUser[]> {
+  const rows = await prisma.studentUser.findMany({
+    include: { experiences: true },
+    orderBy: { createdAt: "desc" },
+  });
+  return rows.map(rowToStudentUser);
 }
 
-export function findStudentUserByEmail(email: string): StudentUser | undefined {
-  const users = getAllStudentUsers();
-  return users.find((u) => u.email.toLowerCase() === email.toLowerCase());
+export async function findStudentUserByEmail(email: string): Promise<StudentUser | undefined> {
+  const row = await prisma.studentUser.findUnique({
+    where: { email: email.toLowerCase() },
+    include: { experiences: true },
+  });
+  return row ? rowToStudentUser(row) : undefined;
 }
 
-export function findStudentUserById(id: string): StudentUser | undefined {
-  const users = getAllStudentUsers();
-  return users.find((u) => u.id === id);
+export async function findStudentUserById(id: string): Promise<StudentUser | undefined> {
+  const row = await prisma.studentUser.findUnique({
+    where: { id },
+    include: { experiences: true },
+  });
+  return row ? rowToStudentUser(row) : undefined;
 }
 
-export function saveStudentUser(user: StudentUser): StudentUser {
-  ensureFileExists();
-  const users = getAllStudentUsers();
-  const index = users.findIndex((u) => u.id === user.id || u.email.toLowerCase() === user.email.toLowerCase());
-  if (index >= 0) {
-    users[index] = { ...users[index], ...user };
+export async function saveStudentUser(user: Partial<StudentUser> & { id: string; email: string }): Promise<StudentUser> {
+  const { experiences, createdAt, id, passwordHash, ...data } = user;
+
+  const prismaData: Prisma.StudentUserUpdateInput = {
+    ...data,
+    socialMedia: user.socialMedia !== undefined ? (user.socialMedia as unknown as Prisma.InputJsonValue) : undefined,
+    documents: user.documents !== undefined ? (user.documents as unknown as Prisma.InputJsonValue) : undefined,
+  };
+
+  // Check if user exists
+  const existing = await prisma.studentUser.findUnique({ where: { id: user.id } });
+
+  if (existing) {
+    const row = await prisma.studentUser.update({
+      where: { id: user.id },
+      data: prismaData,
+      include: { experiences: true },
+    });
+    return rowToStudentUser(row);
   } else {
-    users.push(user);
+    // For new user creation, include passwordHash
+    const createData: Prisma.StudentUserCreateInput = {
+      id: user.id,
+      name: user.name || "",
+      email: user.email.toLowerCase(),
+      passwordHash: user.passwordHash || "",
+      university: user.university || "",
+      major: user.major || "Umum",
+      phone: user.phone || "",
+      photoUrl: user.photoUrl || "",
+      statusMagang: user.statusMagang || "Belum Melamar",
+      posisiDilamar: user.posisiDilamar || "",
+      nim: user.nim,
+      ipk: user.ipk,
+      semester: user.semester,
+      bio: user.bio,
+      cvUrl: user.cvUrl,
+      tipeInstitusi: user.tipeInstitusi,
+      programPendidikan: user.programPendidikan,
+      statusPtnPts: user.statusPtnPts,
+      lokasiKampus: user.lokasiKampus,
+      fakultas: user.fakultas,
+      socialMedia: user.socialMedia as unknown as Prisma.InputJsonValue,
+      documents: user.documents as unknown as Prisma.InputJsonValue,
+    };
+
+    const row = await prisma.studentUser.create({
+      data: createData,
+      include: { experiences: true },
+    });
+    return rowToStudentUser(row);
   }
-  fs.writeFileSync(USERS_FILE, JSON.stringify(users, null, 2), "utf8");
-  return user;
+}
+
+export async function createStudentUser(userData: {
+  name: string;
+  email: string;
+  passwordHash: string;
+  university: string;
+  major: string;
+  phone: string;
+  photoUrl?: string;
+}): Promise<StudentUser> {
+  const row = await prisma.studentUser.create({
+    data: {
+      name: userData.name,
+      email: userData.email.toLowerCase(),
+      passwordHash: userData.passwordHash,
+      university: userData.university,
+      major: userData.major || "Umum",
+      phone: userData.phone || "",
+      photoUrl: userData.photoUrl || "",
+      statusMagang: "Belum Melamar",
+      posisiDilamar: "",
+    },
+    include: { experiences: true },
+  });
+  return rowToStudentUser(row);
+}
+
+// ─── Experience CRUD (using Prisma) ───
+
+export async function addExperience(userId: string, exp: Omit<UserExperience, "id" | "createdAt">): Promise<UserExperience> {
+  const row = await prisma.userExperience.create({
+    data: {
+      studentUserId: userId,
+      type: exp.type,
+      title: exp.title,
+      role: exp.role || "",
+      startDate: exp.startDate || "",
+      endDate: exp.endDate || "",
+      isCurrent: exp.isCurrent || false,
+      description: exp.description || "",
+      url: exp.url || null,
+    },
+  });
+  return {
+    id: row.id,
+    type: row.type as ExperienceType,
+    title: row.title,
+    role: row.role,
+    startDate: row.startDate,
+    endDate: row.endDate,
+    isCurrent: row.isCurrent,
+    description: row.description,
+    url: row.url || "",
+    createdAt: row.createdAt.toISOString(),
+  };
+}
+
+export async function updateExperience(expId: string, exp: Partial<UserExperience>): Promise<UserExperience> {
+  const data: Prisma.UserExperienceUpdateInput = {};
+  if (exp.type !== undefined) data.type = exp.type;
+  if (exp.title !== undefined) data.title = exp.title;
+  if (exp.role !== undefined) data.role = exp.role;
+  if (exp.startDate !== undefined) data.startDate = exp.startDate;
+  if (exp.endDate !== undefined) data.endDate = exp.endDate;
+  if (exp.isCurrent !== undefined) data.isCurrent = exp.isCurrent;
+  if (exp.description !== undefined) data.description = exp.description;
+  if (exp.url !== undefined) data.url = exp.url || null;
+
+  const row = await prisma.userExperience.update({
+    where: { id: expId },
+    data,
+  });
+  return {
+    id: row.id,
+    type: row.type as ExperienceType,
+    title: row.title,
+    role: row.role,
+    startDate: row.startDate,
+    endDate: row.endDate,
+    isCurrent: row.isCurrent,
+    description: row.description,
+    url: row.url || "",
+    createdAt: row.createdAt.toISOString(),
+  };
+}
+
+export async function deleteExperience(expId: string): Promise<void> {
+  await prisma.userExperience.delete({ where: { id: expId } });
+}
+
+export async function getExperiencesByUserId(userId: string): Promise<UserExperience[]> {
+  const rows = await prisma.userExperience.findMany({
+    where: { studentUserId: userId },
+    orderBy: { createdAt: "desc" },
+  });
+  return rows.map((row) => ({
+    id: row.id,
+    type: row.type as ExperienceType,
+    title: row.title,
+    role: row.role,
+    startDate: row.startDate,
+    endDate: row.endDate,
+    isCurrent: row.isCurrent,
+    description: row.description,
+    url: row.url || "",
+    createdAt: row.createdAt.toISOString(),
+  }));
 }

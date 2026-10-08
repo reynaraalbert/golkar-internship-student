@@ -3,13 +3,37 @@
 import React, { useState, useEffect } from "react";
 import {
   Users, CheckCircle2, XCircle, Clock, FileText, Search, Filter, Eye, Download,
-  Check, X, AlertCircle, Building2, Calendar, MessageSquare, RefreshCw, UserCheck
+  Check, X, AlertCircle, Building2, Calendar, MessageSquare, RefreshCw, UserCheck,
+  Briefcase, Link2, Star
 } from "lucide-react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { PageHeader, SectionCard, Field, Grid, Input, Select, EmptyState, SaveBar, ModalWrapper, Badge } from "@/components/admin/ui";
 import { StaggerList, FadeCard } from "@/components/ui/AnimationWrapper";
 import { Dialog } from "@/components/admin/DialogSystem";
 import TimelineWidget from "@/components/TimelineWidget";
+
+interface UserExperience {
+  id: string;
+  type: "organisasi" | "professional" | "project";
+  title: string;
+  role: string;
+  startDate: string;
+  endDate: string;
+  isCurrent: boolean;
+  description: string;
+  url: string;
+  createdAt: string;
+}
+
+interface RealStudentUser {
+  id: string;
+  name: string;
+  email: string;
+  experiences?: UserExperience[];
+  documents?: Record<string, string>;
+  photoUrl?: string;
+  bio?: string;
+}
 
 export interface PendaftarMagang {
   id: string;
@@ -41,94 +65,49 @@ export interface PendaftarMagang {
   };
 }
 
-const INITIAL_PENDAFTAR: PendaftarMagang[] = [
-  {
-    id: "REG-2026-0892",
-    nama: "Reynara Albert Pradana",
-    email: "reynaraalbertpradana@gmail.com",
-    universitas: "Universitas Indonesia",
-    jurusan: "Ilmu Hukum & Kebijakan Publik",
-    nim: "2006123456",
-    ipk: "3.85",
+const INITIAL_PENDAFTAR: PendaftarMagang[] = [];
+
+function mapUserToPendaftar(u: any): PendaftarMagang {
+  let status: PendaftarMagang["status"] = "MENUNGGU_VERIFIKASI";
+  if (u.statusMagang === "LOLOS_BERKAS" || u.statusMagang === "Lolos Berkas") status = "LOLOS_BERKAS";
+  else if (u.statusMagang === "LOLOS_WAWANCARA" || u.statusMagang === "Lolos Wawancara") status = "LOLOS_WAWANCARA";
+  else if (u.statusMagang === "TIDAK_LOLOS" || u.statusMagang === "Tidak Lolos") status = "TIDAK_LOLOS";
+  else if (u.statusMagang === "CADANGAN" || u.statusMagang === "Cadangan") status = "CADANGAN";
+  else status = "MENUNGGU_VERIFIKASI";
+
+  return {
+    id: u.id,
+    nama: u.name || "-",
+    email: u.email || "-",
+    universitas: u.university || "-",
+    jurusan: u.major || "-",
+    nim: u.nim || "-",
+    ipk: u.ipk || "-",
     posisiId: "1",
-    posisiTitle: "Program Magang Analisis Kebijakan & Riset Legislatif",
-    komisi: "Sekretariat Jenderal & Fraksi Partai Golkar DPR RI",
-    tanggalDaftar: "25 Sep 2026",
-    status: "MENUNGGU_VERIFIKASI",
+    posisiTitle: u.posisiDilamar || "Belum Memilih Posisi",
+    komisi: u.fakultas || "Sekretariat Jenderal & Fraksi Partai Golkar DPR RI",
+    tanggalDaftar: u.createdAt ? new Date(u.createdAt).toLocaleDateString("id-ID", { day: "numeric", month: "short", year: "numeric" }) : "-",
+    status,
     batch: "Batch 4 (2026)",
+    catatanAdmin: u.bio || "",
     gender: "Laki-laki",
-    jenisPT: "PTN",
-    lokasi: "Pulau Jawa (DKI Jakarta)",
-    semester: 7,
+    jenisPT: (u.statusPtnPts as any) || "PTN",
+    lokasi: u.lokasiKampus || "-",
+    semester: Number(u.semester) || 5,
     berkas: {
-      cv: "CV_ATS_Reynara_2026.pdf",
-      transkrip: "Transkrip_Akademik_UI.pdf",
-      rekomendasi: "Surat_Rekomendasi_Dekan_FHUI.pdf",
-      ktm: "KTM_UI_2006123456.pdf",
+      cv: u.documents?.cv || "Belum Diunggah",
+      transkrip: u.documents?.ipk || u.documents?.transkrip || "Belum Diunggah",
+      rekomendasi: u.documents?.rekomendasi || "Belum Diunggah",
+      ktm: u.documents?.ktm || "Belum Diunggah",
     },
-  },
-  {
-    id: "REG-2026-0893",
-    nama: "Siti Rahmawati",
-    email: "siti.rahmawati@ugm.ac.id",
-    universitas: "Universitas Gadjah Mada",
-    jurusan: "Ilmu Komunikasi",
-    nim: "21/478910/SP/2901",
-    ipk: "3.72",
-    posisiId: "2",
-    posisiTitle: "Program Magang Komunikasi Publik & Media Kebijakan",
-    komisi: "Humas & Pemberitaan Fraksi DPR RI",
-    tanggalDaftar: "24 Sep 2026",
-    status: "LOLOS_BERKAS",
-    batch: "Batch 4 (2026)",
-    catatanAdmin: "Berkas sangat baik, pengalaman relevan. Lanjut wawancara.",
-    jadwalWawancara: "Sabtu, 27 September 2026 - Pukul 10.00 WIB (Zoom)",
-    pewawancara: "Fahmi Idris",
-    diupdateOleh: "Muyassar",
-    gender: "Perempuan",
-    jenisPT: "PTN",
-    lokasi: "Pulau Jawa (DI Yogyakarta)",
-    semester: 5,
-    berkas: {
-      cv: "CV_Siti_Rahmawati.pdf",
-      transkrip: "Transkrip_UGM_Siti.pdf",
-      rekomendasi: "Surat_Rekomendasi_Fisipol_UGM.pdf",
-      ktm: "KTM_UGM_21478910.pdf",
-    },
-  },
-  {
-    id: "REG-2026-0894",
-    nama: "Budi Santoso",
-    email: "budi.santoso@itb.ac.id",
-    universitas: "Institut Teknologi Bandung",
-    jurusan: "Teknik Informatika",
-    nim: "13520011",
-    ipk: "3.10",
-    posisiId: "4",
-    posisiTitle: "Program Magang Teknologi Informasi & Digitalisasi Parlemen",
-    komisi: "Pusat Data & Sistem Informasi Fraksi DPR RI",
-    tanggalDaftar: "23 Sep 2026",
-    status: "TIDAK_LOLOS",
-    batch: "Batch 4 (2026)",
-    catatanAdmin: "Maaf, kualifikasi belum memenuhi standar kebutuhan tim untuk saat ini.",
-    gender: "Laki-laki",
-    jenisPT: "PTN",
-    lokasi: "Pulau Jawa (Jawa Barat)",
-    semester: 9,
-    berkas: {
-      cv: "CV_Budi_Santoso.pdf",
-      transkrip: "Transkrip_Provisioanl_ITB.pdf",
-      rekomendasi: "Surat_Keterangan_Aktif.pdf",
-      ktm: "KTM_ITB_13520011.pdf",
-    },
-  },
-];
+  };
+}
 
 export default function AdminVerifikasiPendaftarPage() {
   const searchParams = useSearchParams();
   const filterQuery = searchParams?.get("filter");
   const router = useRouter();
-  const [pendaftarList, setPendaftarList] = useState<PendaftarMagang[]>(INITIAL_PENDAFTAR);
+  const [pendaftarList, setPendaftarList] = useState<PendaftarMagang[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [filterStatus, setFilterStatus] = useState<string>("ALL");
   const [filterBatch, setFilterBatch] = useState<string>("Batch 4 (2026)");
@@ -142,23 +121,30 @@ export default function AdminVerifikasiPendaftarPage() {
 
   const [adminRole, setAdminRole] = useState<"admin" | "seleksi">("admin");
   const [adminName, setAdminName] = useState("Tim Seleksi");
+  const [realUsers, setRealUsers] = useState<RealStudentUser[]>([]);
 
   useEffect(() => {
     try {
-      const savedData = localStorage.getItem("golkar_pendaftar_magang_db");
-      if (savedData) setPendaftarList(JSON.parse(savedData));
-      
       const role = localStorage.getItem("admin_role") as "admin" | "seleksi";
       if (role) setAdminRole(role);
       
-      // If we had a real auth, we'd get the name from the session. 
-      // For now, hardcode or let them set it in biodata. 
-      // Let's assume biodata sets 'tim_seleksi_nama'
       const name = localStorage.getItem("tim_seleksi_nama") || "Tim Seleksi";
       setAdminName(name);
     } catch {
       // ignore error
     }
+
+    // Fetch real registered users from Supabase database
+    fetch("/api/admin/peserta")
+      .then(r => r.json())
+      .then(data => {
+        if (data.users) {
+          setRealUsers(data.users);
+          const mapped = data.users.map(mapUserToPendaftar);
+          setPendaftarList(mapped);
+        }
+      })
+      .catch(() => {});
   }, []);
 
   useEffect(() => {
@@ -199,6 +185,16 @@ export default function AdminVerifikasiPendaftarPage() {
       await Dialog.alert("Harap masukkan alasan pada kolom catatan admin.");
       return;
     }
+    try {
+      await fetch("/api/admin/peserta", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id: selectedPendaftar.id, statusMagang: status, bio: catatanInput })
+      });
+    } catch {
+      // ignore
+    }
+
     const updated = pendaftarList.map((item) =>
       item.id === selectedPendaftar.id
         ? { ...item, status, catatanAdmin: catatanInput, jadwalWawancara: jadwalInput, pewawancara: pewawancaraInput, diupdateOleh: adminName }
@@ -229,8 +225,18 @@ export default function AdminVerifikasiPendaftarPage() {
     setTimeout(() => setActionSuccess(null), 4000);
   };
 
-  const handleResetStatus = () => {
+  const handleResetStatus = async () => {
     if (!selectedPendaftar) return;
+    try {
+      await fetch("/api/admin/peserta", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id: selectedPendaftar.id, statusMagang: "MENUNGGU_VERIFIKASI", bio: "" })
+      });
+    } catch {
+      // ignore
+    }
+
     const updated = pendaftarList.map((item) =>
       item.id === selectedPendaftar.id
         ? {
@@ -674,7 +680,85 @@ export default function AdminVerifikasiPendaftarPage() {
                   </div>
                 ))}
               </div>
+
+              {/* REAL DOCUMENTS FROM USER PORTAL */}
+              {(() => {
+                const realUser = realUsers.find(u => u.email.toLowerCase() === selectedPendaftar.email.toLowerCase());
+                if (!realUser?.documents) return null;
+                const docEntries = Object.entries(realUser.documents).filter(([, url]) => url);
+                if (docEntries.length === 0) return null;
+                const docLabels: Record<string, string> = {
+                  ktm: "KTM (Upload Portal)", cv: "CV (Upload Portal)",
+                  rekomendasi: "Surat Rekomendasi (Portal)", sko: "Surat Keterangan Organisasi (Portal)",
+                  ipk: "Transkrip IPK (Portal)", portofolio: "Portofolio (Portal)"
+                };
+                return (
+                  <div className="mt-3 pt-3 border-t border-slate-200 dark:border-white/10">
+                    <p className="text-[10px] font-bold text-amber-600 dark:text-amber-400 uppercase mb-2">✓ Dokumen terunggah via Portal Peserta:</p>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                      {docEntries.map(([key, url]) => (
+                        <div key={key} className="p-2.5 rounded-lg bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800/50 flex items-center justify-between gap-2">
+                          <span className="text-[10px] font-bold text-amber-800 dark:text-amber-300 truncate">{docLabels[key] || key}</span>
+                          <a href={url} target="_blank" rel="noreferrer" className="px-2 py-1 rounded-lg bg-amber-500 hover:bg-amber-600 text-white font-bold text-[9px] shrink-0 flex items-center gap-1">
+                            <Eye className="w-2.5 h-2.5" /> Lihat
+                          </a>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                );
+              })()}
             </div>
+
+            {/* PENGALAMAN FROM USER PORTAL */}
+            {(() => {
+              const realUser = realUsers.find(u => u.email.toLowerCase() === selectedPendaftar.email.toLowerCase());
+              const exps = realUser?.experiences || [];
+              if (exps.length === 0) return null;
+              const typeColors: Record<string, string> = {
+                organisasi: "bg-amber-100 dark:bg-amber-950/50 text-amber-800 dark:text-amber-300 border-amber-300",
+                professional: "bg-emerald-100 dark:bg-emerald-950/50 text-emerald-800 dark:text-emerald-300 border-emerald-300",
+                project: "bg-purple-100 dark:bg-purple-950/50 text-purple-800 dark:text-purple-300 border-purple-300",
+              };
+              const typeLabel: Record<string, string> = {
+                organisasi: "Organisasi", professional: "Professional", project: "Project"
+              };
+              return (
+                <div className="space-y-2 pt-2 border-t border-slate-200 dark:border-white/10">
+                  <h4 className="font-extrabold text-slate-900 dark:text-white flex items-center gap-1.5">
+                    <Star className="w-4 h-4 text-amber-500" /> Pengalaman Pelamar ({exps.length} entri):
+                  </h4>
+                  <div className="space-y-2">
+                    {exps.map((exp) => (
+                      <div key={exp.id} className="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-white/10">
+                        <div className="flex items-start justify-between gap-2">
+                          <div className="flex-1 min-w-0">
+                            <div className="flex items-center gap-2 flex-wrap">
+                              <span className={`text-[9px] font-black uppercase px-2 py-0.5 rounded-md border ${typeColors[exp.type] || ""}`}>
+                                {typeLabel[exp.type] || exp.type}
+                              </span>
+                              <strong className="text-xs text-slate-900 dark:text-white">{exp.title}</strong>
+                            </div>
+                            {exp.role && <p className="text-[11px] text-slate-600 dark:text-slate-400 mt-0.5">{exp.role}</p>}
+                            {(exp.startDate || exp.endDate) && (
+                              <p className="text-[10px] text-slate-400 mt-0.5">
+                                {exp.startDate} – {exp.isCurrent ? "Sekarang" : exp.endDate || "?"}
+                              </p>
+                            )}
+                            {exp.description && <p className="text-[10px] text-slate-500 mt-1 line-clamp-2">{exp.description}</p>}
+                          </div>
+                          {exp.url && (
+                            <a href={exp.url} target="_blank" rel="noreferrer" className="px-2 py-1 rounded-lg bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-300 font-bold text-[9px] shrink-0 flex items-center gap-1 hover:bg-slate-300 transition-colors">
+                              <Link2 className="w-2.5 h-2.5" /> Link
+                            </a>
+                          )}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              );
+            })()}
 
             {/* ADMIN DECISION NOTES & INTERVIEW SCHEDULE */}
             <div className="space-y-3 pt-2 border-t border-slate-200 dark:border-white/10">

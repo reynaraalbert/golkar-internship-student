@@ -3,20 +3,22 @@ import { cookies } from "next/headers";
 import { verifyUserSessionToken, USER_AUTH_COOKIE } from "@/lib/user-auth";
 import {
   findStudentUserById,
-  saveStudentUser,
+  addExperience,
+  updateExperience,
+  deleteExperience,
+  getExperiencesByUserId,
   type ExperienceType,
-  type UserExperience,
 } from "@/lib/user-store";
 
 export const dynamic = "force-dynamic";
 
 const TYPES: ExperienceType[] = ["organisasi", "professional", "project"];
 
-function getSessionUser() {
+async function getSessionUser() {
   const token = cookies().get(USER_AUTH_COOKIE)?.value;
   const session = verifyUserSessionToken(token);
   if (!session) return null;
-  return findStudentUserById(session.id) || null;
+  return (await findStudentUserById(session.id)) || null;
 }
 
 function normalizeUrl(raw: string): string | null {
@@ -34,14 +36,15 @@ function normalizeUrl(raw: string): string | null {
 const unauthorized = () => NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
 export async function GET() {
-  const user = getSessionUser();
+  const user = await getSessionUser();
   if (!user) return unauthorized();
-  return NextResponse.json({ experiences: user.experiences || [] });
+  const experiences = await getExperiencesByUserId(user.id);
+  return NextResponse.json({ experiences });
 }
 
 /** Create a new experience, or update one when `id` matches an existing entry. */
 export async function POST(req: NextRequest) {
-  const user = getSessionUser();
+  const user = await getSessionUser();
   if (!user) return unauthorized();
 
   let body: any;
@@ -75,11 +78,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Tanggal selesai tidak boleh sebelum tanggal mulai." }, { status: 400 });
   }
 
-  const list = user.experiences || [];
-  const existing = body?.id ? list.find((e) => e.id === body.id) : undefined;
-
-  const entry: UserExperience = {
-    id: existing?.id || `exp-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`,
+  const expData = {
     type,
     title,
     role: String(body?.role ?? "").trim(),
@@ -88,22 +87,33 @@ export async function POST(req: NextRequest) {
     isCurrent,
     description: String(body?.description ?? "").trim(),
     url,
-    createdAt: existing?.createdAt || new Date().toISOString(),
   };
 
-  const next = existing ? list.map((e) => (e.id === entry.id ? entry : e)) : [...list, entry];
-  saveStudentUser({ ...user, experiences: next });
-  return NextResponse.json({ experience: entry, experiences: next });
+  let entry;
+  if (body?.id) {
+    // Update existing
+    try {
+      entry = await updateExperience(body.id, expData);
+    } catch {
+      // If not found, create new
+      entry = await addExperience(user.id, expData);
+    }
+  } else {
+    entry = await addExperience(user.id, expData);
+  }
+
+  const experiences = await getExperiencesByUserId(user.id);
+  return NextResponse.json({ experience: entry, experiences });
 }
 
 export async function DELETE(req: NextRequest) {
-  const user = getSessionUser();
+  const user = await getSessionUser();
   if (!user) return unauthorized();
 
   const id = req.nextUrl.searchParams.get("id");
   if (!id) return NextResponse.json({ error: "id wajib diisi" }, { status: 400 });
 
-  const next = (user.experiences || []).filter((e) => e.id !== id);
-  saveStudentUser({ ...user, experiences: next });
-  return NextResponse.json({ experiences: next });
+  await deleteExperience(id);
+  const experiences = await getExperiencesByUserId(user.id);
+  return NextResponse.json({ experiences });
 }

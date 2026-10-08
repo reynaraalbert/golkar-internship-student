@@ -37,52 +37,49 @@ export default function UserPosisiPage() {
 
   const [posisiList, setPosisiList] = useState<PosisiItem[]>([]);
   const [loading, setLoading] = useState(true);
+  const [user, setUser] = useState<any>(null);
 
-  // Load positions from CMS and apply local applicant status
+  // Load positions from CMS and apply user status
   useEffect(() => {
-    fetch("/api/data/posisi_magang")
-      .then((res) => res.json())
-      .then((data) => {
-        const sourceData = (data && Array.isArray(data) && data.length > 0) ? data : DEFAULT_POSISI;
-        let list: PosisiItem[] = sourceData.map((p: KomisiPosisi) => ({
-          ...p,
-          title: `Program Magang ${p.namaKomisi}`,
-          komisiStr: p.namaKomisi,
-          persyaratanList: (p.persyaratan || "").split(",").map((s) => s.trim()).filter(Boolean),
-          isApplied: false,
-        }));
+    async function loadData() {
+      try {
+        const [posRes, meRes] = await Promise.all([
+          fetch("/api/data/posisi_magang"),
+          fetch("/api/user/auth/me"),
+        ]);
 
-        try {
-          const stored = localStorage.getItem("golkar_pendaftar_magang_db");
-          if (stored) {
-            const pendaftar = JSON.parse(stored);
-            const myApp = pendaftar.find((app: any) => app.email === "reynaraalbertpradana@gmail.com" || app.nama === "Reynara Albert Pradana");
-            if (myApp) {
-              list = list.map((item) => {
-                if (item.id === myApp.posisiId || item.title === myApp.posisiTitle) {
-                  let statusLabel = "TERKIRIM - MENUNGGU VERIFIKASI";
-                  if (myApp.status === "DITERIMA") statusLabel = "DITERIMA - LOLOS BERKAS";
-                  if (myApp.status === "DITOLAK") statusLabel = "BERKAS DITOLAK";
+        const posData = await posRes.json();
+        const meData = await meRes.json();
 
-                  return {
-                    ...item,
-                    isApplied: true,
-                    userStatus: myApp.status,
-                    status: statusLabel as any,
-                  };
-                }
-                return item;
-              });
-            }
-          }
-        } catch {
-          // ignore
-        }
+        const currentUser = meData.authenticated ? meData.user : null;
+        if (currentUser) setUser(currentUser);
+
+        const sourceData = (posData && Array.isArray(posData) && posData.length > 0) ? posData : DEFAULT_POSISI;
+        let list: PosisiItem[] = sourceData.map((p: KomisiPosisi) => {
+          const isUserApplied = currentUser?.posisiDilamar === `Program Magang ${p.namaKomisi}` || currentUser?.posisiDilamar === p.namaKomisi;
+          let statusLabel = "TERKIRIM - MENUNGGU VERIFIKASI";
+          if (currentUser?.statusMagang === "LOLOS_BERKAS" || currentUser?.statusMagang === "Lolos Berkas") statusLabel = "DITERIMA - LOLOS BERKAS";
+          if (currentUser?.statusMagang === "TIDAK_LOLOS" || currentUser?.statusMagang === "Tidak Lolos") statusLabel = "BERKAS DITOLAK";
+
+          return {
+            ...p,
+            title: `Program Magang ${p.namaKomisi}`,
+            komisiStr: p.namaKomisi,
+            persyaratanList: (p.persyaratan || "").split(",").map((s) => s.trim()).filter(Boolean),
+            isApplied: isUserApplied,
+            userStatus: currentUser?.statusMagang === "LOLOS_BERKAS" ? "DITERIMA" : currentUser?.statusMagang === "TIDAK_LOLOS" ? "DITOLAK" : "MENUNGGU_VERIFIKASI",
+            status: isUserApplied ? statusLabel : "BUKA PENDAFTARAN",
+          };
+        });
 
         setPosisiList(list);
+      } catch {
+        // ignore
+      } finally {
         setLoading(false);
-      })
-      .catch(() => setLoading(false));
+      }
+    }
+    loadData();
   }, []);
 
   const handleOpenModal = (pos: PosisiItem) => {
@@ -97,49 +94,21 @@ export default function UserPosisiPage() {
     setSelectedPosisi(null);
   };
 
-  const handleSubmitApplication = (e: React.FormEvent) => {
+  const handleSubmitApplication = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!agreed || !selectedPosisi) return;
 
     setIsSubmitting(true);
-    setTimeout(() => {
-      setIsSubmitting(false);
-
-      // Create new application entry with status MENUNGGU_VERIFIKASI
-      const newApplication = {
-        id: `REG-2026-${Math.floor(1000 + Math.random() * 9000)}`,
-        nama: "Reynara Albert Pradana",
-        email: "reynaraalbertpradana@gmail.com",
-        universitas: "Universitas Indonesia",
-        jurusan: "Ilmu Hukum & Kebijakan Publik",
-        nim: "2006123456",
-        ipk: "3.85",
-        posisiId: selectedPosisi.id,
-        posisiTitle: selectedPosisi.title,
-        komisi: selectedPosisi.komisiStr,
-        tanggalDaftar: new Date().toLocaleDateString("id-ID", { day: "2-digit", month: "short", year: "numeric" }),
-        status: "MENUNGGU_VERIFIKASI" as const,
-        berkas: {
-          cv: "CV_ATS_Reynara_2026.pdf",
-          transkrip: "Transkrip_Akademik_UI.pdf",
-          rekomendasi: "Surat_Rekomendasi_Dekan_FHUI.pdf",
-          ktm: "KTM_UI_2006123456.pdf",
-        },
-      };
-
-      try {
-        const stored = localStorage.getItem("golkar_pendaftar_magang_db");
-        let list = stored ? JSON.parse(stored) : [];
-        list = [newApplication, ...list.filter((x: any) => x.nama !== newApplication.nama)];
-        localStorage.setItem("golkar_pendaftar_magang_db", JSON.stringify(list));
-
-        if (typeof window !== "undefined" && "BroadcastChannel" in window) {
-          const bc = new BroadcastChannel("golkar_magang_channel");
-          bc.postMessage({ type: "NEW_APPLICATION", data: newApplication });
-          bc.close();
-        }
-      } catch {
-        // ignore
+    try {
+      if (user) {
+        await fetch("/api/user/auth/me", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            posisiDilamar: selectedPosisi.title,
+            statusMagang: "MENUNGGU_VERIFIKASI",
+          }),
+        });
       }
 
       setPosisiList((prev) =>
@@ -156,7 +125,11 @@ export default function UserPosisiPage() {
       setTimeout(() => {
         setSuccessMessage(null);
       }, 6000);
-    }, 1200);
+    } catch {
+      // ignore
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -384,19 +357,19 @@ export default function UserPosisiPage() {
                 <div className="grid grid-cols-2 gap-2 text-xs">
                   <div>
                     <span className="text-slate-400 block text-[10px]">Nama Pelamar:</span>
-                    <strong className="text-slate-900 dark:text-white">Reynara Albert Pradana</strong>
+                    <strong className="text-slate-900 dark:text-white">{user?.name || "Mahasiswa"}</strong>
                   </div>
                   <div>
                     <span className="text-slate-400 block text-[10px]">Perguruan Tinggi:</span>
-                    <strong className="text-slate-900 dark:text-white">Universitas Indonesia</strong>
+                    <strong className="text-slate-900 dark:text-white">{user?.university || "-"}</strong>
                   </div>
                   <div>
                     <span className="text-slate-400 block text-[10px]">NIM:</span>
-                    <strong className="text-slate-900 dark:text-white">2006123456</strong>
+                    <strong className="text-slate-900 dark:text-white">{user?.nim || "-"}</strong>
                   </div>
                   <div>
                     <span className="text-slate-400 block text-[10px]">IPK:</span>
-                    <strong className="text-slate-900 dark:text-white">3.85 (Terverifikasi)</strong>
+                    <strong className="text-slate-900 dark:text-white">{user?.ipk || "-"}</strong>
                   </div>
                 </div>
               </div>

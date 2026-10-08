@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useState } from "react";
-import { Users, CheckCircle2, XCircle, Shield, FileText, Search } from "lucide-react";
+import React, { useState, useEffect } from "react";
+import { Users, CheckCircle2, XCircle, Shield, FileText, Search, Loader2 } from "lucide-react";
 import { PageHeader, SectionCard, ModalWrapper } from "@/components/admin/ui";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -10,64 +10,74 @@ interface TimSeleksiMember {
   nama: string;
   email: string;
   jabatan: string;
+  instansi?: string;
+  alamat?: string;
+  telepon?: string;
   status: "PENDING" | "APPROVED" | "REJECTED";
   tanggalDaftar: string;
 }
 
-const INITIAL_DATA: TimSeleksiMember[] = [
-  {
-    id: "TS-001",
-    nama: "Fahmi Idris",
-    email: "fahmi.idris@dpr.go.id",
-    jabatan: "Tenaga Ahli Fraksi Golkar",
-    status: "PENDING",
-    tanggalDaftar: "28 Sep 2026",
-  },
-  {
-    id: "TS-002",
-    nama: "Anisa Rahma",
-    email: "anisa.rahma@gmail.com",
-    jabatan: "Orang Iseng",
-    status: "REJECTED",
-    tanggalDaftar: "27 Sep 2026",
-  },
-  {
-    id: "TS-003",
-    nama: "Dr. Budi Hartono",
-    email: "budi.hartono@dpr.go.id",
-    jabatan: "Staf Ahli Bidang Hukum",
-    status: "APPROVED",
-    tanggalDaftar: "26 Sep 2026",
-  },
-];
-
-const MOCK_BIODATA = {
-  instansi: "Sekretariat Jenderal DPR RI",
-  alamat: "Gedung Nusantara I Lt. 12, Kompleks Parlemen Senayan",
-  telepon: "0812-3456-7890",
-  cvUrl: "https://example.com/cv.pdf"
-};
-
 export default function AdminTimSeleksiPage() {
-  const [members, setMembers] = useState<TimSeleksiMember[]>(INITIAL_DATA);
+  const [members, setMembers] = useState<TimSeleksiMember[]>([]);
+  const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
   const [actionSuccess, setActionSuccess] = useState<string | null>(null);
   const [selectedBiodata, setSelectedBiodata] = useState<TimSeleksiMember | null>(null);
 
-  const handleApprove = (id: string, nama: string) => {
-    setMembers((prev) =>
-      prev.map((m) => (m.id === id ? { ...m, status: "APPROVED" } : m))
-    );
-    setActionSuccess(`Akun Tim Seleksi atas nama ${nama} berhasil DISETUJUI.`);
-    setTimeout(() => setActionSuccess(null), 3000);
+  // Fetch data from DB on mount
+  useEffect(() => {
+    async function fetchMembers() {
+      try {
+        const res = await fetch("/api/admin/tim-seleksi", { cache: "no-store" });
+        if (res.ok) {
+          const data = await res.json();
+          setMembers(data || []);
+        }
+      } catch {
+        // silently fail — empty state will be shown
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchMembers();
+  }, []);
+
+  const handleApprove = async (id: string, nama: string) => {
+    try {
+      const res = await fetch("/api/admin/tim-seleksi", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id, status: "APPROVED" }),
+      });
+      if (res.ok) {
+        setMembers((prev) =>
+          prev.map((m) => (m.id === id ? { ...m, status: "APPROVED" } : m))
+        );
+        setActionSuccess(`Akun Tim Seleksi atas nama ${nama} berhasil DISETUJUI.`);
+        setTimeout(() => setActionSuccess(null), 3000);
+      }
+    } catch {
+      alert("Gagal menyetujui akun. Periksa koneksi database.");
+    }
   };
 
-  const handleReject = (id: string, nama: string) => {
-    setMembers((prev) =>
-      prev.map((m) => (m.id === id ? { ...m, status: "REJECTED" } : m))
-    );
-    setActionSuccess(`Akun Tim Seleksi atas nama ${nama} telah DITOLAK.`);
-    setTimeout(() => setActionSuccess(null), 3000);
+  const handleReject = async (id: string, nama: string) => {
+    try {
+      const res = await fetch("/api/admin/tim-seleksi", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id, status: "REJECTED" }),
+      });
+      if (res.ok) {
+        setMembers((prev) =>
+          prev.map((m) => (m.id === id ? { ...m, status: "REJECTED" } : m))
+        );
+        setActionSuccess(`Akun Tim Seleksi atas nama ${nama} telah DITOLAK.`);
+        setTimeout(() => setActionSuccess(null), 3000);
+      }
+    } catch {
+      alert("Gagal menolak akun. Periksa koneksi database.");
+    }
   };
 
   const filtered = members.filter(
@@ -131,7 +141,7 @@ export default function AdminTimSeleksiPage() {
         </div>
       )}
 
-      <SectionCard icon={FileText} title="Daftar Akun Tim Seleksi" description="Cek apakah mereka benar-benar bagian dari tim fraksi atau orang asing.">
+      <SectionCard icon={FileText} title="Daftar Akun Tim Seleksi" description="Data diambil langsung dari database. Halaman ini menampilkan tim seleksi yang terdaftar di sistem.">
         <div className="mb-6">
           <div className="relative max-w-md">
             <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
@@ -145,69 +155,80 @@ export default function AdminTimSeleksiPage() {
           </div>
         </div>
 
-        <div className="overflow-x-auto rounded-xl border border-slate-200 dark:border-white/10">
-          <table className="w-full text-left text-xs whitespace-nowrap">
-            <thead className="bg-slate-50 dark:bg-slate-800/80 border-b border-slate-200 dark:border-white/10">
-              <tr>
-                <th className="px-4 py-3 font-bold text-slate-900 dark:text-white">Nama / Email</th>
-                <th className="px-4 py-3 font-bold text-slate-900 dark:text-white">Jabatan / Posisi</th>
-                <th className="px-4 py-3 font-bold text-slate-900 dark:text-white">Tanggal Daftar</th>
-                <th className="px-4 py-3 font-bold text-slate-900 dark:text-white">Status</th>
-                <th className="px-4 py-3 font-bold text-slate-900 dark:text-white text-right">Aksi</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-slate-100 dark:divide-white/5 bg-white dark:bg-slate-900/50">
-              {filtered.map((m) => (
-                <tr key={m.id} className="hover:bg-slate-50 dark:hover:bg-white/5 transition-colors">
-                  <td className="px-4 py-3">
-                    <div className="font-bold text-slate-900 dark:text-white">{m.nama}</div>
-                    <div className="text-[10px] text-slate-500">{m.email}</div>
-                  </td>
-                  <td className="px-4 py-3 text-slate-600 dark:text-slate-300">{m.jabatan}</td>
-                  <td className="px-4 py-3 text-slate-600 dark:text-slate-300">{m.tanggalDaftar}</td>
-                  <td className="px-4 py-3">
-                    {m.status === "PENDING" && <span className="px-2 py-1 bg-amber-100 text-amber-700 dark:bg-amber-900/40 dark:text-amber-300 rounded font-bold text-[10px]">MENUNGGU</span>}
-                    {m.status === "APPROVED" && <span className="px-2 py-1 bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300 rounded font-bold text-[10px]">DISETUJUI</span>}
-                    {m.status === "REJECTED" && <span className="px-2 py-1 bg-red-100 text-red-700 dark:bg-red-900/40 dark:text-red-300 rounded font-bold text-[10px]">DITOLAK</span>}
-                  </td>
-                  <td className="px-4 py-3 text-right">
-                    <div className="flex justify-end gap-2">
-                      <button
-                        onClick={() => setSelectedBiodata(m)}
-                        className="px-3 py-1.5 bg-blue-100 hover:bg-blue-200 text-blue-700 dark:bg-blue-900/40 dark:text-blue-300 rounded-lg font-bold text-[10px] flex items-center gap-1 transition-colors"
-                      >
-                        <FileText className="w-3.5 h-3.5" /> Lihat Biodata
-                      </button>
-                      {m.status === "PENDING" && (
-                        <>
-                          <button
-                            onClick={() => handleApprove(m.id, m.nama)}
-                            className="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg font-bold text-[10px] flex items-center gap-1 transition-colors"
-                          >
-                            <CheckCircle2 className="w-3.5 h-3.5" /> Terima
-                          </button>
-                          <button
-                            onClick={() => handleReject(m.id, m.nama)}
-                            className="px-3 py-1.5 bg-red-600 hover:bg-red-700 text-white rounded-lg font-bold text-[10px] flex items-center gap-1 transition-colors"
-                          >
-                            <XCircle className="w-3.5 h-3.5" /> Tolak
-                          </button>
-                        </>
-                      )}
-                    </div>
-                  </td>
-                </tr>
-              ))}
-              {filtered.length === 0 && (
+        {loading ? (
+          <div className="flex items-center justify-center py-12 gap-3 text-slate-500">
+            <Loader2 className="w-5 h-5 animate-spin" />
+            <span className="text-xs font-bold">Memuat data dari database...</span>
+          </div>
+        ) : (
+          <div className="overflow-x-auto rounded-xl border border-slate-200 dark:border-white/10">
+            <table className="w-full text-left text-xs whitespace-nowrap">
+              <thead className="bg-slate-50 dark:bg-slate-800/80 border-b border-slate-200 dark:border-white/10">
                 <tr>
-                  <td colSpan={5} className="px-4 py-8 text-center text-slate-500">
-                    Tidak ada akun ditemukan.
-                  </td>
+                  <th className="px-4 py-3 font-bold text-slate-900 dark:text-white">Nama / Email</th>
+                  <th className="px-4 py-3 font-bold text-slate-900 dark:text-white">Jabatan / Posisi</th>
+                  <th className="px-4 py-3 font-bold text-slate-900 dark:text-white">Tanggal Daftar</th>
+                  <th className="px-4 py-3 font-bold text-slate-900 dark:text-white">Status</th>
+                  <th className="px-4 py-3 font-bold text-slate-900 dark:text-white text-right">Aksi</th>
                 </tr>
-              )}
-            </tbody>
-          </table>
-        </div>
+              </thead>
+              <tbody className="divide-y divide-slate-100 dark:divide-white/5 bg-white dark:bg-slate-900/50">
+                {filtered.map((m) => (
+                  <tr key={m.id} className="hover:bg-slate-50 dark:hover:bg-white/5 transition-colors">
+                    <td className="px-4 py-3">
+                      <div className="font-bold text-slate-900 dark:text-white">{m.nama}</div>
+                      <div className="text-[10px] text-slate-500">{m.email}</div>
+                    </td>
+                    <td className="px-4 py-3 text-slate-600 dark:text-slate-300">{m.jabatan}</td>
+                    <td className="px-4 py-3 text-slate-600 dark:text-slate-300">{m.tanggalDaftar}</td>
+                    <td className="px-4 py-3">
+                      {m.status === "PENDING" && <span className="px-2 py-1 bg-amber-100 text-amber-700 dark:bg-amber-900/40 dark:text-amber-300 rounded font-bold text-[10px]">MENUNGGU</span>}
+                      {m.status === "APPROVED" && <span className="px-2 py-1 bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300 rounded font-bold text-[10px]">DISETUJUI</span>}
+                      {m.status === "REJECTED" && <span className="px-2 py-1 bg-red-100 text-red-700 dark:bg-red-900/40 dark:text-red-300 rounded font-bold text-[10px]">DITOLAK</span>}
+                    </td>
+                    <td className="px-4 py-3 text-right">
+                      <div className="flex justify-end gap-2">
+                        <button
+                          onClick={() => setSelectedBiodata(m)}
+                          className="px-3 py-1.5 bg-blue-100 hover:bg-blue-200 text-blue-700 dark:bg-blue-900/40 dark:text-blue-300 rounded-lg font-bold text-[10px] flex items-center gap-1 transition-colors"
+                        >
+                          <FileText className="w-3.5 h-3.5" /> Lihat Biodata
+                        </button>
+                        {m.status === "PENDING" && (
+                          <>
+                            <button
+                              onClick={() => handleApprove(m.id, m.nama)}
+                              className="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg font-bold text-[10px] flex items-center gap-1 transition-colors"
+                            >
+                              <CheckCircle2 className="w-3.5 h-3.5" /> Terima
+                            </button>
+                            <button
+                              onClick={() => handleReject(m.id, m.nama)}
+                              className="px-3 py-1.5 bg-red-600 hover:bg-red-700 text-white rounded-lg font-bold text-[10px] flex items-center gap-1 transition-colors"
+                            >
+                              <XCircle className="w-3.5 h-3.5" /> Tolak
+                            </button>
+                          </>
+                        )}
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+                {filtered.length === 0 && (
+                  <tr>
+                    <td colSpan={5} className="px-4 py-12 text-center text-slate-400">
+                      <div className="flex flex-col items-center gap-2">
+                        <Users className="w-8 h-8 opacity-30" />
+                        <p className="font-bold text-xs">Belum ada anggota Tim Seleksi yang terdaftar.</p>
+                        <p className="text-[10px]">Data akan muncul setelah ada pengguna yang mendaftar sebagai Tim Seleksi.</p>
+                      </div>
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+          </div>
+        )}
       </SectionCard>
 
       <AnimatePresence>
@@ -235,17 +256,27 @@ export default function AdminTimSeleksiPage() {
                   <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">JABATAN</p>
                   <p>{selectedBiodata.jabatan}</p>
                 </div>
-                <div className="pt-4 border-t border-slate-200 dark:border-slate-800">
-                  <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">INSTANSI / ASAL UNIT</p>
-                  <p>{MOCK_BIODATA.instansi}</p>
-                </div>
+                {selectedBiodata.instansi && (
+                  <div className="pt-4 border-t border-slate-200 dark:border-slate-800">
+                    <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">INSTANSI / ASAL UNIT</p>
+                    <p>{selectedBiodata.instansi}</p>
+                  </div>
+                )}
+                {selectedBiodata.alamat && (
+                  <div>
+                    <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">ALAMAT KANTOR</p>
+                    <p>{selectedBiodata.alamat}</p>
+                  </div>
+                )}
+                {selectedBiodata.telepon && (
+                  <div>
+                    <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">NOMOR TELEPON</p>
+                    <p>{selectedBiodata.telepon}</p>
+                  </div>
+                )}
                 <div>
-                  <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">ALAMAT KANTOR</p>
-                  <p>{MOCK_BIODATA.alamat}</p>
-                </div>
-                <div>
-                  <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">NOMOR TELEPON</p>
-                  <p>{MOCK_BIODATA.telepon}</p>
+                  <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">TANGGAL REGISTRASI</p>
+                  <p>{selectedBiodata.tanggalDaftar}</p>
                 </div>
               </div>
               <div className="px-6 py-4 bg-slate-50 dark:bg-slate-800/50 flex justify-end">

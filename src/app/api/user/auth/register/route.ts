@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { findStudentUserByEmail, saveStudentUser, type StudentUser } from "@/lib/user-store";
+import { findStudentUserByEmail, createStudentUser } from "@/lib/user-store";
 import { createUserSessionToken, USER_AUTH_COOKIE } from "@/lib/user-auth";
 
 export async function POST(request: Request) {
@@ -10,26 +10,19 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Nama, email, password, dan universitas wajib diisi." }, { status: 400 });
     }
 
-    const existing = findStudentUserByEmail(email);
+    const existing = await findStudentUserByEmail(email);
     if (existing) {
       return NextResponse.json({ error: "Email sudah terdaftar. Silakan gunakan email lain atau masuk." }, { status: 400 });
     }
 
-    const newUser: StudentUser = {
-      id: `user-${Date.now()}`,
+    const newUser = await createStudentUser({
       name,
-      email,
+      email: email.toLowerCase(),
       passwordHash: password,
       university,
       major: major || "Umum",
-      phone: phone || "-",
-      photoUrl: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&auto=format&fit=crop&q=80",
-      statusMagang: "Terverifikasi",
-      posisiDilamar: "Program Magang Kebijakan Publik",
-      createdAt: new Date().toISOString(),
-    };
-
-    saveStudentUser(newUser);
+      phone: phone || "",
+    });
 
     const token = createUserSessionToken({ id: newUser.id, email: newUser.email, name: newUser.name });
 

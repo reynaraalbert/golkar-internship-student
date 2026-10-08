@@ -454,7 +454,11 @@ export async function writeDbCollection<K extends keyof CmsData>(key: K, value: 
         return true;
       }
       case "posisi_magang":
-      case "timeline": {
+      case "timeline":
+      case "tracks":
+      case "steps":
+      case "requirements":
+      case "faqs": {
         await prisma.pageContent.upsert({
           where: { slug: key },
           update: { title: `Settings for ${key}`, sections: value as any },

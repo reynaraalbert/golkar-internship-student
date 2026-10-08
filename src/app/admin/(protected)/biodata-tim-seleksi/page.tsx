@@ -1,28 +1,59 @@
 "use client";
 
-import React, { useState } from "react";
-import { User, Mail, Briefcase, Hash, Save, CheckCircle2 } from "lucide-react";
-import { PageHeader, SectionCard, Input } from "@/components/admin/ui";
+import React, { useState, useEffect } from "react";
+import { User, Mail, Briefcase, Hash, Save, CheckCircle2, Loader2 } from "lucide-react";
+import { PageHeader, SectionCard } from "@/components/admin/ui";
 import { StaggerList, FadeCard } from "@/components/ui/AnimationWrapper";
 
+interface AdminBiodata {
+  nama: string;
+  email: string;
+  jabatan: string;
+  komisi: string;
+  nrp: string;
+  noHp: string;
+}
+
 export default function BiodataTimSeleksiPage() {
-  const [formData, setFormData] = useState({
-    nama: "Budi Santoso",
-    email: "budi.santoso@fraksigolkar.com",
-    password: "",
-    jabatan: "Administrator Program Magang",
-    komisi: "Divisi Magang",
-    nrp: "109283019",
-    noHp: "081234567890",
+  const [formData, setFormData] = useState<AdminBiodata>({
+    nama: "",
+    email: "",
+    jabatan: "",
+    komisi: "",
+    nrp: "",
+    noHp: "",
   });
-  
+
+  const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
   const [resetEmailSent, setResetEmailSent] = useState(false);
 
+  // Load from database
+  useEffect(() => {
+    async function loadBiodata() {
+      try {
+        const res = await fetch("/api/admin/biodata", { cache: "no-store" });
+        if (res.ok) {
+          const data = await res.json();
+          if (data && typeof data === "object") {
+            setFormData((prev) => ({
+              ...prev,
+              ...data,
+            }));
+          }
+        }
+      } catch {
+        // Use empty form if no data exists yet
+      } finally {
+        setLoading(false);
+      }
+    }
+    loadBiodata();
+  }, []);
+
   const handleResetPassword = () => {
     setSaving(true);
-    // Simulasi request API ke backend untuk kirim email
     setTimeout(() => {
       setSaving(false);
       setResetEmailSent(true);
@@ -30,15 +61,36 @@ export default function BiodataTimSeleksiPage() {
     }, 1500);
   };
 
-  const handleSave = (e: React.FormEvent) => {
+  const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
     setSaving(true);
-    setTimeout(() => {
+    try {
+      const res = await fetch("/api/admin/biodata", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+      if (res.ok) {
+        setSaved(true);
+        setTimeout(() => setSaved(false), 3000);
+      } else {
+        alert("Gagal menyimpan biodata. Periksa koneksi database.");
+      }
+    } catch {
+      alert("Gagal menyimpan biodata. Pastikan server berjalan.");
+    } finally {
       setSaving(false);
-      setSaved(true);
-      setTimeout(() => setSaved(false), 3000);
-    }, 1000);
+    }
   };
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center py-24 gap-3 text-slate-500">
+        <Loader2 className="w-5 h-5 animate-spin" />
+        <span className="text-xs font-bold">Memuat biodata dari database...</span>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6 w-full max-w-full">
@@ -53,14 +105,14 @@ export default function BiodataTimSeleksiPage() {
       {saved && (
         <div className="p-4 rounded-2xl bg-emerald-50 dark:bg-emerald-950/50 border border-emerald-300 dark:border-emerald-800 text-emerald-900 dark:text-emerald-200 text-xs font-bold flex items-center gap-2">
           <CheckCircle2 className="w-5 h-5 text-emerald-600 dark:text-emerald-400 shrink-0" />
-          <span>Biodata berhasil disimpan!</span>
+          <span>Biodata berhasil disimpan ke database!</span>
         </div>
       )}
 
       {resetEmailSent && (
         <div className="p-4 rounded-2xl bg-blue-50 dark:bg-blue-950/50 border border-blue-300 dark:border-blue-800 text-blue-900 dark:text-blue-200 text-xs font-bold flex items-center gap-2">
           <CheckCircle2 className="w-5 h-5 text-blue-600 dark:text-blue-400 shrink-0" />
-          <span>Tautan konfirmasi untuk mengubah password telah dikirim ke {formData.email}. Silakan periksa kotak masuk Anda!</span>
+          <span>Tautan konfirmasi untuk mengubah password telah dikirim ke {formData.email || "email Anda"}. Silakan periksa kotak masuk Anda!</span>
         </div>
       )}
 
@@ -75,12 +127,11 @@ export default function BiodataTimSeleksiPage() {
                   <input 
                     type="text" 
                     value={formData.nama} 
-                    readOnly
-                    disabled
-                    className="w-full pl-10 pr-4 py-2.5 text-xs rounded-xl bg-slate-100 dark:bg-slate-800/80 border border-slate-200 dark:border-white/5 text-slate-500 dark:text-slate-400 cursor-not-allowed outline-none font-medium" 
+                    onChange={(e) => setFormData({...formData, nama: e.target.value})}
+                    placeholder="Masukkan nama lengkap"
+                    className="w-full pl-10 pr-4 py-2.5 text-xs rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-white/10 text-slate-900 dark:text-white outline-none focus:ring-1 focus:ring-blue-500 font-medium" 
                   />
                 </div>
-                <p className="text-[10px] text-slate-400 mt-1">*Nama sesuai dengan yang terdaftar.</p>
               </div>
               <div className="space-y-1.5">
                 <label className="block text-[11px] font-bold text-slate-600 dark:text-slate-400">Email</label>
@@ -89,12 +140,11 @@ export default function BiodataTimSeleksiPage() {
                   <input 
                     type="email" 
                     value={formData.email} 
-                    readOnly
-                    disabled
-                    className="w-full pl-10 pr-4 py-2.5 text-xs rounded-xl bg-slate-100 dark:bg-slate-800/80 border border-slate-200 dark:border-white/5 text-slate-500 dark:text-slate-400 cursor-not-allowed outline-none font-medium" 
+                    onChange={(e) => setFormData({...formData, email: e.target.value})}
+                    placeholder="Masukkan email"
+                    className="w-full pl-10 pr-4 py-2.5 text-xs rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-white/10 text-slate-900 dark:text-white outline-none focus:ring-1 focus:ring-blue-500 font-medium" 
                   />
                 </div>
-                <p className="text-[10px] text-slate-400 mt-1">*Email login tidak dapat diubah.</p>
               </div>
               <div className="space-y-1.5">
                 <label className="block text-[11px] font-bold text-slate-600 dark:text-slate-400">Keamanan Akun</label>
@@ -119,7 +169,7 @@ export default function BiodataTimSeleksiPage() {
                     type="text" 
                     value={formData.nrp} 
                     onChange={(e) => setFormData({...formData, nrp: e.target.value})} 
-                    required 
+                    placeholder="Masukkan NRP"
                     className="w-full pl-10 pr-4 py-2.5 text-xs rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-white/10 text-slate-900 dark:text-white outline-none focus:ring-1 focus:ring-blue-500" 
                   />
                 </div>
@@ -137,7 +187,7 @@ export default function BiodataTimSeleksiPage() {
                     type="text" 
                     value={formData.jabatan} 
                     onChange={(e) => setFormData({...formData, jabatan: e.target.value})} 
-                    required 
+                    placeholder="Masukkan jabatan"
                     className="w-full pl-10 pr-4 py-2.5 text-xs rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-white/10 text-slate-900 dark:text-white outline-none focus:ring-1 focus:ring-blue-500" 
                   />
                 </div>
@@ -149,6 +199,7 @@ export default function BiodataTimSeleksiPage() {
                   onChange={(e) => setFormData({...formData, komisi: e.target.value})} 
                   className="w-full px-4 py-2.5 text-xs rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-white/10 text-slate-900 dark:text-white outline-none focus:ring-1 focus:ring-blue-500 appearance-none"
                 >
+                  <option value="">-- Pilih Divisi --</option>
                   <option value="Divisi Magang">Divisi Program Magang</option>
                   <option value="Legislative Drafting">Divisi Legislative Drafting</option>
                   <option value="Media & Komunikasi">Divisi Media & Komunikasi</option>

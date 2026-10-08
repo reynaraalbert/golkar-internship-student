@@ -19,7 +19,7 @@ const DOC_MAX   = 5 * 1024 * 1024;   // 5 MB
 const ACCEPT_MAP = {
   image:    "image/jpeg,image/png,image/webp,image/gif",
   document: "application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-  all:      "image/jpeg,image/png,image/webp,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+  all:      "image/jpeg,image/png,image/webp,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
 };
 
 /** Compress image in-browser before base64 encoding. Target ~800px wide, quality 0.75. */
@@ -71,12 +71,9 @@ export default function FileUpload({
 
   const handleFile = async (file: File) => {
     setError(null);
-
-    // Limit to 2MB for images and 2MB for PDFs to save space and ensure speed
-    const currentMax = 2 * 1024 * 1024; // STRICT 2MB LIMIT FOR EVERYTHING
     
-    if (file.size > currentMax) {
-      setError(`File terlalu besar (${(file.size / 1024 / 1024).toFixed(1)} MB). Maks. 2 MB agar server aman.`);
+    if (file.size > maxBytes) {
+      setError(`File terlalu besar (${(file.size / 1024 / 1024).toFixed(1)} MB). Maks. ${maxBytes / 1024 / 1024} MB.`);
       return;
     }
 
@@ -196,10 +193,10 @@ export default function FileUpload({
               </p>
               <p className="text-[10px] text-slate-400">
                 {accept === "image"
-                  ? `PNG, JPG, WEBP — maks. ${(maxBytes / 1024 / 1024).toFixed(0)} MB (dikompres otomatis)`
+                  ? `PNG, JPG, WEBP — maks. ${(maxBytes / 1024 / 1024).toFixed(0)} MB`
                   : accept === "document"
                   ? `PDF, DOCX, XLSX — maks. ${(maxBytes / 1024 / 1024).toFixed(0)} MB`
-                  : `Gambar atau Dokumen — maks. ${(maxBytes / 1024 / 1024).toFixed(0)} MB`}
+                  : `PDF, Foto, DOCX, XLSX — maks. ${(maxBytes / 1024 / 1024).toFixed(0)} MB`}
               </p>
             </div>
           )}

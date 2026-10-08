@@ -10,6 +10,7 @@ import {
 import { Reveal, StaggerList, FadeCard } from "@/components/ui/AnimationWrapper";
 
 interface UserProfile {
+  id?: string;
   name: string;
   email: string;
   university: string;
@@ -34,13 +35,13 @@ export default function UserStatusLamaranPage() {
   const [user, setUser] = useState<UserProfile | null>(null);
   const [loading, setLoading] = useState(true);
   const [appState, setAppState] = useState<ApplicationState>({
-    id: "REG-2026-0892",
-    posisiTitle: "Program Magang Analisis Kebijakan & Riset Legislatif",
+    id: "REG-2026",
+    posisiTitle: "Belum Melamar Posisi",
     komisi: "Sekretariat Jenderal & Fraksi Partai Golkar DPR RI",
-    tanggalDaftar: "25 Sep 2026",
+    tanggalDaftar: "-",
     status: "MENUNGGU_VERIFIKASI",
-    catatanAdmin: "Berkas sedang diperiksa oleh Tim Admin CMS Fraksi Golkar DPR RI.",
-    jadwalWawancara: "Jadwal wawancara akan diterbitkan setelah berkas dinyatakan lolos verifikasi.",
+    catatanAdmin: "Silakan pilih posisi magang yang tersedia untuk memulai pendaftaran.",
+    jadwalWawancara: "-",
   });
 
   useEffect(() => {
@@ -51,6 +52,16 @@ export default function UserStatusLamaranPage() {
           const data = await res.json();
           if (data.authenticated && data.user) {
             setUser(data.user);
+            if (data.user.posisiDilamar) {
+              setAppState({
+                id: `REG-${data.user.id.slice(0, 8).toUpperCase()}`,
+                posisiTitle: data.user.posisiDilamar,
+                komisi: data.user.fakultas || "Sekretariat Jenderal & Fraksi Partai Golkar DPR RI",
+                tanggalDaftar: data.user.createdAt ? new Date(data.user.createdAt).toLocaleDateString("id-ID") : "-",
+                status: data.user.statusMagang === "LOLOS_BERKAS" || data.user.statusMagang === "Lolos Berkas" ? "DITERIMA" : data.user.statusMagang === "TIDAK_LOLOS" ? "DITOLAK" : "MENUNGGU_VERIFIKASI",
+                catatanAdmin: data.user.bio || "Berkas pendaftaran sedang dalam proses verifikasi oleh tim admin.",
+              });
+            }
           }
         }
       } catch {
@@ -64,19 +75,20 @@ export default function UserStatusLamaranPage() {
 
   // Sync state with Admin CMS verification updates
   useEffect(() => {
+    if (!user?.email) return;
     const checkStorage = () => {
       try {
         const stored = localStorage.getItem("golkar_pendaftar_magang_db");
         if (stored) {
           const list = JSON.parse(stored);
-          const myApp = list.find((p: any) => p.email === "reynaraalbertpradana@gmail.com" || p.nama === "Reynara Albert Pradana");
+          const myApp = list.find((p: any) => p.email?.toLowerCase() === user.email.toLowerCase() || p.id === user.id);
           if (myApp) {
             setAppState({
               id: myApp.id,
               posisiTitle: myApp.posisiTitle,
               komisi: myApp.komisi,
               tanggalDaftar: myApp.tanggalDaftar,
-              status: myApp.status,
+              status: myApp.status === "LOLOS_BERKAS" ? "DITERIMA" : myApp.status === "TIDAK_LOLOS" ? "DITOLAK" : "MENUNGGU_VERIFIKASI",
               catatanAdmin: myApp.catatanAdmin,
               jadwalWawancara: myApp.jadwalWawancara,
             });
@@ -99,7 +111,7 @@ export default function UserStatusLamaranPage() {
       };
       return () => bc.close();
     }
-  }, []);
+  }, [user]);
 
   if (loading) {
     return (
@@ -113,11 +125,11 @@ export default function UserStatusLamaranPage() {
   }
 
   const currentUser = user || {
-    name: "Reynara Albert Pradana",
-    university: "Universitas Indonesia",
-    major: "Ilmu Hukum & Kebijakan Publik",
-    email: "reynara@ui.ac.id",
-    photoUrl: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&auto=format&fit=crop&q=80",
+    name: "Peserta Magang",
+    university: "Perguruan Tinggi",
+    major: "Program Studi",
+    email: "",
+    photoUrl: "",
   };
 
   const isPending = appState.status === "MENUNGGU_VERIFIKASI";

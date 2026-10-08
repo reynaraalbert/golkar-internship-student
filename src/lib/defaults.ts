@@ -37,11 +37,7 @@ export const EMPTY_SITECONTENT: SiteContent = {
     "Melampirkan Transkrip Nilai Akademik terbaru yang telah dilegalisasi atau diverifikasi.",
     "Menyertakan Pasfoto formal terbaru dan pindaian Kartu Tanda Penduduk (KTP) / Kartu Tanda Mahasiswa (KTM)."
   ],
-  alumniItems: [
-    { quote: "Magang di Golkar Internship Student adalah titik balik dalam perjalanan karir saya. Mendapatkan mentor langsung dari Anggota DPR memberikan wawasan politik yang tidak diajarkan di kampus.", name: "Budi Santoso", univ: "Universitas Indonesia", major: "Ilmu Politik", role: "Legislative Research Assistant", photo: "https://i.pravatar.cc/150?img=11" },
-    { quote: "Saya belajar banyak tentang bagaimana kebijakan publik dirumuskan. Terlibat dalam perancangan draft RUU benar-benar mengasah kemampuan analisis hukum saya secara nyata.", name: "Nadia Saphira", univ: "Universitas Gadjah Mada", major: "Ilmu Hukum", role: "Legal Drafter Assistant", photo: "https://i.pravatar.cc/150?img=5" },
-    { quote: "Jaringan alumni yang kuat dan sesi mentorship rutin sangat membantu. Sampai sekarang saya masih sering berdiskusi dengan mentor saya di Fraksi terkait isu-isu strategis.", name: "Kevin Pratama", univ: "Institut Teknologi Bandung", major: "Sistem Informasi", role: "Data Analyst & IT Support", photo: "https://i.pravatar.cc/150?img=15" },
-  ],
+  alumniItems: [],
   lowongan: { title: "Posisi Magang Tersedia", subtitle: "Temukan peluang pengembangan karir yang sesuai dengan kompetensi Anda." },
   tahapan: { title: "Proses Seleksi Magang", subtitle: "Alur rekrutmen transparan dan terstruktur." },
   syarat: { title: "Persyaratan & Dokumen", subtitle: "Kriteria kualifikasi bagi calon peserta magang." },

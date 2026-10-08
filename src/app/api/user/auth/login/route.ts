@@ -10,7 +10,7 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Email dan password wajib diisi." }, { status: 400 });
     }
 
-    const user = findStudentUserByEmail(email);
+    const user = await findStudentUserByEmail(email);
     if (!user || user.passwordHash !== password) {
       return NextResponse.json({ error: "Email atau password tidak sesuai." }, { status: 401 });
     }

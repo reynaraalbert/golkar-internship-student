@@ -13,23 +13,25 @@ import { motion, AnimatePresence } from "framer-motion";
 import { apiPut } from "@/lib/admin-client";
 import { DownloadCloud } from "lucide-react";
 
-const ROLES = ["Ketua Program (Pimpinan)", "Peserta Magang (Biasa)"] as const;
-const BATCHES = ["Batch 1 (2024)", "Batch 2 (2025)", "Batch 3 (2026)"] as const;
+const ROLES = ["Peserta Biasa", "Ketua Kelas", "Wakil Ketua Kelas 1", "Wakil Ketua Kelas 2", "Sekretaris"] as const;
+const KATEGORIS = ["Tidak Ada", "Peserta Terbaik", "Best Leader", "Top Inspiration", "Peserta Favorit"] as const;
+const BATCHES = ["Batch 1 (2024)", "Batch 2 (2025)", "Batch 3 (2026)", "Batch 4 (2026)"] as const;
 
 const emptyMember = (): Member => ({
   id: `m-${Date.now()}`,
   nomorAnggota: "A-000",
   name: "",
-  role: "Peserta Magang (Biasa)",
-  fraksi: "Batch 3 (2026)",
+  role: "Peserta Biasa",
+  fraksi: "Batch 4 (2026)",
   dapil: "",
   photoUrl: "",
   email: "",
   bio: "",
   billsLed: [],
   pendidikan: "",
-  masaJabatan: "2024 – 2029",
-  komisi: "Golkar Internship",
+  masaJabatan: "Magang",
+  komisi: "",
+  kategoriPeserta: "Tidak Ada",
 });
 
 const EMPTY_MEMBER_LIST: Member[] = [];
@@ -52,7 +54,7 @@ export default function AdminAnggotaPage() {
     setData(updated);
     // Pimpinan is a role-filtered subset of the same member table.
     // Route both through the CRUD hook so any DB failure surfaces as UI.
-    const pimpinanList = updated.filter((m) => m.role !== "Anggota Komisi");
+    const pimpinanList = updated.filter((m) => m.role !== "Peserta Biasa");
     try {
       await apiPut("/api/data/pimpinan", pimpinanList);
     } catch (err: any) {
@@ -86,7 +88,7 @@ export default function AdminAnggotaPage() {
             nomorAnggota: `GIS-${p.nim.substring(0,4)}`,
             name: p.nama,
             email: p.email,
-            role: "Peserta Magang (Biasa)",
+            role: "Peserta Biasa",
             fraksi: "Batch 4 (2026)",
             dapil: p.universitas,
             photoUrl: "",
@@ -142,7 +144,7 @@ export default function AdminAnggotaPage() {
   const addBill = () => setEditing((prev) => (prev ? { ...prev, billsLed: [...prev.billsLed, ""] } : prev));
   const removeBill = (idx: number) => setEditing((prev) => (prev ? { ...prev, billsLed: prev.billsLed.filter((_, i) => i !== idx) } : prev));
 
-  const pimpinanCount = data.filter((m) => m.role !== "Anggota Komisi").length;
+  const pimpinanCount = data.filter((m) => m.role !== "Peserta Biasa").length;
 
   return (
     <div className="space-y-8 pb-24">
@@ -177,7 +179,7 @@ export default function AdminAnggotaPage() {
           Ketua Program (Pimpinan)
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {data.filter((m) => m.role !== "Peserta Magang (Biasa)").map((m) => (
+          {data.filter((m) => m.role !== "Peserta Biasa").map((m) => (
             <AnggotaCard key={m.id} m={m} onEdit={() => openEdit(m)} onDelete={() => handleDelete(m.id)} />
           ))}
         </div>
@@ -189,11 +191,11 @@ export default function AdminAnggotaPage() {
           <Users className="w-4 h-4" />
           Peserta Magang Biasa
         </div>
-        {data.filter((m) => m.role === "Peserta Magang (Biasa)").length === 0 ? (
+        {data.filter((m) => m.role === "Peserta Biasa").length === 0 ? (
           <EmptyState icon={Users} title="Belum Ada Peserta" description="Klik 'Tambah Peserta' untuk menambahkan." />
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {data.filter((m) => m.role === "Peserta Magang (Biasa)").map((m) => (
+            {data.filter((m) => m.role === "Peserta Biasa").map((m) => (
               <AnggotaCard key={m.id} m={m} onEdit={() => openEdit(m)} onDelete={() => handleDelete(m.id)} />
             ))}
           </div>
@@ -222,8 +224,10 @@ export default function AdminAnggotaPage() {
                   <Field label="Nama Peserta" required>
                     <Input value={editing.name} onChange={(e) => setEditing({ ...editing, name: e.target.value })} className="w-full" />
                   </Field>
-                  <Field label="NRP / ID Magang">
-                    <Input value={editing.nomorAnggota} onChange={(e) => setEditing({ ...editing, nomorAnggota: e.target.value })} className="w-full" placeholder="Contoh: GIS-2026-001" />
+                  <Field label="Kategori Peserta">
+                    <Select value={editing.kategoriPeserta || "Tidak Ada"} onChange={(e) => setEditing({ ...editing, kategoriPeserta: e.target.value })} className="w-full">
+                      {KATEGORIS.map((r) => <option key={r} value={r}>{r}</option>)}
+                    </Select>
                   </Field>
                 </Grid>
                 <Grid cols={2}>
@@ -255,7 +259,7 @@ export default function AdminAnggotaPage() {
                   </Field>
                 </Grid>
                 <Grid cols={2}>
-                  <Field label="Posisi Magang">
+                  <Field label="Penempatan Magang">
                     <Input value={editing.pendidikan || ""} onChange={(e) => setEditing({ ...editing, pendidikan: e.target.value })} className="w-full" placeholder="Contoh: Analis Kebijakan" />
                   </Field>
                   <Field label="Periode (Bulan - Tahun)">
@@ -317,7 +321,7 @@ function AnggotaCard({ m, onEdit, onDelete }: { m: Member; onEdit: () => void; o
         )}
       </div>
       <div className="flex-1 min-w-0">
-        <span className={`px-1.5 py-0.5 rounded text-[9px] font-bold uppercase ${m.role !== "Peserta Magang (Biasa)" ? "bg-dpr-emerald dark:bg-gold-gradient text-white dark:text-dpr-navy" : "bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300"}`}>
+        <span className={`px-1.5 py-0.5 rounded text-[9px] font-bold uppercase ${m.role !== "Peserta Biasa" ? "bg-dpr-emerald dark:bg-gold-gradient text-white dark:text-dpr-navy" : "bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300"}`}>
           {m.role}
         </span>
         <h3 className="text-sm font-bold text-slate-900 dark:text-white line-clamp-1 mt-1">{m.name || "(Tanpa Nama)"}</h3>

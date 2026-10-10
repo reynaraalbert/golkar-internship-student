@@ -12,13 +12,11 @@ export default function MembersPage() {
   const [selectedDapil, setSelectedDapil] = useState<string>("Semua");
   const [searchQuery, setSearchQuery] = useState<string>("");
 
-  // Clean separation of Pimpinan vs regular Anggota
-  const pimpinanList = pimpinan.length > 0
-    ? pimpinan
-    : anggota.filter((m) => m.role !== "Anggota Komisi");
+  // Clean separation of Best Interns vs regular Peserta
+  const pimpinanList = anggota.filter((m) => m.kategoriPeserta && m.kategoriPeserta !== "Tidak Ada" && m.kategoriPeserta !== "");
 
   const pimpinanIds = new Set(pimpinanList.map((p) => p.id));
-  const regularAnggota = anggota.filter((m) => m.role === "Anggota Komisi" && !pimpinanIds.has(m.id));
+  const regularAnggota = anggota.filter((m) => !pimpinanIds.has(m.id));
 
   const batchList = [
     "Semua",

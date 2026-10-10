@@ -72,14 +72,18 @@ export default function MemberCard({ member }: MemberCardProps) {
             />
             <div className="absolute inset-0 bg-gradient-to-t from-slate-900/90 dark:from-dpr-navy via-dpr-navy/40 to-transparent" />
 
-            {/* Role Badge */}
-            {member.role !== "Anggota Komisi" ? (
+            {/* Role / Kategori Badge */}
+            {member.kategoriPeserta && member.kategoriPeserta !== "Tidak Ada" ? (
+              <span className="absolute top-3 left-3 bg-amber-500 text-white font-bold text-[10px] uppercase px-3 py-1 rounded-full shadow-md">
+                {member.kategoriPeserta}
+              </span>
+            ) : member.role !== "Peserta Biasa" ? (
               <span className="absolute top-3 left-3 bg-dpr-emerald dark:bg-gold-gradient text-white dark:text-dpr-navy font-bold text-[10px] uppercase px-3 py-1 rounded-full shadow-md">
                 {member.role}
               </span>
             ) : (
               <span className="absolute top-3 left-3 bg-slate-900/80 dark:bg-dpr-navy/90 text-white dark:text-slate-200 font-semibold text-[10px] uppercase px-2.5 py-0.5 rounded-full border border-white/20">
-                {member.role}
+                Peserta
               </span>
             )}
 
@@ -141,7 +145,7 @@ export default function MemberCard({ member }: MemberCardProps) {
 
                   <div className="space-y-2 text-center sm:text-left">
                     <span className="inline-block bg-emerald-100 dark:bg-dpr-red/40 text-dpr-emerald-dark dark:text-dpr-gold text-xs font-bold px-3 py-1 rounded-full border border-dpr-emerald/30 dark:border-dpr-gold/40">
-                      {member.role}
+                      {member.kategoriPeserta && member.kategoriPeserta !== "Tidak Ada" ? `${member.kategoriPeserta} - ${member.role === "Peserta Biasa" ? "Peserta" : member.role}` : member.role === "Peserta Biasa" ? "Peserta" : member.role}
                     </span>
                     <h2 className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white">{member.name}</h2>
                     <p className="text-dpr-emerald-dark dark:text-dpr-gold text-xs font-semibold">{member.fraksi} — {member.dapil}</p>

@@ -19,6 +19,7 @@ export interface Member {
   pendidikan?: string;
   masaJabatan?: string;
   komisi?: string;
+  kategoriPeserta?: string;
 }
 
 export interface NewsArticle {

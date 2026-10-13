@@ -112,3 +112,8 @@ export function CmsProvider({ children }: { children: ReactNode }) {
 export function useCmsContent(): CmsContent {
   return useContext(CmsContext).content;
 }
+
+/** True once the first /api/content fetch has finished (success or failure). */
+export function useCmsLoaded(): boolean {
+  return useContext(CmsContext).loaded;
+}

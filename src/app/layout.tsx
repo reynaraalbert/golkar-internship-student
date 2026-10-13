@@ -4,6 +4,7 @@ import { ThemeProvider } from "@/components/ThemeProvider";
 import { CmsProvider } from "@/components/CmsProvider";
 import SiteChrome from "@/components/SiteChrome";
 import { DialogRenderer } from "@/components/admin/DialogSystem";
+import SplashScreen from "@/components/SplashScreen";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
@@ -98,6 +99,7 @@ export default function RootLayout({
               type="application/ld+json"
               dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
             />
+            <SplashScreen />
             <SiteChrome>{children}</SiteChrome>
             <DialogRenderer />
           </CmsProvider>

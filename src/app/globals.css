@@ -149,3 +149,57 @@ html:not(.dark) .batik-bg {
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
+
+/* ───────────── Opening Splash (Portal E-Magang) ───────────── */
+.gis-splash-door {
+  background-color: #0A111E;
+  background-image:
+    radial-gradient(rgba(212, 175, 55, 0.07) 1px, transparent 0),
+    linear-gradient(90deg, #060B14 0%, #0A111E 60%, #111B2E 100%);
+  background-size: 24px 24px, 100% 100%;
+  will-change: transform;
+}
+
+.gis-splash-door--right {
+  background-image:
+    radial-gradient(rgba(212, 175, 55, 0.07) 1px, transparent 0),
+    linear-gradient(270deg, #060B14 0%, #0A111E 60%, #111B2E 100%);
+}
+
+.gis-splash-sweep {
+  background: conic-gradient(from 0deg, transparent 0deg, rgba(245, 197, 24, 0.0) 220deg, rgba(245, 197, 24, 0.35) 330deg, transparent 360deg);
+  -webkit-mask: radial-gradient(circle, transparent 62%, #000 63%, #000 70%, transparent 71%);
+  mask: radial-gradient(circle, transparent 62%, #000 63%, #000 70%, transparent 71%);
+}
+
+.gis-splash-shimmer {
+  background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.55) 50%, transparent 100%);
+  transform: translateX(-100%);
+  animation: gis-splash-shimmer 0.9s ease-in-out infinite;
+}
+
+@keyframes gis-splash-shimmer {
+  to { transform: translateX(100%); }
+}
+
+.gis-splash-dots::after {
+  content: "";
+  display: inline-block;
+  width: 1.2em;
+  text-align: left;
+  animation: gis-splash-dots 0.9s steps(4, end) infinite;
+}
+
+@keyframes gis-splash-dots {
+  0%   { content: ""; }
+  25%  { content: "."; }
+  50%  { content: ".."; }
+  75%  { content: "..."; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gis-splash-shimmer,
+  .gis-splash-dots::after {
+    animation: none;
+  }
+}

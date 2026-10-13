@@ -5,6 +5,7 @@ import { CmsProvider } from "@/components/CmsProvider";
 import SiteChrome from "@/components/SiteChrome";
 import { DialogRenderer } from "@/components/admin/DialogSystem";
 import SplashScreen from "@/components/SplashScreen";
+import CustomCursor from "@/components/CustomCursor";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
@@ -102,6 +103,7 @@ export default function RootLayout({
             <SplashScreen />
             <SiteChrome>{children}</SiteChrome>
             <DialogRenderer />
+            <CustomCursor />
           </CmsProvider>
         </ThemeProvider>
       </body>

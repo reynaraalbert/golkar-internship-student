@@ -203,3 +203,69 @@ html:not(.dark) .batik-bg {
     animation: none;
   }
 }
+
+/* ───────────── Custom Cursor (Desktop) ───────────── */
+html.gis-cursor-on,
+html.gis-cursor-on * {
+  cursor: none !important;
+}
+
+/* Keep the text caret for typing fields */
+html.gis-cursor-on input:not([type="checkbox"]):not([type="radio"]):not([type="submit"]):not([type="button"]):not([type="range"]):not([type="file"]),
+html.gis-cursor-on textarea,
+html.gis-cursor-on [contenteditable="true"] {
+  cursor: text !important;
+}
+
+.gis-cursor-root {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+}
+
+.gis-cursor-orb {
+  position: fixed;
+  left: 0;
+  top: 0;
+  border-radius: 9999px;
+  filter: blur(0.6px);
+  will-change: transform;
+}
+
+.gis-cursor-head {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 40px;
+  height: 40px;
+  border-radius: 9999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(circle at 35% 30%, #1E2A42 0%, #0A111E 75%);
+  border: 2px solid rgba(255, 255, 255, 0.92);
+  box-shadow:
+    0 0 0 1px rgba(0, 0, 0, 0.25),
+    0 0 16px rgba(245, 197, 24, 0.45),
+    0 4px 14px rgba(0, 0, 0, 0.35);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  will-change: transform;
+}
+
+.gis-cursor-head img {
+  width: 72%;
+  height: 72%;
+  object-fit: contain;
+  user-select: none;
+  filter: drop-shadow(0 1px 3px rgba(212, 175, 55, 0.5));
+}
+
+.gis-cursor-head[data-hover="1"] {
+  border-color: #F5C518;
+  box-shadow:
+    0 0 0 1px rgba(0, 0, 0, 0.25),
+    0 0 28px rgba(245, 197, 24, 0.75),
+    0 4px 14px rgba(0, 0, 0, 0.35);
+}

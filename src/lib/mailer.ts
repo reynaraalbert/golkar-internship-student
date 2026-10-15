@@ -1,12 +1,6 @@
-import nodemailer from "nodemailer";
+import { Resend } from "resend";
 
-const transporter = nodemailer.createTransport({
-  service: "gmail",
-  auth: {
-    user: process.env.SMTP_EMAIL,
-    pass: process.env.SMTP_APP_PASSWORD,
-  },
-});
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 export async function sendPasswordResetEmail(
   to: string,
@@ -76,8 +70,8 @@ export async function sendPasswordResetEmail(
 </html>
 `;
 
-  await transporter.sendMail({
-    from: `"Golkar Internship Student" <${process.env.SMTP_EMAIL}>`,
+  await resend.emails.send({
+    from: "Golkar Internship Student <onboarding@resend.dev>",
     to,
     subject: "Reset Kata Sandi – Golkar Internship Student",
     html,

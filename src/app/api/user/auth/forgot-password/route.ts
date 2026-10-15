@@ -4,9 +4,6 @@ import { sendPasswordResetEmail } from "@/lib/mailer";
 import { prisma } from "@/lib/prisma";
 import crypto from "crypto";
 
-export const runtime = "nodejs";
-
-
 export async function POST(request: Request) {
   try {
     const { email } = await request.json();

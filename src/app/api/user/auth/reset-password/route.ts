@@ -1,6 +1,9 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 
+export const runtime = "nodejs";
+
+
 /** Password must have: min 8 chars, uppercase, lowercase, digit, special char */
 export function validateStrongPassword(password: string): string | null {
   if (password.length < 8) return "Kata sandi minimal 8 karakter.";

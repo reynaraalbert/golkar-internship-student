@@ -158,9 +158,9 @@ export default function UserLoginPage() {
                 />
                 Ingat Saya
               </label>
-              <a href="#" className="text-amber-700 dark:text-amber-400 hover:underline">
+              <Link href="/user/forgot-password" className="text-amber-400 hover:underline">
                 Lupa password?
-              </a>
+              </Link>
             </div>
 
             <button

@@ -140,6 +140,8 @@ model StudentUser {
   fakultas         String?
   socialMedia      Json?
   documents        Json?
+  resetToken       String?
+  resetTokenExpiry DateTime?
   createdAt        DateTime @default(now())
   updatedAt        DateTime @updatedAt
   experiences      UserExperience[]

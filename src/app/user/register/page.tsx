@@ -3,8 +3,38 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { ArrowLeft, Eye, EyeOff, Wrench } from "lucide-react";
+import { ArrowLeft, Eye, EyeOff, Wrench, CheckCircle2, XCircle } from "lucide-react";
 import { useCmsContent } from "@/components/CmsProvider";
+
+function PasswordStrength({ password }: { password: string }) {
+  const checks = [
+    { label: "Minimal 8 karakter", ok: password.length >= 8 },
+    { label: "Huruf kapital (A-Z)", ok: /[A-Z]/.test(password) },
+    { label: "Huruf kecil (a-z)", ok: /[a-z]/.test(password) },
+    { label: "Angka (0-9)", ok: /[0-9]/.test(password) },
+    { label: "Simbol (@, #, !, _…)", ok: /[^A-Za-z0-9]/.test(password) },
+  ];
+  const passed = checks.filter((c) => c.ok).length;
+  const colors = ["bg-red-500", "bg-orange-500", "bg-yellow-500", "bg-lime-500", "bg-emerald-500"];
+  const color = colors[passed - 1] ?? "bg-slate-600";
+  return (
+    <div className="mt-2 space-y-1">
+      <div className="flex gap-1">
+        {[0,1,2,3,4].map((i) => (
+          <div key={i} className={`h-1 flex-1 rounded-full transition-all ${i < passed ? color : "bg-slate-200 dark:bg-slate-700"}`} />
+        ))}
+      </div>
+      <ul className="space-y-0.5">
+        {checks.map((c) => (
+          <li key={c.label} className={`flex items-center gap-1.5 text-[10px] ${c.ok ? "text-emerald-600 dark:text-emerald-400" : "text-slate-400"}`}>
+            {c.ok ? <CheckCircle2 className="w-3 h-3 shrink-0" /> : <XCircle className="w-3 h-3 shrink-0" />}
+            {c.label}
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
 
 export default function UserRegisterPage() {
   const router = useRouter();
@@ -28,10 +58,17 @@ export default function UserRegisterPage() {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  const isPasswordStrong = (pw: string) =>
+    pw.length >= 8 && /[A-Z]/.test(pw) && /[a-z]/.test(pw) && /[0-9]/.test(pw) && /[^A-Za-z0-9]/.test(pw);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
 
+    if (!isPasswordStrong(formData.password)) {
+      setError("Kata sandi harus mengandung huruf kapital, huruf kecil, angka, dan simbol, minimal 8 karakter.");
+      return;
+    }
     if (formData.password !== formData.confirmPassword) {
       setError("Konfirmasi kata sandi tidak cocok.");
       return;
@@ -228,7 +265,7 @@ export default function UserRegisterPage() {
                     required
                     value={formData.password}
                     onChange={handleChange}
-                    placeholder="Minimal 6 karakter"
+                    placeholder="Min 8 karakter, huruf kapital, angka, simbol"
                     className="w-full pl-3.5 pr-10 py-2.5 text-sm rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-amber-500 outline-none"
                   />
                   <button
@@ -239,6 +276,7 @@ export default function UserRegisterPage() {
                     {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                   </button>
                 </div>
+                {formData.password && <PasswordStrength password={formData.password} />}
               </div>
 
               <div>

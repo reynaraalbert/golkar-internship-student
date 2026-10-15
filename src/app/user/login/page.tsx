@@ -45,12 +45,12 @@ export default function UserLoginPage() {
 
   if (isMaintenance) {
     return (
-      <div className="min-h-screen w-full flex flex-col items-center justify-center bg-slate-50 dark:bg-slate-950 font-sans text-slate-800 dark:text-slate-100 p-6">
+      <div className="min-h-screen w-full flex flex-col items-center justify-center bg-slate-900 font-sans text-slate-100 p-6">
         <Wrench className="w-16 h-16 text-amber-500 mb-6 animate-bounce" />
-        <h1 className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white tracking-tight mb-4 text-center">
+        <h1 className="text-3xl sm:text-4xl font-black text-white tracking-tight mb-4 text-center">
           Sistem Under Maintenance
         </h1>
-        <p className="text-base sm:text-lg text-slate-600 dark:text-slate-400 max-w-md text-center mb-8">
+        <p className="text-base sm:text-lg text-slate-400 max-w-md text-center mb-8">
           Sistem login saat ini sedang dalam perbaikan atau pemeliharaan. Silakan kembali beberapa saat lagi.
         </p>
         <Link
@@ -64,7 +64,7 @@ export default function UserLoginPage() {
   }
 
   return (
-    <div className="min-h-screen lg:h-screen w-full flex flex-col lg:flex-row bg-slate-50 dark:bg-slate-950 font-sans text-slate-800 dark:text-slate-100 overflow-y-auto lg:overflow-hidden">
+    <div className="min-h-screen lg:h-screen w-full flex flex-col lg:flex-row bg-slate-900 font-sans text-slate-800 dark:text-slate-100 overflow-y-auto lg:overflow-hidden">
       
       {/* MOBILE HERO BANNER (HEADER IMAGE ON MOBILE) */}
       <div className="lg:hidden relative h-40 sm:h-48 w-full overflow-hidden bg-slate-900 shrink-0">
@@ -86,13 +86,13 @@ export default function UserLoginPage() {
       </div>
 
       {/* FORM CONTAINER (BALANCED SPACING & VERTICALLY CENTERED ON MOBILE & DESKTOP) */}
-      <div className="w-full lg:w-1/2 flex flex-col justify-center px-6 sm:px-10 lg:px-12 py-8 sm:py-12 bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 z-10 flex-1 my-auto">
+      <div className="w-full lg:w-1/2 flex flex-col justify-center px-6 sm:px-10 lg:px-12 py-8 sm:py-12 bg-slate-900 z-10 flex-1 my-auto">
         <div className="max-w-md w-full mx-auto lg:mx-0">
 
-          <h1 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white tracking-tight mb-1">
+          <h1 className="text-2xl sm:text-3xl font-black text-white tracking-tight mb-1">
             Masuk Akun
           </h1>
-          <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 mb-4">
+          <p className="text-xs sm:text-sm text-slate-400 mb-4">
             Gunakan email dan password terdaftar untuk mengakses portal magang.
           </p>
 
@@ -112,7 +112,7 @@ export default function UserLoginPage() {
           {/* Form */}
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label className="block text-[11px] font-bold text-slate-700 dark:text-slate-300 mb-1.5 uppercase tracking-wide">
+              <label className="block text-[11px] font-bold text-slate-300 mb-1.5 uppercase tracking-wide">
                 Alamat Email
               </label>
               <input
@@ -121,12 +121,12 @@ export default function UserLoginPage() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="contoh@email.com"
-                className="w-full px-4 py-2.5 text-sm rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-amber-500 focus:border-amber-500 outline-none transition-all"
+                className="w-full px-4 py-2.5 text-sm rounded-xl border border-slate-700 bg-slate-800 text-white placeholder:text-slate-500 focus:ring-2 focus:ring-amber-500 focus:border-amber-500 outline-none transition-all"
               />
             </div>
 
             <div>
-              <label className="block text-[11px] font-bold text-slate-700 dark:text-slate-300 mb-1.5 uppercase tracking-wide">
+              <label className="block text-[11px] font-bold text-slate-300 mb-1.5 uppercase tracking-wide">
                 Kata Sandi
               </label>
               <div className="relative">
@@ -136,7 +136,7 @@ export default function UserLoginPage() {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="Masukkan kata sandi"
-                  className="w-full pl-4 pr-11 py-2.5 text-sm rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-amber-500 focus:border-amber-500 outline-none transition-all"
+                  className="w-full pl-4 pr-11 py-2.5 text-sm rounded-xl border border-slate-700 bg-slate-800 text-white placeholder:text-slate-500 focus:ring-2 focus:ring-amber-500 focus:border-amber-500 outline-none transition-all"
                 />
                 <button
                   type="button"
@@ -149,7 +149,7 @@ export default function UserLoginPage() {
             </div>
 
             <div className="flex items-center justify-between text-xs font-semibold pt-1">
-              <label className="flex items-center gap-2 cursor-pointer text-slate-600 dark:text-slate-400 select-none">
+              <label className="flex items-center gap-2 cursor-pointer text-slate-400 select-none">
                 <input
                   type="checkbox"
                   checked={rememberMe}
@@ -172,7 +172,7 @@ export default function UserLoginPage() {
             </button>
 
             <div className="text-center space-y-1.5 text-xs font-semibold pt-2">
-              <p className="text-slate-600 dark:text-slate-400">
+              <p className="text-slate-400">
                 Belum punya akun?{" "}
                 <Link href="/user/register" className="text-amber-700 dark:text-amber-400 font-extrabold hover:underline">
                   Daftar Sekarang

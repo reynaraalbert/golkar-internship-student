@@ -169,7 +169,7 @@ export default function Header() {
             </Link>
 
             {/* Desktop Navigation */}
-            <nav className="hidden xl:flex items-center gap-0.5 lg:gap-1 xl:gap-1.5 2xl:gap-3 shrink-0">
+            <nav className="hidden lg:flex items-center gap-0.5 lg:gap-1 xl:gap-1.5 2xl:gap-3 shrink-0">
               {navLinks.map((link) => {
                 const Icon = link.icon;
                 const isActive = pathname === link.href;
@@ -183,7 +183,7 @@ export default function Header() {
                       rel="noopener noreferrer"
                       className="relative flex items-center gap-1 lg:gap-1.5 px-1 lg:px-1.5 xl:px-2 py-1.5 rounded-full text-[10px] lg:text-[11px] xl:text-[13px] 2xl:text-sm font-bold text-amber-600 dark:text-amber-400 hover:bg-amber-400/10 transition-all duration-200"
                     >
-                      <Icon className="w-3 h-3 lg:w-3.5 lg:h-3.5 xl:w-4 xl:h-4 text-amber-500 shrink-0" />
+                      <Icon className="hidden xl:block xl:w-4 xl:h-4 text-amber-500 shrink-0" />
                       <span>{link.name}</span>
                     </a>
                   );
@@ -200,7 +200,7 @@ export default function Header() {
                       }`}
                     >
                       <span className="flex items-center gap-1 lg:gap-1.5">
-                        <Icon className="w-3 h-3 lg:w-3.5 lg:h-3.5 xl:w-4 xl:h-4 shrink-0 text-amber-600 dark:text-amber-400" />
+                        <Icon className="hidden xl:block xl:w-4 xl:h-4 shrink-0 text-amber-600 dark:text-amber-400" />
                         <span>{link.name}</span>
                       </span>
                     </Link>
@@ -224,7 +224,7 @@ export default function Header() {
             </nav>
 
             {/* Theme Toggle & Actions (Desktop) */}
-            <div className="hidden xl:flex items-center gap-1 lg:gap-2 shrink-0">
+            <div className="hidden lg:flex items-center gap-1 lg:gap-2 shrink-0">
               <button
                 onClick={toggleTheme}
                 className="p-2 rounded-full bg-slate-100 dark:bg-dpr-navy-card border border-slate-200 dark:border-white/15 text-slate-700 dark:text-dpr-gold hover:scale-110 transition-transform shadow-sm"
@@ -242,14 +242,14 @@ export default function Header() {
                 className="inline-flex items-center gap-1 lg:gap-1.5 px-2 lg:px-3 xl:px-4 py-1.5 lg:py-2 text-[9px] lg:text-[10px] xl:text-[11px] 2xl:text-xs font-black rounded-full bg-gradient-to-r from-amber-400 via-amber-500 to-yellow-500 text-slate-950 shadow-sm hover:shadow-md hover:scale-105 transition-all shrink-0 border border-amber-500/30"
               >
                 <UserCheck className="w-3 h-3 lg:w-3.5 lg:h-3.5 shrink-0" />
-                <span className="truncate max-w-[45px] lg:max-w-[60px] xl:max-w-[100px] 2xl:max-w-[150px]">
+                <span className="truncate max-w-[45px] lg:max-w-[80px] xl:max-w-[100px] 2xl:max-w-[150px]">
                   {isUserLoggedIn ? (loggedInUserName || "Portal Peserta") : "Register / Login"}
                 </span>
               </Link>
             </div>
 
             {/* Mobile Right Bar (Theme toggle + Menu toggle) */}
-            <div className="flex items-center gap-1.5 sm:gap-2 xl:hidden shrink-0">
+            <div className="flex items-center gap-1.5 sm:gap-2 lg:hidden shrink-0">
               <button
                 onClick={toggleTheme}
                 className="p-1.5 sm:p-2 rounded-lg bg-slate-100 dark:bg-dpr-navy-card border border-slate-200 dark:border-white/10 text-slate-700 dark:text-dpr-gold"

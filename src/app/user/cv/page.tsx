@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { Download, ChevronLeft, FileText, CheckCircle2, Eye, X, Loader2, RefreshCw, AlertCircle } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -65,15 +65,33 @@ function getHostLabel(url: string): string {
   return "Website";
 }
 
+/** Standard PDF fonts only support Latin-1, so normalize/strip unsupported characters. */
+function pdfSafe(text: string): string {
+  if (!text) return "";
+  return text
+    .replace(/[\u2013\u2014]/g, "-")
+    .replace(/[\u2018\u2019]/g, "'")
+    .replace(/[\u201C\u201D]/g, '"')
+    .replace(/\u2026/g, "...")
+    .replace(/[^\x00-\xFF]/g, "")
+    .trim();
+}
+
+function toBullets(description: string): string[] {
+  return description
+    ? description.split("\n").map(s => s.replace(/^[-•]\s*/, "").trim()).filter(Boolean)
+    : [];
+}
+
 export default function CVGeneratorPage() {
   const [loading, setLoading] = useState(true);
   const [generating, setGenerating] = useState(false);
   const [generated, setGenerated] = useState(false);
   const [showPreview, setShowPreview] = useState(false);
+  const [downloading, setDownloading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [profile, setProfile] = useState<UserProfile | null>(null);
   const [experiences, setExperiences] = useState<Experience[]>([]);
-  const cvRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     async function loadData() {
@@ -104,39 +122,194 @@ export default function CVGeneratorPage() {
     setTimeout(() => { setGenerating(false); setGenerated(true); }, 1200);
   };
 
-  const handlePrint = () => {
-    if (!cvRef.current) return;
-    const printWin = window.open("", "_blank");
-    if (!printWin) return;
-    printWin.document.write(`
-      <!DOCTYPE html><html><head>
-      <meta charset="utf-8"/>
-      <title>CV - ${profile?.name || "ATS CV"}</title>
-      <style>
-        * { margin:0; padding:0; box-sizing:border-box; }
-        body { font-family: 'Times New Roman', serif; font-size: 11pt; color: #111; background: white; }
-        .cv { width:210mm; min-height:297mm; padding: 18mm 16mm; margin: 0 auto; }
-        h1 { font-size: 20pt; text-align: center; text-transform: uppercase; letter-spacing: 2px; }
-        .contact { text-align: center; font-size: 9pt; margin-top: 6px; line-height: 1.7; }
-        .divider { border-top: 2px solid #111; margin: 10px 0; }
-        h2 { font-size: 11pt; text-transform: uppercase; font-weight: bold; border-bottom: 1px solid #555; margin-bottom: 6px; margin-top: 14px; padding-bottom: 2px; }
-        .row { display: flex; justify-content: space-between; font-size: 10pt; }
-        .row .left { font-weight: bold; }
-        .row .right { font-style: italic; }
-        .italic { font-style: italic; font-size: 10pt; }
-        ul { padding-left: 18px; margin-top: 2px; }
-        li { font-size: 9.5pt; margin-bottom: 2px; line-height: 1.4; }
-        .bio { font-size: 9.5pt; line-height: 1.5; margin-top: 4px; }
-        .exp-item { margin-bottom: 10px; }
-        .social-links { font-size: 9pt; text-align: center; margin-top: 4px; }
-        @media print { @page { margin: 0; } body { -webkit-print-color-adjust: exact; } }
-      </style></head><body>
-      <div class="cv">${cvRef.current.innerHTML}</div>
-      </body></html>
-    `);
-    printWin.document.close();
-    printWin.focus();
-    setTimeout(() => { printWin.print(); printWin.close(); }, 500);
+  /**
+   * Generates a text-based (ATS-readable) PDF straight from profile data and
+   * downloads it immediately — no preview modal or print dialog required.
+   */
+  const handleDownload = async () => {
+    if (!profile || downloading) return;
+    setDownloading(true);
+    try {
+      const { jsPDF } = await import("jspdf");
+      const doc = new jsPDF({ unit: "mm", format: "a4" });
+
+      const PAGE_W = 210;
+      const PAGE_H = 297;
+      const MX = 16;
+      const MT = 18;
+      const MB = 18;
+      const CW = PAGE_W - MX * 2;
+      const PT = 0.3528; // 1pt in mm
+      const lh = (size: number, factor = 1.4) => size * PT * factor;
+      let y = MT;
+
+      const ensure = (h: number) => {
+        if (y + h > PAGE_H - MB) { doc.addPage(); y = MT; }
+      };
+      const setFont = (style: "normal" | "bold" | "italic" | "bolditalic", size: number) => {
+        doc.setFont("times", style);
+        doc.setFontSize(size);
+      };
+      const centered = (text: string, size: number, style: "normal" | "bold" | "italic" = "normal") => {
+        setFont(style, size);
+        const lines = doc.splitTextToSize(pdfSafe(text), CW) as string[];
+        lines.forEach(line => {
+          ensure(lh(size));
+          y += lh(size);
+          doc.text(line, PAGE_W / 2, y - lh(size) * 0.25, { align: "center" });
+        });
+      };
+      const paragraph = (text: string, size: number, x = MX, width = CW, style: "normal" | "italic" = "normal") => {
+        setFont(style, size);
+        const lines = doc.splitTextToSize(pdfSafe(text), width) as string[];
+        lines.forEach(line => {
+          ensure(lh(size));
+          y += lh(size);
+          doc.text(line, x, y - lh(size) * 0.25);
+        });
+      };
+      const row = (
+        left: string, right: string, size: number,
+        leftStyle: "normal" | "bold" | "italic", rightStyle: "normal" | "bold" | "italic",
+      ) => {
+        const r = pdfSafe(right);
+        setFont(rightStyle, size);
+        const rightW = r ? doc.getTextWidth(r) + 4 : 0;
+        setFont(leftStyle, size);
+        const lines = doc.splitTextToSize(pdfSafe(left), CW - rightW) as string[];
+        lines.forEach((line, i) => {
+          ensure(lh(size));
+          y += lh(size);
+          const baseline = y - lh(size) * 0.25;
+          setFont(leftStyle, size);
+          doc.text(line, MX, baseline);
+          if (i === 0 && r) {
+            setFont(rightStyle, size);
+            doc.text(r, PAGE_W - MX, baseline, { align: "right" });
+          }
+        });
+      };
+      const bullets = (items: string[]) => {
+        const size = 9.5;
+        setFont("normal", size);
+        items.forEach(item => {
+          const lines = doc.splitTextToSize(pdfSafe(item), CW - 7) as string[];
+          lines.forEach((line, i) => {
+            ensure(lh(size, 1.45));
+            y += lh(size, 1.45);
+            const baseline = y - lh(size, 1.45) * 0.28;
+            if (i === 0) doc.circle(MX + 3, baseline - 1.1, 0.45, "F");
+            doc.text(line, MX + 6, baseline);
+          });
+          y += 0.5;
+        });
+      };
+      const section = (title: string) => {
+        ensure(14);
+        y += 5;
+        setFont("bold", 11);
+        y += lh(11);
+        doc.text(title.toUpperCase(), MX, y - lh(11) * 0.25);
+        y += 0.8;
+        doc.setLineWidth(0.25);
+        doc.setDrawColor(136);
+        doc.line(MX, y, PAGE_W - MX, y);
+        doc.setDrawColor(0);
+        y += 1.8;
+      };
+
+      // === HEADER ===
+      doc.setTextColor(17);
+      centered((profile.name || "Nama Lengkap").toUpperCase(), 20, "bold");
+      if (profile.bio) { doc.setTextColor(68); centered(profile.bio, 9, "italic"); doc.setTextColor(17); }
+      if (contactParts.length > 0) centered(contactParts.join("  |  "), 9);
+      if (socialLinks.length > 0) centered(socialLinks.map(([, url]) => formatSocialUrl(url as string)).join("  |  "), 9);
+      y += 2;
+      doc.setLineWidth(0.6);
+      doc.line(MX, y, PAGE_W - MX, y);
+      y += 1;
+
+      // === PENDIDIKAN ===
+      if (profile.university || profile.major) {
+        section("Pendidikan");
+        row(profile.university || "-", profile.semester || "", 10.5, "bold", "bold");
+        row(
+          `${profile.programPendidikan || "S1"} ${profile.major || "-"}${profile.fakultas ? `, ${profile.fakultas}` : ""}`,
+          profile.ipk ? `IPK: ${profile.ipk} / 4.00` : "",
+          10, "italic", "italic",
+        );
+      }
+
+      // === PROFIL SINGKAT ===
+      if (profile.bio) {
+        section("Profil Singkat");
+        paragraph(profile.bio, 9.5);
+      }
+
+      // === PENGALAMAN ORGANISASI & PROFESIONAL ===
+      if (orgExp.length > 0) {
+        section("Pengalaman Organisasi & Profesional");
+        orgExp.forEach(exp => {
+          const start = formatMonth(exp.startDate);
+          const end = exp.isCurrent ? "Sekarang" : formatMonth(exp.endDate);
+          const period = [start, end].filter(Boolean).join(" - ");
+          row(exp.title, period, 10.5, "bold", "italic");
+          if (exp.role) paragraph(exp.role, 10, MX, CW, "italic");
+          const b = toBullets(exp.description);
+          if (b.length > 0) bullets(b);
+          y += 2.5;
+        });
+      }
+
+      // === PORTOFOLIO & PUBLIKASI ===
+      if (projectExp.length > 0) {
+        section("Portofolio & Publikasi");
+        projectExp.forEach(exp => {
+          row(exp.role ? `${exp.title} - ${exp.role}` : exp.title, "", 10.5, "bold", "normal");
+          const b = toBullets(exp.description);
+          if (b.length > 0) bullets(b);
+          if (exp.url) { doc.setTextColor(85); paragraph(`Link: ${formatSocialUrl(exp.url)}`, 8.5); doc.setTextColor(17); }
+          y += 2;
+        });
+      }
+
+      if (orgExp.length === 0 && projectExp.length === 0) {
+        section("Pengalaman");
+        doc.setTextColor(136);
+        paragraph("Belum ada pengalaman yang ditambahkan. Lengkapi di menu Pengalaman.", 9.5, MX, CW, "italic");
+        doc.setTextColor(17);
+      }
+
+      // === INFORMASI TAMBAHAN ===
+      const extra: [string, string][] = [];
+      if (profile.phone) extra.push(["WhatsApp", profile.phone]);
+      if (profile.domisili) extra.push(["Domisili", profile.domisili]);
+      if (profile.nim) extra.push(["NIM", profile.nim]);
+      if (profile.semester) extra.push(["Semester", profile.semester]);
+      if (extra.length > 0) {
+        section("Informasi Tambahan");
+        extra.forEach(([label, value]) => {
+          ensure(lh(9.5, 1.6));
+          y += lh(9.5, 1.6);
+          const baseline = y - lh(9.5, 1.6) * 0.3;
+          setFont("bold", 9.5);
+          const labelText = `${label}: `;
+          doc.text(labelText, MX, baseline);
+          const lw = doc.getTextWidth(labelText);
+          setFont("normal", 9.5);
+          doc.text(pdfSafe(value), MX + lw, baseline);
+        });
+      }
+
+      doc.setProperties({ title: `CV - ${pdfSafe(profile.name || "ATS CV")}`, author: pdfSafe(profile.name || "") });
+      const safeName = (profile.name || "ATS").replace(/[^a-zA-Z0-9]+/g, "_").replace(/^_|_$/g, "");
+      doc.save(`CV_${safeName || "ATS"}.pdf`);
+    } catch (err) {
+      console.error("Gagal membuat PDF:", err);
+      alert("Gagal membuat PDF. Silakan coba lagi.");
+    } finally {
+      setDownloading(false);
+    }
   };
 
   const orgExp = experiences.filter(e => e.type === "organisasi" || e.type === "professional");
@@ -256,7 +429,7 @@ export default function CVGeneratorPage() {
               </div>
               <div>
                 <h3 className="font-bold text-emerald-900 dark:text-emerald-400 text-lg">CV ATS Berhasil Dibuat!</h3>
-                <p className="text-emerald-700 dark:text-emerald-600 text-sm">Resume berbasis data profil nyata Anda. Klik Preview untuk melihat.</p>
+                <p className="text-emerald-700 dark:text-emerald-600 text-sm">Resume berbasis data profil nyata Anda. Klik Preview untuk melihat, atau langsung Download PDF.</p>
               </div>
               <div className="flex flex-col sm:flex-row items-center justify-center gap-3 mt-4">
                 <button
@@ -266,10 +439,13 @@ export default function CVGeneratorPage() {
                   <Eye className="w-4 h-4" /> Preview CV
                 </button>
                 <button
-                  onClick={handlePrint}
-                  className="px-6 py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-sm rounded-xl transition-all shadow-md flex items-center gap-2 w-full sm:w-auto justify-center"
+                  onClick={handleDownload}
+                  disabled={downloading}
+                  className="px-6 py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-sm rounded-xl transition-all shadow-md flex items-center gap-2 w-full sm:w-auto justify-center disabled:opacity-60"
                 >
-                  <Download className="w-4 h-4" /> Download / Cetak PDF
+                  {downloading
+                    ? <><Loader2 className="w-4 h-4 animate-spin" /> Menyiapkan PDF...</>
+                    : <><Download className="w-4 h-4" /> Download / Cetak PDF</>}
                 </button>
               </div>
             </div>
@@ -294,10 +470,13 @@ export default function CVGeneratorPage() {
                 </h3>
                 <div className="flex items-center gap-2">
                   <button
-                    onClick={handlePrint}
-                    className="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs rounded-lg flex items-center gap-1 transition-colors"
+                    onClick={handleDownload}
+                    disabled={downloading}
+                    className="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs rounded-lg flex items-center gap-1 transition-colors disabled:opacity-60"
                   >
-                    <Download className="w-3.5 h-3.5" /> Download PDF
+                    {downloading
+                      ? <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                      : <Download className="w-3.5 h-3.5" />} Download PDF
                   </button>
                   <button onClick={() => setShowPreview(false)} className="p-2 hover:bg-slate-200 rounded-lg transition-colors">
                     <X className="w-5 h-5 text-slate-600" />
@@ -308,7 +487,6 @@ export default function CVGeneratorPage() {
               {/* CV Paper */}
               <div className="flex-1 overflow-y-auto p-4 sm:p-8 bg-slate-200 flex justify-center">
                 <div
-                  ref={cvRef}
                   className="w-[210mm] min-h-[297mm] bg-white shadow-md p-8 sm:p-10 text-slate-900 space-y-0 mx-auto origin-top"
                   style={{ fontFamily: "'Times New Roman', Times, serif", fontSize: "11pt" }}
                 >

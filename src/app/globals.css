@@ -151,6 +151,10 @@ html:not(.dark) .batik-bg {
 }
 
 /* ───────────── Opening Splash (Portal E-Magang) ───────────── */
+/* Already played this session → hide instantly (attribute set by inline script in layout.tsx) */
+html[data-gis-splash="seen"] [data-gis-splash-root] {
+  display: none !important;
+}
 .gis-splash-door {
   background-color: #0A111E;
   background-image:

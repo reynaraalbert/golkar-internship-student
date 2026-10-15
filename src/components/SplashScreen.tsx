@@ -7,7 +7,9 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useCmsLoaded } from "@/components/CmsProvider";
 
 /**
- * Opening animation shown once per full page load.
+ * Opening animation shown only once per browser session (first visit).
+ * Subsequent full page loads in the same tab session skip it entirely —
+ * see SPLASH_SESSION_KEY and the inline script in app/layout.tsx.
  *
  * Sequence:
  *  1. loading  – counter 0 → 100% while /api/content is fetched
@@ -21,6 +23,9 @@ const LOAD_MAX_MS = 2600; // hard cap for the counter
 const SETTLE_MS = 180; // short pause on "100% · Portal siap"
 const GRANTED_MS = 650;
 const OPENING_MS = 1500;
+
+// Keep in sync with the inline script in app/layout.tsx
+const SPLASH_SESSION_KEY = "gis-splash-seen";
 
 const STAGES = [
   { at: 0, label: "Menghubungkan ke server" },
@@ -76,10 +81,31 @@ export default function SplashScreen() {
 
   const [progress, setProgress] = useState(0);
   const [phase, setPhase] = useState<Phase>(skip ? "done" : "loading");
+  // Becomes true only when this is the first visit of the session
+  const [shouldPlay, setShouldPlay] = useState(false);
 
   useEffect(() => {
     loadedRef.current = loaded;
   }, [loaded]);
+
+  // Play only once per browser session. The decision is cached in a ref so
+  // React StrictMode's double-invoked effects don't mark it "seen" and skip it.
+  const playDecisionRef = useRef<boolean | null>(null);
+  useEffect(() => {
+    if (skip) return;
+    if (playDecisionRef.current === null) {
+      let seen = false;
+      try {
+        seen = !!sessionStorage.getItem(SPLASH_SESSION_KEY);
+        sessionStorage.setItem(SPLASH_SESSION_KEY, "1");
+      } catch {
+        // sessionStorage unavailable (privacy mode) → just play it
+      }
+      playDecisionRef.current = !seen;
+    }
+    if (playDecisionRef.current) setShouldPlay(true);
+    else setPhase("done");
+  }, [skip]);
 
   // Lock scrolling while the splash is visible
   useEffect(() => {
@@ -94,7 +120,7 @@ export default function SplashScreen() {
 
   // Progress driver
   useEffect(() => {
-    if (skip) return;
+    if (skip || !shouldPlay) return;
 
     const start = performance.now();
     let shown = 0;
@@ -139,7 +165,7 @@ export default function SplashScreen() {
       cancelAnimationFrame(raf);
       timers.forEach(clearTimeout);
     };
-  }, [skip]);
+  }, [skip, shouldPlay]);
 
   if (phase === "done") return null;
 
@@ -152,6 +178,7 @@ export default function SplashScreen() {
 
   return (
     <motion.div
+      data-gis-splash-root
       className="fixed inset-0 z-[9999] overflow-hidden pointer-events-auto"
       style={{ perspective: "1600px" }}
       role="status"

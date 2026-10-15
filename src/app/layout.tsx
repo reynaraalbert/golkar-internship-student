@@ -94,6 +94,14 @@ export default function RootLayout({
   return (
     <html lang="id" className="dark" suppressHydrationWarning>
       <body className="min-h-screen flex flex-col antialiased batik-bg transition-colors duration-300">
+        {/* Runs before paint: if the splash already played this session, hide it
+            instantly (avoids a flash of the SSR splash before hydration).
+            Key must match SPLASH_SESSION_KEY in components/SplashScreen.tsx */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `try{if(sessionStorage.getItem("gis-splash-seen"))document.documentElement.setAttribute("data-gis-splash","seen")}catch(e){}`,
+          }}
+        />
         <ThemeProvider>
           <CmsProvider>
             <script

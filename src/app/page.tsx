@@ -333,13 +333,26 @@ export default function HomePage() {
               <span>{hero?.ctaPrimaryLabel || "Daftar Magang Sekarang"}</span>
             </Link>
 
-            <a
-              href={hero?.ctaSecondaryHref || "#alur-seleksi"}
-              className="glass-panel text-slate-800 dark:text-white hover:text-amber-600 dark:hover:text-amber-300 font-bold text-xs sm:text-sm px-7 py-4 rounded-full border border-slate-300 dark:border-white/20 transition-all flex items-center gap-2 bg-white/60 dark:bg-slate-900/60 hover:bg-white/90 dark:hover:bg-slate-800/80 backdrop-blur-md shadow-sm"
-            >
-              <CheckCircle2 className="w-4 h-4 text-amber-500 dark:text-amber-400" />
-              <span>{hero?.ctaSecondaryLabel || "Cek Alur & Syarat"}</span>
-            </a>
+            {(() => {
+              const secondaryHref = hero?.ctaSecondaryHref || "#alur-seleksi";
+              const isExternal = /^https?:\/\//i.test(secondaryHref);
+              const secondaryClass = "glass-panel text-slate-800 dark:text-white hover:text-amber-600 dark:hover:text-amber-300 font-bold text-xs sm:text-sm px-7 py-4 rounded-full border border-slate-300 dark:border-white/20 transition-all flex items-center gap-2 bg-white/60 dark:bg-slate-900/60 hover:bg-white/90 dark:hover:bg-slate-800/80 backdrop-blur-md shadow-sm";
+              const secondaryContent = (
+                <>
+                  <CheckCircle2 className="w-4 h-4 text-amber-500 dark:text-amber-400" />
+                  <span>{hero?.ctaSecondaryLabel || "Cek Alur & Syarat"}</span>
+                </>
+              );
+              return isExternal ? (
+                <a href={secondaryHref} target="_blank" rel="noopener noreferrer" className={secondaryClass}>
+                  {secondaryContent}
+                </a>
+              ) : (
+                <Link href={secondaryHref} className={secondaryClass}>
+                  {secondaryContent}
+                </Link>
+              );
+            })()}
           </motion.div>
 
           {/* Live Hearing Callout if available */}

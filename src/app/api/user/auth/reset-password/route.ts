@@ -1,15 +1,6 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
-
-/** Password must have: min 8 chars, uppercase, lowercase, digit, special char */
-export function validateStrongPassword(password: string): string | null {
-  if (password.length < 8) return "Kata sandi minimal 8 karakter.";
-  if (!/[A-Z]/.test(password)) return "Kata sandi harus mengandung minimal satu huruf kapital (A-Z).";
-  if (!/[a-z]/.test(password)) return "Kata sandi harus mengandung minimal satu huruf kecil (a-z).";
-  if (!/[0-9]/.test(password)) return "Kata sandi harus mengandung minimal satu angka (0-9).";
-  if (!/[^A-Za-z0-9]/.test(password)) return "Kata sandi harus mengandung minimal satu simbol (mis. @, #, !, _).";
-  return null;
-}
+import { validateStrongPassword } from "@/lib/password-utils";
 
 export async function POST(request: Request) {
   try {
@@ -36,7 +27,6 @@ export async function POST(request: Request) {
     }
 
     if (new Date() > user.resetTokenExpiry) {
-      // Expired — clean up
       await prisma.studentUser.update({
         where: { id: user.id },
         data: { resetToken: null, resetTokenExpiry: null },
@@ -44,7 +34,6 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Tautan reset sudah kadaluarsa. Silakan minta ulang." }, { status: 400 });
     }
 
-    // Update password (stored as plain hash for now — consistent with existing login logic)
     await prisma.studentUser.update({
       where: { id: user.id },
       data: { passwordHash: password, resetToken: null, resetTokenExpiry: null },

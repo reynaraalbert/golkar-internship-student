@@ -53,7 +53,9 @@ export const participantUpdateSchema = z.object({
   fakultas: z.string().trim().max(160).optional(),
   socialMedia: z.record(z.string(), z.string().trim().max(500)).optional(),
   documents: z.record(z.string(), z.string().trim().max(4000)).optional(),
-  posisiDilamar: z.string().trim().max(160).optional(),
+  // NOTE: `posisiDilamar` and `statusMagang` are intentionally absent.
+  // They are only written by POST /api/user/apply (which validates the batch
+  // registration window) and by the admin verification endpoint.
 });
 
 export type ParticipantUpdate = z.infer<typeof participantUpdateSchema>;

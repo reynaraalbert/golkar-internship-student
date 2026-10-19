@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import React from "react";
 import { Clock, ChevronRight, ChevronLeft, BookOpen, Calendar, Star } from "lucide-react";
@@ -6,57 +6,45 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { useCmsContent } from "@/components/CmsProvider";
 
+// TODO(konfirmasi-owner): angka statistik dan kronologi di bawah belum
+// terverifikasi. Nilai yang tidak dapat dibuktikan sengaja dikosongkan.
 const DEFAULT_FACTS = [
   { label: "Tahun Berdiri", value: "2024", icon: Calendar },
-  { label: "Periode Aktif", value: "2024–2029", icon: Clock },
-  { label: "Total Anggota", value: "46 Orang", icon: Star },
-  { label: "Mitra Kerja", value: "8 K/L", icon: BookOpen },
+  { label: "Periode Aktif", value: "2024-2029", icon: Clock },
+  { label: "Total Peserta", value: "", icon: Star },
+  { label: "Batch Terselenggara", value: "", icon: BookOpen },
 ];
 
 const DEFAULT_MILESTONES = [
   {
-    year: "Oktober 2024",
-    title: "Pembentukan GOLKAR INTERNSHIP STUDENT Periode 2024–2029",
-    description: "Peluncuran Golkar Internship Student sebagai platform kaderisasi dan pembinaan politik bagi mahasiswa untuk mempelajari praktik legislasi secara langsung.",
+    year: "2024",
+    title: "Batch 1 - Awal Program Golkar Internship Student",
+    description:
+      "Golkar Internship Student mulai menerima peserta magang sebagai program pembinaan mahasiswa di lingkungan Fraksi Partai Golkar DPR RI.",
     highlight: true,
   },
   {
-    year: "2019–2024",
-    title: "Era Komisi III – Cikal Bakal Golkar Internship",
-    description: "Sebelum terbentuk sebagai program magang mandiri, fungsi-fungsi pembinaan politik mahasiswa dilakukan secara sporadis oleh berbagai elemen internal.",
+    year: "2025",
+    title: "Batch 2 - Perluasan Peserta",
+    description:
+      "Program dilanjutkan pada batch berikutnya dengan proses pendaftaran dan seleksi daring melalui portal Golkar Internship Student.",
     highlight: false,
   },
   {
-    year: "2014",
-    title: "Reformasi Hukum Nasional & Revisi UU Keimigrasian",
-    description: "Pengesahan UU Keimigrasian No. 6 Tahun 2011 menjadi tonggak reformasi hukum keimigrasian. Komisi yang membidangi hukum kala itu aktif terlibat dalam harmonisasi regulasi imigrasi dengan standar UNHCR dan IOM.",
-    highlight: false,
-  },
-  {
-    year: "2003",
-    title: "Pembentukan KPK – Awal Babak Antikorupsi",
-    description: "Komisi Pemberantasan Korupsi (KPK) lahir lewat UU No. 30 Tahun 2002. Sejak saat itu, pengawasan legislatif terhadap lembaga antikorupsi menjadi salah satu agenda utama komisi yang membidangi hukum di DPR RI.",
-    highlight: false,
-  },
-  {
-    year: "1999",
-    title: "Era Reformasi – Momentum HAM Nasional",
-    description: "Pasca reformasi 1998, UU No. 39 Tahun 1999 tentang Hak Asasi Manusia dan UU No. 26 Tahun 2000 tentang Pengadilan HAM lahir. Komisi DPR yang membidangi hukum berperan kunci dalam proses legislasi ini, meletakkan fondasi hukum HAM modern Indonesia.",
-    highlight: false,
-  },
-  {
-    year: "1945",
-    title: "Fondasi Konstitusional – DPR RI Berdiri",
-    description: "Sejak dibentuk, Partai Golkar terus berkomitmen untuk memberikan pendidikan politik yang berkelanjutan. Fungsi legislasi dan pengawasan menjadi bagian penting dari DNA pelatihan kader.",
+    year: "2026",
+    title: "Batch 3 dan Batch 4",
+    description:
+      "Penyelenggaraan batch lanjutan dengan tahapan registrasi, verifikasi berkas, seleksi dan wawancara, serta pengumuman dan onboarding.",
     highlight: false,
   },
 ];
 
 const DEFAULT_NARASI = [
-  "Golkar Internship Student merupakan inisiatif strategis yang dibentuk pada awal periode untuk memberikan wadah pembinaan kepemimpinan mahasiswa di era modern.",
-  "Sebelum terbentuk sebagai platform magang terstruktur, pendidikan politik mahasiswa dilakukan melalui berbagai organisasi sayap partai. Seiring tingginya antusiasme generasi muda, dirancanglah program magang intensif di parlemen.",
-  "Golkar Internship hadir untuk menjembatani mahasiswa unggul dengan praktik kerja nyata di lingkungan dewan, memberikan pengalaman langsung dalam proses perumusan kebijakan yang transparan dan humanis.",
-  "Fraksi Partai Golkar, sebagai salah satu fraksi terbesar di DPR RI, menempatkan beberapa kader terbaiknya di Golkar Internship. Para anggota Fraksi Golkar di Golkar Internship membawa rekam jejak dan keahlian yang beragam — dari pakar hukum, advokat senior, dokter, hingga teknolog — untuk memastikan bahwa agenda reformasi hukum dijalankan dengan pendekatan yang komprehensif, berbasis data, dan berpihak pada kepentingan rakyat.",
+  "Golkar Internship Student merupakan program magang resmi Fraksi Partai Golkar DPR RI yang memberi kesempatan bagi mahasiswa Indonesia untuk belajar langsung tentang legislasi, kebijakan publik, dan proses parlemen.",
+  "Program ini dijalankan melalui portal pendaftaran daring, dengan tahapan registrasi, verifikasi berkas, seleksi dan wawancara, serta pengumuman dan onboarding peserta.",
+  "Peserta mendapatkan pendampingan dari pengelola program dan terlibat dalam kegiatan yang mendukung pemahaman kerja legislatif serta penyusunan kajian kebijakan.",
+  // TODO(konfirmasi-owner): lengkapi narasi sejarah resmi program.
+  "Detail kronologi pembentukan dan penyelenggaraan tiap batch akan diperbarui setelah dokumen resmi program tersedia.",
 ];
 
 export default function SejarahPage() {
@@ -68,16 +56,16 @@ export default function SejarahPage() {
 
   // Header
   const headerSub = getSection("Header Halaman Sejarah")?.subsections[0]?.fields || {};
-  const badge = headerSub.badge || "PROFIL Golkar Internship — SEJARAH";
-  const judul = headerSub.judul || "Sejarah GOLKAR INTERNSHIP STUDENT";
-  const deskripsi = headerSub.deskripsi || "Perjalanan panjang pembentukan GOLKAR INTERNSHIP STUDENT sebagai garda terdepan pembinaan pemimpin bangsa.";
+  const badge = headerSub.badge || "PROFIL Golkar Internship â€” SEJARAH";
+  const judul = headerSub.judul || "Sejarah Golkar Internship Student";
+  const deskripsi = headerSub.deskripsi || "Perjalanan panjang pembentukan Golkar Internship Student sebagai garda terdepan pembinaan pemimpin bangsa.";
 
   // Facts
-  const factSubs = getSection("Statistik & Fakta Komisi")?.subsections || [];
+  const factSubs = getSection("Statistik & Fakta Program")?.subsections || [];
   const facts = factSubs.length > 0
     ? factSubs.map((sub, i) => ({
         label: sub.fields.label || DEFAULT_FACTS[i]?.label || "Label",
-        value: sub.fields.value || DEFAULT_FACTS[i]?.value || "–",
+        value: sub.fields.value || DEFAULT_FACTS[i]?.value || "â€“",
         icon: DEFAULT_FACTS[i]?.icon || Calendar,
       }))
     : DEFAULT_FACTS;
@@ -92,9 +80,9 @@ export default function SejarahPage() {
   const timelineSubs = getSection("Linimasa Sejarah Penting")?.subsections || [];
   const milestones = timelineSubs.length > 0
     ? timelineSubs.map((sub) => ({
-        year: sub.fields.tahun || "–",
-        title: sub.fields.judul || "–",
-        description: sub.fields.deskripsi || "–",
+        year: sub.fields.tahun || "â€“",
+        title: sub.fields.judul || "â€“",
+        description: sub.fields.deskripsi || "â€“",
         highlight: sub.fields.highlight === "true",
       }))
     : DEFAULT_MILESTONES;
@@ -166,7 +154,7 @@ export default function SejarahPage() {
         </div>
       </div>
 
-      {/* Navigation — 2 Buttons side-by-side */}
+      {/* Navigation â€” 2 Buttons side-by-side */}
       <div className="pt-6 border-t border-slate-200 dark:border-white/10">
         <div className="grid grid-cols-2 gap-2 sm:gap-4">
           <Link
@@ -189,3 +177,4 @@ export default function SejarahPage() {
     </div>
   );
 }
+

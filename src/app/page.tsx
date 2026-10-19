@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import React, { useState } from "react";
 import Image from "next/image";
@@ -45,7 +45,7 @@ import {
 import * as LucideIcons from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
-// ─── Animation Variants ─────────────────────────────────────────────────────
+// â”€â”€â”€ Animation Variants â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 const fadeUp = {
   hidden: { opacity: 0, y: 40 },
   visible: (i = 0) => ({
@@ -95,7 +95,7 @@ function Reveal({ children, className = "", delay = 0 }: { children: React.React
   );
 }
 
-// ─── Main Component ─────────────────────────────────────────────────────────
+// â”€â”€â”€ Main Component â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 export default function HomePage() {
   const { stats, mitraKerja, berita, agenda, siteContent, posisi_magang, steps: cmsSteps, requirements: cmsReqs, faqs: cmsFaqs } = useCmsContent();
   const [selectedNews, setSelectedNews] = useState<NewsArticle | null>(null);
@@ -220,7 +220,7 @@ export default function HomePage() {
     },
     {
       q: "Bagaimana mekanisme pelaksanaan magang (WFH / WFO)?",
-      a: "Pelaksanaan magang mengusung metode Hybrid / WFO di Lingkungan DPP Partai Golkar & Kompleks Parlemen DPR RI Jakarta, dengan fleksibilitas jadwal akademik."
+      a: "Pelaksanaan magang mengusung metode hybrid / WFO di lingkungan Fraksi Partai Golkar DPR RI, Kompleks Parlemen Jakarta, dengan fleksibilitas jadwal akademik."
     }
   ];
 
@@ -292,7 +292,7 @@ export default function HomePage() {
             </motion.div>
           )}
 
-          {/* Main Title – animated word by word */}
+          {/* Main Title â€“ animated word by word */}
           <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
@@ -425,7 +425,7 @@ export default function HomePage() {
           </motion.div>
 
           <motion.p initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.2, duration: 0.5 }} className="text-slate-800 dark:text-slate-200 text-sm sm:text-base leading-relaxed font-medium max-w-3xl mx-auto">
-            {hero?.description || <><strong className="text-slate-950 dark:text-amber-400 font-bold">GOLKAR INTERNSHIP STUDENT</strong> adalah ekosistem digital dari Fraksi Partai Golkar DPR RI. Kami hadir untuk memfasilitasi mahasiswa dan pelajar dalam mengembangkan kompetensi, mengelola administrasi secara transparan, serta berkolaborasi langsung dalam lingkungan kerja legislatif Indonesia.</>}
+            {hero?.description || <><strong className="text-slate-950 dark:text-amber-400 font-bold">Golkar Internship Student</strong> adalah ekosistem digital dari Fraksi Partai Golkar DPR RI. Kami hadir untuk memfasilitasi mahasiswa dan pelajar dalam mengembangkan kompetensi, mengelola administrasi secara transparan, serta berkolaborasi langsung dalam lingkungan kerja legislatif Indonesia.</>}
           </motion.p>
 
           <motion.div variants={staggerContainer} initial="hidden" whileInView="visible" viewport={{ once: true }} className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-2">
@@ -473,7 +473,7 @@ export default function HomePage() {
         <Reveal className="text-center max-w-3xl mx-auto space-y-3">
           <span className="text-xs font-black text-[#B45309] dark:text-[#F5C518] uppercase tracking-widest flex items-center justify-center gap-1.5">
             <Award className="w-4 h-4" />
-            <span>{siteContent.keunggulan?.subtitle || "MENGAPA MEMILIH GOLKAR INTERNSHIP STUDENT"}</span>
+            <span>{siteContent.keunggulan?.subtitle || "MENGAPA MEMILIH Golkar Internship Student"}</span>
           </span>
           <h2 className="text-2xl sm:text-4xl font-black text-slate-950 dark:text-white tracking-tight">
             {siteContent.keunggulan?.title || "Keunggulan Utama Program Magang GIS"}
@@ -504,8 +504,8 @@ export default function HomePage() {
           }) : (
             [
               { icon: Users, title: "Mentorship Langsung", desc: "Dibimbing langsung oleh Anggota DPR RI, tenaga ahli komisi, dan pakar kebijakan publik berpengalaman." },
-              { icon: Award, title: "Sertifikat Magang Mandiri", desc: "Mendapatkan sertifikat resmi dari DPP Partai Golkar yang dapat diajukan secara mandiri untuk proses konversi SKS perkuliahan." },
-              { icon: Gavel, title: "Pengalaman Rapat DPR", desc: "Keterlibatan langsung dalam rapat dengar pendapat (RDP), analisis naskah akademik, dan pengawasan hukum." },
+              { icon: Award, title: "Sertifikat Magang Mandiri", desc: "Mendapatkan sertifikat resmi dari Fraksi Partai Golkar DPR RI yang dapat diajukan secara mandiri untuk proses konversi SKS perkuliahan." },
+              { icon: Gavel, title: "Pengalaman Praktis Parlemen", desc: "Keterlibatan langsung dalam rapat kerja, analisis naskah akademik, dan pengawasan kebijakan publik." },
               { icon: Globe, title: "Jaringan Nasional", desc: "Akses ke jaringan alumni mahasiswa se-Indonesia, tokoh politik nasional, dan profesional di berbagai sektor." },
             ].map((pillar, i) => {
               const Icon = pillar.icon;
@@ -684,7 +684,7 @@ export default function HomePage() {
                               key={idx}
                               className="bg-amber-100 dark:bg-amber-400/15 border border-amber-300 dark:border-amber-400/30 text-amber-900 dark:text-amber-300 text-xs font-bold px-3 py-1 rounded-full"
                             >
-                              ✓ {s}
+                              âœ“ {s}
                             </span>
                           ))}
                         </div>
@@ -842,7 +842,7 @@ export default function HomePage() {
                 </div>
                 <div>
                   <h4 className="text-xs font-black text-slate-950 dark:text-white">{t.name}</h4>
-                  <p className="text-[10px] text-[#B45309] dark:text-[#F5C518] font-bold">{t.univ} • {t.major}</p>
+                  <p className="text-[10px] text-[#B45309] dark:text-[#F5C518] font-bold">{t.univ} â€¢ {t.major}</p>
                   <p className="text-[10px] text-slate-500 dark:text-slate-400 font-medium">{t.role}</p>
                 </div>
               </div>
@@ -915,7 +915,7 @@ export default function HomePage() {
             <span>KANTOR SEKRETARIAT & KANAL INFORMASI</span>
           </span>
           <h2 className="text-2xl sm:text-4xl font-black text-slate-950 dark:text-white tracking-tight">
-            Lokasi & Media Sosial Resmi <span className="text-[#B45309] dark:text-[#F5C518]">GOLKAR INTERNSHIP STUDENT</span>
+            Lokasi & Media Sosial Resmi <span className="text-[#B45309] dark:text-[#F5C518]">Golkar Internship Student</span>
           </h2>
           <p className="text-slate-600 dark:text-slate-300 text-xs sm:text-sm max-w-2xl mx-auto leading-relaxed font-medium">
             {maps.description}
@@ -939,7 +939,7 @@ export default function HomePage() {
             </div>
 
             <iframe
-              title="Lokasi GOLKAR INTERNSHIP STUDENT"
+              title="Lokasi Golkar Internship Student"
               src={maps.embedUrl}
               width="100%"
               height="100%"
@@ -1079,6 +1079,8 @@ export default function HomePage() {
     </div>
   );
 }
+
+
 
 
 

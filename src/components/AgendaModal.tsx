@@ -76,7 +76,7 @@ export default function AgendaModal({ agenda, onClose }: AgendaModalProps) {
             <div className="relative aspect-video w-full rounded-2xl overflow-hidden mb-6 border border-amber-400/40 shadow-2xl bg-black">
               <iframe
                 src="https://www.youtube.com/embed/live_stream?channel=GolkarTV"
-                title="Live Streaming GOLKAR INTERNSHIP STUDENT"
+                title="Live Streaming Golkar Internship Student"
                 className="w-full h-full"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowFullScreen

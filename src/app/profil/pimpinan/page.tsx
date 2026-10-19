@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import React from "react";
 import { Users, Award, ChevronRight, ChevronLeft, MapPin, Mail, GraduationCap, Briefcase, BadgeCheck } from "lucide-react";
@@ -11,11 +11,11 @@ export default function PimpinanPage() {
   const page = pages.find((p) => p.slug === "profil/pimpinan");
   const headerSub = page?.sections.find((s) => s.title === "Header Halaman Pimpinan")?.subsections[0]?.fields || {};
 
-  const badge = headerSub.badge || "PROFIL Golkar Internship — PIMPINAN & ANGGOTA";
-  const judul = headerSub.judul || "Pimpinan & Anggota Fraksi Golkar";
-  const deskripsi = headerSub.deskripsi || "Daftar lengkap Pimpinan dan Anggota GOLKAR INTERNSHIP STUDENT dari Fraksi Partai Golkar periode 2024–2029 beserta profil dan rekam jejak legislasinya.";
+  const badge = headerSub.badge || "PROFIL Golkar Internship â€” PIMPINAN & ANGGOTA";
+  const judul = headerSub.judul || "Pimpinan & Pengurus GIS";
+  const deskripsi = headerSub.deskripsi || "Daftar pimpinan dan pengurus Golkar Internship Student beserta profil singkat dan perannya dalam program.";
 
-  const anggotaSaja = anggota.filter((m) => m.role === "Anggota Komisi");
+  const anggotaSaja = anggota.filter((m) => m.role === "Anggota Komisi" || m.role === "Anggota");
 
   return (
     <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-16">
@@ -37,10 +37,10 @@ export default function PimpinanPage() {
       {/* Statistik */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
         {[
-          { label: "Total Anggota Golkar", value: anggota.length, unit: "Orang" },
-          { label: "Pimpinan Komisi", value: pimpinan.length, unit: "Jabatan" },
-          { label: "Dapil Terwakili", value: new Set(anggota.map(m => m.dapil)).size, unit: "Dapil" },
-          { label: "Masa Jabatan", value: "2024", unit: "– 2029" },
+          { label: "Total Pengurus", value: anggota.length, unit: "Orang" },
+          { label: "Pimpinan Program", value: pimpinan.length, unit: "Jabatan" },
+          { label: "Batch Terwakili", value: new Set(anggota.map(m => m.fraksi)).size, unit: "Batch" },
+          { label: "Masa Jabatan", value: "2024", unit: "â€“ 2029" },
         ].map(stat => (
           <div key={stat.label} className="glass-panel p-5 rounded-2xl border border-slate-200 dark:border-white/10 text-center space-y-1">
             <p className="text-2xl font-extrabold text-dpr-emerald dark:text-dpr-gold">{stat.value}</p>
@@ -54,7 +54,7 @@ export default function PimpinanPage() {
       <div className="space-y-8">
         <div className="flex items-center gap-2.5 text-slate-900 dark:text-white font-bold text-xl border-b-2 border-dpr-emerald dark:border-dpr-gold pb-3">
           <Award className="w-6 h-6 text-dpr-emerald dark:text-dpr-gold" />
-          <span>Pimpinan GOLKAR INTERNSHIP STUDENT</span>
+          <span>Pimpinan Golkar Internship Student</span>
         </div>
 
         {/* Ketua */}
@@ -78,16 +78,16 @@ export default function PimpinanPage() {
             <div className="flex-1 space-y-4">
               <div>
                 <h2 className="text-xl font-extrabold text-slate-900 dark:text-white">{pimpinan[0].name}</h2>
-                <p className="text-sm text-dpr-emerald-dark dark:text-dpr-gold font-semibold">{pimpinan[0].role} — GOLKAR INTERNSHIP STUDENT</p>
+                <p className="text-sm text-dpr-emerald-dark dark:text-dpr-gold font-semibold">{pimpinan[0].role} â€” Golkar Internship Student</p>
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
                 <div className="flex items-center gap-2 text-slate-600 dark:text-slate-400">
                   <BadgeCheck className="w-3.5 h-3.5 text-dpr-emerald dark:text-dpr-gold shrink-0" />
-                  <span>No. Anggota: <strong className="text-slate-900 dark:text-white">{pimpinan[0].nomorAnggota}</strong></span>
+                  <span>ID Pengurus: <strong className="text-slate-900 dark:text-white">{pimpinan[0].nomorAnggota}</strong></span>
                 </div>
                 <div className="flex items-center gap-2 text-slate-600 dark:text-slate-400">
                   <MapPin className="w-3.5 h-3.5 text-dpr-emerald dark:text-dpr-gold shrink-0" />
-                  <span>Dapil: <strong className="text-slate-900 dark:text-white">{pimpinan[0].dapil}</strong></span>
+                  <span>Asal/Unit: <strong className="text-slate-900 dark:text-white">{pimpinan[0].dapil}</strong></span>
                 </div>
                 <div className="flex items-center gap-2 text-slate-600 dark:text-slate-400">
                   <Mail className="w-3.5 h-3.5 text-dpr-emerald dark:text-dpr-gold shrink-0" />
@@ -151,7 +151,7 @@ export default function PimpinanPage() {
       <div className="space-y-8">
         <div className="flex items-center gap-2.5 text-slate-900 dark:text-white font-bold text-xl border-b-2 border-dpr-emerald dark:border-dpr-gold pb-3">
           <Users className="w-6 h-6 text-dpr-emerald dark:text-dpr-gold" />
-          <span>Anggota Golkar Internship — Fraksi Partai Golkar ({anggotaSaja.length} Anggota)</span>
+          <span>Pengurus Golkar Internship Student ({anggotaSaja.length} Orang)</span>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {anggotaSaja.map((anggota, i) => (
@@ -192,7 +192,7 @@ export default function PimpinanPage() {
         </div>
       </div>
 
-      {/* Navigation — 2 Buttons side-by-side */}
+      {/* Navigation â€” 2 Buttons side-by-side */}
       <div className="pt-6 border-t border-slate-200 dark:border-white/10">
         <div className="grid grid-cols-2 gap-2 sm:gap-4">
           <Link
@@ -215,3 +215,4 @@ export default function PimpinanPage() {
     </div>
   );
 }
+

@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import React, { useState } from "react";
 import Link from "next/link";
@@ -149,7 +149,7 @@ export default function AspirasiPage() {
             transition={{ delay: 0.2 }}
             className="text-slate-700 dark:text-slate-300 text-sm sm:text-base max-w-3xl mx-auto font-medium leading-relaxed"
           >
-            Sampaikan pertanyaan, masukan, kendala pendaftaran, maupun usulan perbaikan layanan langsung ke pengelola GOLKAR INTERNSHIP STUDENT secara terbuka atau anonim.
+            Sampaikan pertanyaan, masukan, kendala pendaftaran, maupun usulan perbaikan layanan langsung ke pengelola Golkar Internship Student secara terbuka atau anonim.
           </motion.p>
         </div>
       </section>
@@ -285,7 +285,7 @@ export default function AspirasiPage() {
                 <p className="text-xs sm:text-sm text-slate-700 dark:text-slate-300 max-w-md mx-auto leading-relaxed">
                   {submissionMethod === "Anonim"
                     ? "Pesan dan masukan Anda dikirim secara anonim tanpa menyimpan data pribadi. Sekretariat Golkar Internship akan memproses laporan ini."
-                    : "Terima kasih atas partisipasi Anda. Bukti tanda terima aspirasi telah diproses dan akan menjadi acuan pengawasan legislatif GOLKAR INTERNSHIP STUDENT."}
+                    : "Terima kasih atas partisipasi Anda. Bukti tanda terima aspirasi telah diproses dan akan menjadi acuan pengawasan legislatif Golkar Internship Student."}
                 </p>
               </motion.div>
             ) : (
@@ -416,7 +416,7 @@ export default function AspirasiPage() {
             <div className="glass-panel p-6 rounded-3xl border border-slate-200 dark:border-white/10 space-y-4 bg-white/90 dark:bg-slate-900/90 shadow-lg">
               <h3 className="text-lg font-extrabold text-slate-900 dark:text-white flex items-center gap-2">
                 <Building2 className="w-5 h-5 text-dpr-emerald dark:text-dpr-gold" />
-                <span>Sekretariat Golkar Internship STUDENT</span>
+                <span>Sekretariat Golkar Internship Student</span>
               </h3>
 
               <div className="space-y-3.5 text-xs sm:text-sm">
@@ -425,7 +425,7 @@ export default function AspirasiPage() {
                   <div>
                     <span className="font-bold text-slate-900 dark:text-white block">Lokasi Alamat</span>
                     <p className="text-slate-600 dark:text-slate-300">
-                      Gedung Nusantara II, Kompleks Parlemen DPR/MPR RI, Jl. Jend. Gatot Subroto, Jakarta Pusat.
+                      Gedung Nusantara I Lt. 12, Jl. Jend. Gatot Subroto, Jakarta Pusat, DKI Jakarta 10270.
                     </p>
                   </div>
                 </div>
@@ -435,8 +435,7 @@ export default function AspirasiPage() {
                   <div>
                     <span className="font-bold text-slate-900 dark:text-white block">Jam Operasional Layanan</span>
                     <p className="text-slate-600 dark:text-slate-300">
-                      Senin s/d Kamis: 08.30 – 16.00 WIB
-                      <br />Jumat: 08.30 – 16.30 WIB
+                      Senin - Jumat: 08.00 - 16.00 WIB
                     </p>
                   </div>
                 </div>
@@ -466,11 +465,11 @@ export default function AspirasiPage() {
                 </li>
                 <li className="flex items-start gap-2.5">
                   <span className="w-5 h-5 rounded-full bg-dpr-emerald text-white flex items-center justify-center font-bold text-[10px] shrink-0">2</span>
-                  <span><strong>Disposisi Komisi:</strong> Materi diklasifikasikan ke sub-tim kerja mitra kementerian/lembaga.</span>
+                  <span><strong>Klasifikasi:</strong> Materi dikelompokkan berdasarkan topik (pendaftaran, seleksi, penempatan, atau sertifikat).</span>
                 </li>
                 <li className="flex items-start gap-2.5">
                   <span className="w-5 h-5 rounded-full bg-dpr-emerald text-white flex items-center justify-center font-bold text-[10px] shrink-0">3</span>
-                  <span><strong>Rapat Kerja / RDP:</strong> Pimpinan & Anggota membahas masukan publik pada sesi sidang komisi.</span>
+                  <span><strong>Tindak Lanjut:</strong> Pengelola program menindaklanjuti masukan dan menyampaikan hasilnya melalui kanal resmi.</span>
                 </li>
               </ol>
             </div>
@@ -520,3 +519,5 @@ export default function AspirasiPage() {
     </div>
   );
 }
+
+

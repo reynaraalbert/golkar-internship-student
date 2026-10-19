@@ -1,5 +1,5 @@
 ﻿// ============================================================
-// data.ts â€” GOLKAR INTERNSHIP STUDENT
+// data.ts â€” Golkar Internship Student
 // TODO: Isi dengan data konten project Golkar Internship Student
 // ============================================================
 
@@ -290,7 +290,7 @@ export interface SiteContent {
 }
 
 // --- DATA ---
-// TODO: Isi dengan data konten GOLKAR INTERNSHIP STUDENT
+// TODO: Isi dengan data konten Golkar Internship Student
 
 export const PIMPINAN_KOMISI: Member[] = [];
 
@@ -312,13 +312,13 @@ export const STATS = {
 };
 
 // --- SITE CONTENT ---
-// TODO: Sesuaikan dengan konten GOLKAR INTERNSHIP STUDENT
+// TODO: Sesuaikan dengan konten Golkar Internship Student
 
 export const SiteContent: SiteContent = {
   hero: {
-    badge: "GOLKAR INTERNSHIP STUDENT",
+    badge: "Golkar Internship Student",
     title1: "Program Magang",
-    title2: "GOLKAR INTERNSHIP STUDENT",
+    title2: "Golkar Internship Student",
     subtitle: "Pendidikan Politik & Praktik Parlemen Terpadu",
     description: "Program magang resmi terintegrasi dari Fraksi Partai Golkar untuk mahasiswa unggul Indonesia dalam membentuk pemimpin masa depan yang inovatif.",
     ctaPrimaryLabel: "Mulai Pendaftaran",
@@ -366,7 +366,7 @@ Jakarta Pusat, DKI Jakarta 10270`,
     email: "golkarinternshipstudent@gmail.com",
     transparencyText: "Fraksi Partai Golkar DPR RI senantiasa memegang teguh prinsip keterbukaan informasi dan akuntabilitas kelembagaan.",
     ppidText: "Layanan informasi publik dikelola melalui Pejabat Pengelola Informasi dan Dokumentasi (PPID).",
-    copyrightText: "Â© 2024 Golkar Internship Student. Hak Cipta Dilindungi.",
+    copyrightText: "Golkar Internship Student. Hak Cipta Dilindungi.",
   },
   maps: {
     embedUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3966.44977461462!2d106.79727507582531!3d-6.204342260775988!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69f6ba89b33a59%3A0xb35a507cb8e2db26!2sGedung%20Nusantara%20I%20DPR%20RI!5e0!3m2!1sid!2sid!4v1710000000000!5m2!1sid!2sid",
@@ -387,4 +387,7 @@ Jakarta Pusat, 10270`,
     url: "https://fraksigolkar.com/",
   },
 };
+
+
+
 

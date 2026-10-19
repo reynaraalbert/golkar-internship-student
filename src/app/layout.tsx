@@ -13,8 +13,8 @@ export const revalidate = 0;
 export const metadata: Metadata = {
   metadataBase: new URL("https://golkarinternship.com"), // Placeholder URL, to be updated by the user
   title: {
-    default: "GOLKAR INTERNSHIP STUDENT | Program Magang Resmi Partai Golkar",
-    template: "%s | GOLKAR INTERNSHIP STUDENT",
+    default: "Golkar Internship Student | Program Magang Resmi Partai Golkar",
+    template: "%s | Golkar Internship Student",
   },
   description:
     "Portal Resmi Golkar Internship Student (GIS). Program magang komprehensif bagi mahasiswa unggul Indonesia untuk mendapatkan pengalaman langsung di bidang politik, kebijakan publik, dan pemerintahan.",
@@ -35,21 +35,21 @@ export const metadata: Metadata = {
     type: "website",
     locale: "id_ID",
     url: "https://golkarinternship.com",
-    title: "GOLKAR INTERNSHIP STUDENT | Program Magang Resmi",
+    title: "Golkar Internship Student | Program Magang Resmi",
     description: "Program magang komprehensif bagi mahasiswa unggul Indonesia untuk mendapatkan pengalaman langsung di bidang politik, kebijakan publik, dan pemerintahan.",
-    siteName: "GOLKAR INTERNSHIP STUDENT",
+    siteName: "Golkar Internship Student",
     images: [
       {
         url: "/images/golkar-internship-trans.png",
         width: 1200,
         height: 630,
-        alt: "GOLKAR INTERNSHIP STUDENT Logo",
+        alt: "Golkar Internship Student Logo",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "GOLKAR INTERNSHIP STUDENT | Program Magang Resmi",
+    title: "Golkar Internship Student | Program Magang Resmi",
     description: "Program magang komprehensif bagi mahasiswa unggul Indonesia untuk mendapatkan pengalaman langsung di bidang politik, kebijakan publik, dan pemerintahan.",
     creator: "@partaigolkar",
     images: ["/images/golkar-internship-trans.png"],

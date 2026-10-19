@@ -1,5 +1,5 @@
-// ============================================================
-// pages.ts — GOLKAR INTERNSHIP STUDENT
+﻿// ============================================================
+// pages.ts â€” Golkar Internship Student
 // TODO: Definisikan halaman-halaman untuk project Golkar Internship Student
 // ============================================================
 
@@ -20,7 +20,7 @@ export const PAGES: PageContent[] = [
       },
       {
         id: "sec-profil-sejarah",
-        title: "Sejarah Komisi",
+        title: "Sejarah Program",
         subsections: [{ id: "sub-profil-sejarah", title: "Sejarah Ringkas", fields: { intro: "Golkar Internship Student dibentuk dengan visi strategis...", body: "Sebagai inkubator kepemimpinan dan wadah pengembangan kader muda yang profesional..." } }]
       },
       {
@@ -45,7 +45,7 @@ export const PAGES: PageContent[] = [
       },
       {
         id: "sec-sej-fakta",
-        title: "Statistik & Fakta Komisi",
+        title: "Statistik & Fakta Program",
         subsections: [{ id: "sub-sej-fakta-1", title: "Fakta 1", fields: { angka: "5+", label: "Generasi Alumni", deskripsi: "Telah diselenggarakan lebih dari 5 angkatan secara konsisten." } }]
       },
       {
@@ -72,19 +72,19 @@ export const PAGES: PageContent[] = [
       },
       {
         id: "sec-vm-utama",
-        title: "Visi Utama Komisi",
+        title: "Visi Utama Program",
         subsections: [{ id: "sub-vm-utama", title: "Visi", fields: { label: "VISI", judul: "Katalisator Pemimpin Masa Depan", visi: "Menciptakan ekosistem pembinaan generasi muda yang sadar politik, berintegritas, dan berkontribusi nyata bagi bangsa.", penjelasan: "Visi ini merepresentasikan komitmen strategis kami..." } }]
       },
       {
         id: "sec-vm-misi",
-        title: "Misi Kerja Komisi (4 Pilar Strategis)",
+        title: "Misi Kerja Program (4 Pilar Strategis)",
         subsections: [
           { id: "sub-vm-misi-1", title: "Misi 1", fields: { nomorMisi: "1", judul: "Pendidikan Politik Berkelanjutan", isi: "Menyediakan literasi dan edukasi politik berbasis empiris.", target1: "Mahasiswa memahami dinamika kebijakan", target2: "Keterlibatan aktif dalam dialektika publik", target3: "Berpikir kritis, analitis, dan solutif" } }
         ]
       },
       {
         id: "sec-vm-nilai",
-        title: "Nilai-Nilai Utama Komisi",
+        title: "Nilai-Nilai Utama Program",
         subsections: [{ id: "sub-vm-nilai-1", title: "Nilai", fields: { judul: "Integritas & Akuntabilitas", deskripsi: "Menjunjung tinggi etika profesional, transparansi, dan kejujuran dalam berorganisasi." } }]
       }
     ]
@@ -114,3 +114,4 @@ export const PAGES: PageContent[] = [
     ]
   }
 ];
+

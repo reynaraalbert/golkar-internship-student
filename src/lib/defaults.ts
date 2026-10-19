@@ -20,8 +20,8 @@ export const EMPTY_SITECONTENT: SiteContent = {
   keunggulan: { title: "Keunggulan Program Magang", subtitle: "Mengapa Golkar Internship Student Menjadi Pilihan Tepat untuk Karir Anda?" },
   keunggulanItems: [
     { title: "Mentorship Eksklusif", desc: "Dapatkan bimbingan langsung dari Anggota DPR RI, tenaga ahli komisi, serta pakar kebijakan publik yang berpengalaman di tingkat nasional.", iconName: "Users" },
-    { title: "Sertifikasi Magang Mandiri", desc: "Peroleh sertifikat resmi dari DPP Partai Golkar yang dapat diajukan secara mandiri oleh peserta untuk proses konversi SKS di kampus masing-masing.", iconName: "Award" },
-    { title: "Pengalaman Praktis Parlemen", desc: "Terlibat aktif dalam Rapat Dengar Pendapat (RDP), penyusunan naskah akademik, dan pengawasan implementasi regulasi.", iconName: "Gavel" },
+    { title: "Sertifikasi Magang Mandiri", desc: "Peroleh sertifikat resmi dari Fraksi Partai Golkar DPR RI yang dapat diajukan secara mandiri oleh peserta untuk proses konversi SKS di kampus masing-masing.", iconName: "Award" },
+    { title: "Pengalaman Praktis Parlemen", desc: "Terlibat aktif dalam rapat kerja, penyusunan naskah akademik, dan pengawasan implementasi regulasi.", iconName: "Gavel" },
     { title: "Jaringan Profesional Nasional", desc: "Bangun koneksi strategis dengan tokoh politik, profesional multi-sektor, dan alumni berprestasi dari seluruh Indonesia.", iconName: "Globe" },
   ],
   tahapanItems: [
@@ -118,4 +118,5 @@ export const DEFAULT_POSISI: KomisiPosisi[] = [
   { id: "banggar", namaKomisi: "Badan Anggaran (Banggar)", kodeKomisi: "BANGGAR", kuota: "5", status: "TERBUKA", deskripsiTugas: "Pembahasan dan pengawasan APBN, evaluasi realisasi anggaran negara per kementerian.", bidangKerja: "APBN, Fiskal, Anggaran Negara", mitraKerja: "Kemenkeu, Bappenas, BPK", persyaratan: "Ekonomi/Akuntansi/Keuangan Negara,IPK min 3.25,CV ATS-Friendly" },
   { id: "bamus", namaKomisi: "Badan Urusan Rumah Tangga (BURT)", kodeKomisi: "BURT", kuota: "4", status: "TERBUKA", deskripsiTugas: "Pengelolaan administrasi, tata kelola internal, dan keprotokoleran DPR RI.", bidangKerja: "Administrasi Internal, Keprotokoleran, Tata Kelola DPR", mitraKerja: "Sekretariat Jenderal DPR RI", persyaratan: "Administrasi/Manajemen/Sekretaris,IPK min 3.00,CV ATS-Friendly" },
 ];
+
 

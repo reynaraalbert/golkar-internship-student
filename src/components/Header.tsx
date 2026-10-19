@@ -145,7 +145,7 @@ export default function Header() {
                     className="flex flex-col justify-center shrink-0"
                   >
                     <span className="text-xs sm:text-[11px] lg:text-xs xl:text-[13px] 2xl:text-[15px] font-black text-slate-900 dark:text-white tracking-tight leading-tight whitespace-nowrap">
-                      GOLKAR INTERNSHIP STUDENT
+                      Golkar Internship Student
                     </span>
                     <span className="text-[8px] sm:text-[8px] lg:text-[8px] 2xl:text-[10px] font-bold text-amber-600 dark:text-amber-400 tracking-wider uppercase mt-0.5 whitespace-nowrap">
                       PORTAL MAGANG MAHASISWA
@@ -299,7 +299,7 @@ export default function Header() {
                     GIS PORTAL
                   </span>
                   <span className="text-xs font-bold text-slate-800 dark:text-slate-200 truncate">
-                    GOLKAR INTERNSHIP STUDENT
+                    Golkar Internship Student
                   </span>
                 </div>
                 <button

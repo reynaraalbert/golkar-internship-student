@@ -19,7 +19,7 @@ const emptyArticle = (): NewsArticle => ({
   category: "Kegiatan Magang",
   date: "",
   readTime: "3 Menit Baca",
-  author: "Humas GOLKAR INTERNSHIP STUDENT",
+  author: "Humas Golkar Internship Student",
   summary: "",
   content: "",
   imageUrl: "",

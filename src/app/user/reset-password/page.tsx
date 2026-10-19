@@ -181,7 +181,7 @@ export default function ResetPasswordPage() {
           <div className="flex items-center gap-3 mb-2">
             <div className="w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400 font-extrabold text-xl">G</div>
             <div>
-              <span className="text-[10px] font-bold uppercase tracking-wider text-amber-400 block">GOLKAR INTERNSHIP STUDENT</span>
+              <span className="text-[10px] font-bold uppercase tracking-wider text-amber-400 block">Golkar Internship Student</span>
               <span className="text-xs font-extrabold text-white">Portal Resmi Magang</span>
             </div>
           </div>

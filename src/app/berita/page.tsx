@@ -40,7 +40,7 @@ export default function NewsPage() {
           Berita & <span className="text-dpr-emerald dark:text-red-600">Pengumuman Golkar Internship</span>
         </h1>
         <p className="text-slate-700 dark:text-slate-300 text-xs sm:text-sm leading-relaxed">
-          Kumpulan kabar terbaru mengenai rapat kerja, uji kelayakan, peninjauan lapangan, dan rilis pers resmi dari Sekretariat Golkar Internship STUDENT.
+          Kumpulan kabar terbaru mengenai rapat kerja, uji kelayakan, peninjauan lapangan, dan rilis pers resmi dari Sekretariat Golkar Internship Student.
         </p>
       </Reveal>
 

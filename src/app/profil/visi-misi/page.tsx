@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import React from "react";
 import { Target, Eye, CheckCircle2, Star, ChevronRight, ChevronLeft, Gavel, Scale, FileCheck, ShieldCheck } from "lucide-react";
@@ -39,7 +39,7 @@ const DEFAULT_MISI = [
   {
     no: 4, icon: ShieldCheck,
     judul: "Pemberdayaan dan Pengabdian Masyarakat",
-    isi: "Mengintegrasikan program magang dengan kegiatan turun lapang ke daerah pemilihan (Dapil) guna memahami dan menyerap aspirasi masyarakat secara langsung.",
+    isi: "Mengintegrasikan program magang dengan kegiatan lapangan untuk memahami kebutuhan pengguna layanan dan menyerap masukan masyarakat secara langsung.",
     targets: ["Kegiatan serap aspirasi bersama Anggota Fraksi", "Pengembangan program pengabdian berbasis komunitas", "Pemecahan studi kasus sosial di berbagai daerah"],
   },
 ];
@@ -52,15 +52,15 @@ export default function VisiMisiPage() {
 
   // Header
   const headerFields = getSection("Header Halaman Visi & Misi")?.subsections[0]?.fields || {};
-  const badge = headerFields.badge || "PROFIL Golkar Internship — VISI & MISI";
-  const judul = headerFields.judul || "Visi & Misi GOLKAR INTERNSHIP STUDENT";
+  const badge = headerFields.badge || "PROFIL Golkar Internship â€” VISI & MISI";
+  const judul = headerFields.judul || "Visi & Misi Golkar Internship Student";
   const deskripsi = headerFields.deskripsi || "Arah dan tujuan strategis Golkar Internship dalam membentuk pemimpin masa depan Indonesia yang inovatif, berintegritas, dan profesional melalui pendidikan politik terpadu.";
 
   // Visi
   const visiFields = getSection("Visi Utama Program")?.subsections[0]?.fields || {};
   const visiText = visiFields.visi || "Menjadi pusat inkubasi kepemimpinan kaum muda yang melahirkan agen perubahan profesional, berkarakter kebangsaan, dan siap berkontribusi dalam pembangunan politik nasional.";
   const visiPenjelasan = visiFields.penjelasan || "Visi ini menjadi kompas dan tolok ukur seluruh kegiatan pembelajaran dan penugasan Golkar Internship bagi peserta magang di lingkungan parlemen.";
-  const visiJudulSub = visiFields.judul || "GOLKAR INTERNSHIP STUDENT";
+  const visiJudulSub = visiFields.judul || "Golkar Internship Student";
 
   // Misi
   const misiSubs = getSection("Misi Kerja Program (4 Pilar Strategis)")?.subsections || [];
@@ -68,8 +68,8 @@ export default function VisiMisiPage() {
     ? misiSubs.map((sub, i) => ({
         no: Number(sub.fields.nomorMisi) || i + 1,
         icon: MISI_ICONS[i] || Gavel,
-        judul: sub.fields.judul || DEFAULT_MISI[i]?.judul || "–",
-        isi: sub.fields.isi || DEFAULT_MISI[i]?.isi || "–",
+        judul: sub.fields.judul || DEFAULT_MISI[i]?.judul || "â€“",
+        isi: sub.fields.isi || DEFAULT_MISI[i]?.isi || "â€“",
         targets: [
           sub.fields.target1 || DEFAULT_MISI[i]?.targets[0] || "",
           sub.fields.target2 || DEFAULT_MISI[i]?.targets[1] || "",
@@ -82,8 +82,8 @@ export default function VisiMisiPage() {
   const nilaiSubs = getSection("Nilai-Nilai Utama Program")?.subsections || [];
   const nilaiNilai = nilaiSubs.length > 0
     ? nilaiSubs.map((sub) => ({
-        judul: sub.fields.judul || "–",
-        deskripsi: sub.fields.deskripsi || "–",
+        judul: sub.fields.judul || "â€“",
+        deskripsi: sub.fields.deskripsi || "â€“",
       }))
     : DEFAULT_NILAI;
 
@@ -195,7 +195,7 @@ export default function VisiMisiPage() {
         </div>
       </div>
 
-      {/* Navigation — 2 Buttons side-by-side */}
+      {/* Navigation â€” 2 Buttons side-by-side */}
       <div className="pt-6 border-t border-slate-200 dark:border-white/10">
         <div className="grid grid-cols-2 gap-2 sm:gap-4">
           <Link
@@ -218,3 +218,4 @@ export default function VisiMisiPage() {
     </div>
   );
 }
+

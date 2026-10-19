@@ -74,7 +74,7 @@ export default function PetaSitusPage() {
           Peta <span className="text-dpr-emerald dark:text-dpr-gold">Situs</span>
         </h1>
         <p className="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
-          Temukan semua halaman dan fitur yang tersedia di Portal Resmi GOLKAR INTERNSHIP STUDENT.
+          Temukan semua halaman dan fitur yang tersedia di Portal Resmi Golkar Internship Student.
         </p>
       </Reveal>
 

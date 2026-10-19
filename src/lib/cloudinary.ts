@@ -11,7 +11,7 @@ export function getCloudinaryUrl(publicId: string, options: { width?: number; he
   return `https://res.cloudinary.com/${CLOUDINARY_CLOUD_NAME}/image/upload/w_${width},h_${height},c_${crop},q_${quality}/${publicId}`;
 }
 
-// Curated high quality Cloudinary & Unsplash assets for GOLKAR INTERNSHIP STUDENT
+// Curated high quality Cloudinary & Unsplash assets for Golkar Internship Student
 export const ASSETS = {
   garudaEmblem: "https://res.cloudinary.com/demo/image/upload/w_200,h_200,c_fit/sample.jpg", // Fallback image asset
   dprLogoUrl: "/images/hero-peserta-magang.jpeg", // Parliamentary Dome / Emblem
@@ -20,7 +20,7 @@ export const ASSETS = {
   meetingRoom: "https://images.unsplash.com/photo-1517048676732-d65bc937f952?q=80&w=1200&auto=format&fit=crop", // DPR Hearing / RDP Room
   pressConference: "https://images.unsplash.com/photo-1521791136064-7986c2920216?q=80&w=1200&auto=format&fit=crop",
   
-  // Program Images (GOLKAR INTERNSHIP STUDENT)
+  // Program Images (Golkar Internship Student)
   mitraLogos: {
     kemenkum: "https://images.unsplash.com/photo-1450133064473-71024230f91b?q=80&w=400&auto=format&fit=crop", // Law Ministry Symbol
     kemenham: "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?q=80&w=400&auto=format&fit=crop", // Human Rights Symbol

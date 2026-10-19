@@ -148,7 +148,7 @@ export default function UserRegisterPage() {
             </div>
             <div>
               <span className="text-xs font-bold uppercase tracking-wider text-amber-600 dark:text-amber-400 block">
-                GOLKAR INTERNSHIP STUDENT
+                Golkar Internship Student
               </span>
               <span className="text-sm font-extrabold text-slate-900 dark:text-white">
                 PENDAFTARAN PESERTA MAGANG

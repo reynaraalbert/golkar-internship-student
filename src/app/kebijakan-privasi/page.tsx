@@ -9,7 +9,7 @@ const sections = [
     icon: Eye,
     title: "1. Data yang Kami Kumpulkan",
     content: [
-      "Portal GOLKAR INTERNSHIP STUDENT dapat mengumpulkan data berikut secara otomatis saat Anda menggunakan layanan ini:",
+      "Portal Golkar Internship Student dapat mengumpulkan data berikut secara otomatis saat Anda menggunakan layanan ini:",
       "• Data teknis seperti alamat IP, jenis browser, sistem operasi, dan halaman yang Anda kunjungi.",
       "• Waktu dan durasi kunjungan ke portal untuk keperluan analisis statistik penggunaan layanan publik.",
       "• Informasi yang Anda masukkan secara sukarela, seperti saat mengisi formulir aspirasi atau pertanyaan kepada komisi.",
@@ -55,7 +55,7 @@ const sections = [
     title: "5. Tautan Pihak Ketiga",
     content: [
       "Portal ini mungkin mengandung tautan menuju situs web pihak ketiga seperti situs resmi DPR RI, atau media massa.",
-      "Kebijakan privasi ini hanya berlaku untuk portal GOLKAR INTERNSHIP STUDENT. Kami tidak bertanggung jawab atas praktik privasi situs web pihak ketiga yang ditautkan.",
+      "Kebijakan privasi ini hanya berlaku untuk portal Golkar Internship Student. Kami tidak bertanggung jawab atas praktik privasi situs web pihak ketiga yang ditautkan.",
       "Kami menyarankan Anda untuk membaca kebijakan privasi dari setiap situs web yang Anda kunjungi melalui tautan di portal ini.",
     ]
   },
@@ -82,7 +82,7 @@ export default function KebijakanPrivasiPage() {
           Kebijakan <span className="text-dpr-emerald dark:text-dpr-gold">Privasi</span>
         </h1>
         <p className="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
-          Portal Informasi Resmi GOLKAR INTERNSHIP STUDENT berkomitmen penuh untuk melindungi privasi dan data pribadi pengguna layanan ini. Kebijakan ini berlaku sejak <strong>1 Januari 2025</strong>.
+          Portal Informasi Resmi Golkar Internship Student berkomitmen penuh untuk melindungi privasi dan data pribadi pengguna layanan ini. Kebijakan ini berlaku sejak <strong>1 Januari 2025</strong>.
         </p>
       </Reveal>
 
@@ -108,7 +108,7 @@ export default function KebijakanPrivasiPage() {
       </StaggerList>
 
       <div className="glass-panel p-6 rounded-2xl border border-dpr-emerald/30 dark:border-dpr-gold/30 bg-dpr-emerald/5 dark:bg-dpr-gold/5 text-sm text-slate-700 dark:text-slate-300">
-        <strong className="text-dpr-emerald-dark dark:text-dpr-gold">Hubungi Kami:</strong> Untuk pertanyaan atau permintaan terkait data pribadi Anda, silakan hubungi Sekretariat Golkar Internship STUDENT melalui email: <a href="mailto:golkarinternshipstudent@gmail.com" className="underline font-semibold text-dpr-emerald dark:text-dpr-gold">golkarinternshipstudent@gmail.com</a> atau melalui halaman <a href="/aspirasi" className="underline font-semibold text-dpr-emerald dark:text-dpr-gold">Aspirasi</a>.
+        <strong className="text-dpr-emerald-dark dark:text-dpr-gold">Hubungi Kami:</strong> Untuk pertanyaan atau permintaan terkait data pribadi Anda, silakan hubungi Sekretariat Golkar Internship Student melalui email: <a href="mailto:golkarinternshipstudent@gmail.com" className="underline font-semibold text-dpr-emerald dark:text-dpr-gold">golkarinternshipstudent@gmail.com</a> atau melalui halaman <a href="/aspirasi" className="underline font-semibold text-dpr-emerald dark:text-dpr-gold">Aspirasi</a>.
       </div>
     </div>
   );

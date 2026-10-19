@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import React from "react";
 import Link from "next/link";
@@ -13,8 +13,8 @@ export default function ProfilPage() {
   const getSub = (sectionTitle: string) =>
     profil?.sections.find((s) => s.title === sectionTitle)?.subsections[0]?.fields || {};
   const header = getSub("Header Halaman Profil");
-  const sejarah = getSub("Sejarah Komisi");
-  const visi = getSub("Visi & Misi");
+  const sejarah = getSub("Sejarah Program");
+  const visi = getSub("Visi & Misi") || getSub("Visi Utama Program");
   const fungsi = profil?.sections.find((s) => s.title === "Tiga Fungsi Utama Parlemen")?.subsections || [];
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-16">
@@ -26,14 +26,14 @@ export default function ProfilPage() {
           <span>{header.badge || "PROFIL PROGRAM MAGANG"}</span>
         </div>
         <h1 className="text-3xl sm:text-5xl font-extrabold text-slate-900 dark:text-white">
-          <span className="text-dpr-emerald dark:text-dpr-gold">{header.judul || "Tentang GOLKAR INTERNSHIP STUDENT"}</span>
+          <span className="text-dpr-emerald dark:text-dpr-gold">{header.judul || "Tentang Golkar Internship Student"}</span>
         </h1>
         <p className="text-slate-700 dark:text-slate-300 text-xs sm:text-sm leading-relaxed">
           {header.deskripsi || "Golkar Internship Student (GIS) adalah wadah pembinaan kepemimpinan dan pendidikan politik bagi mahasiswa unggul untuk berkontribusi nyata dalam proses legislasi dan kebijakan publik."}
         </p>
       </Reveal>
 
-      {/* Sejarah Komisi */}
+      {/* Sejarah Program */}
       <Reveal>
       <div id="sejarah" className="scroll-mt-32 space-y-6 bg-slate-50 dark:bg-dpr-navy-card p-8 rounded-3xl border border-slate-200 dark:border-white/10 shadow-md">
         <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white border-b-2 border-dpr-emerald dark:border-dpr-gold inline-block pb-2">
@@ -60,7 +60,7 @@ export default function ProfilPage() {
               {visi.visi || "Mencetak Pemimpin Masa Depan yang Kritis, Inovatif, dan Berintegritas"}
             </h2>
             <p className="text-slate-700 dark:text-slate-300 text-xs sm:text-sm leading-relaxed text-justify">
-              {visi.deskripsi || "Golkar Internship Student (GIS) berkomitmen untuk menciptakan ekosistem pembelajaran yang kolaboratif, membekali peserta dengan keterampilan praktis di bidang legislasi, dan menanamkan nilai-nilai kebangsaan yang luhur."}
+              {visi.deskripsi || visi.penjelasan || "Golkar Internship Student (GIS) berkomitmen untuk menciptakan ekosistem pembelajaran yang kolaboratif, membekali peserta dengan keterampilan praktis di bidang legislasi, dan menanamkan nilai-nilai kebangsaan yang luhur."}
             </p>
           </div>
           </SlideIn>
@@ -127,7 +127,7 @@ export default function ProfilPage() {
       <div className="space-y-8">
         <div className="text-center max-w-2xl mx-auto space-y-2">
           <span className="text-xs font-bold text-dpr-emerald-dark dark:text-dpr-gold uppercase tracking-widest">STRUKTUR KEPEMIMPINAN</span>
-          <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white">Pimpinan GOLKAR INTERNSHIP STUDENT 2024-2029</h2>
+          <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white">Pimpinan Golkar Internship Student 2024-2029</h2>
         </div>
 
         <div className="glass-panel p-8 rounded-3xl border border-slate-200 dark:border-white/10 space-y-8">
@@ -150,7 +150,7 @@ export default function ProfilPage() {
                 KETUA Golkar Internship
               </span>
               <h3 className="text-xl font-bold text-slate-900 dark:text-white">{pimpinan[0]?.name || "Ketua GIS"}</h3>
-              <p className="text-xs text-amber-700 dark:text-amber-400 font-semibold">{pimpinan[0]?.fraksi} — {pimpinan[0]?.dapil}</p>
+              <p className="text-xs text-amber-700 dark:text-amber-400 font-semibold">{pimpinan[0]?.fraksi} â€” {pimpinan[0]?.dapil}</p>
             </div>
           )}
 
@@ -186,3 +186,5 @@ export default function ProfilPage() {
     </div>
   );
 }
+
+

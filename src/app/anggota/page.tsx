@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import React, { useState } from "react";
 import { useCmsContent } from "@/components/CmsProvider";
@@ -9,7 +9,7 @@ import { Reveal, StaggerList, FadeCard } from "@/components/ui/AnimationWrapper"
 
 export default function MembersPage() {
   const { anggota, pimpinan } = useCmsContent();
-  const [selectedDapil, setSelectedDapil] = useState<string>("Semua");
+  const [selectedBatch, setSelectedBatch] = useState<string>("Semua");
   const [searchQuery, setSearchQuery] = useState<string>("");
 
   // Clean separation of Best Interns vs regular Peserta
@@ -24,7 +24,7 @@ export default function MembersPage() {
   ];
 
   const filteredMembers = regularAnggota.filter((member) => {
-    const matchesBatch = selectedDapil === "Semua" || member.fraksi === selectedDapil;
+    const matchesBatch = selectedBatch === "Semua" || member.fraksi === selectedBatch;
     const matchesSearch =
       member.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
       member.dapil.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -45,11 +45,11 @@ export default function MembersPage() {
           Daftar <span className="text-dpr-emerald dark:text-red-600">Peserta Magang</span>
         </h1>
         <p className="text-slate-700 dark:text-slate-300 text-xs sm:text-sm leading-relaxed">
-          Berikut adalah {anggota.length} mahasiswa berprestasi yang telah terpilih dan tergabung dalam program magang Golkar Internship Student.
+          {anggota.length > 0 ? `Berikut adalah ${anggota.length} peserta yang telah terpilih dan tergabung dalam program magang Golkar Internship Student.` : "Belum ada data peserta magang yang dipublikasikan saat ini."}
         </p>
       </Reveal>
 
-      {/* Filter & Search Bar — Placed at the top for instant mobile & desktop access */}
+      {/* Filter & Search Bar â€” Placed at the top for instant mobile & desktop access */}
       <div className="glass-panel p-4 sm:p-6 rounded-3xl border border-slate-200 dark:border-white/10 space-y-4 sm:space-y-5">
         <div className="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-3 sm:gap-4">
           <div className="flex items-center justify-between gap-2">
@@ -57,7 +57,7 @@ export default function MembersPage() {
               <Filter className="w-4 h-4 text-dpr-emerald dark:text-dpr-gold shrink-0" />
               <span>Filter Berdasarkan Batch Magang</span>
             </div>
-            <span className="text-[10px] text-slate-400 font-normal sm:hidden">← Geser batch →</span>
+            <span className="text-[10px] text-slate-400 font-normal sm:hidden">â† Geser batch â†’</span>
           </div>
 
           <div className="relative w-full md:w-80">
@@ -72,14 +72,14 @@ export default function MembersPage() {
           </div>
         </div>
 
-        {/* Dapil Filter Pills — Horizontal Scroll without wrapping */}
+        {/* Batch Filter Pills - Horizontal Scroll without wrapping */}
         <div className="flex items-center gap-2 pt-3 border-t border-slate-200 dark:border-white/10 overflow-x-auto no-scrollbar scroll-smooth whitespace-nowrap pb-1 -mx-1 px-1">
           {batchList.map((batchName) => {
-            const isActive = selectedDapil === batchName;
+            const isActive = selectedBatch === batchName;
             return (
               <button
                 key={batchName}
-                onClick={() => setSelectedDapil(batchName)}
+                onClick={() => setSelectedBatch(batchName)}
                 className={`shrink-0 px-4 py-1.5 rounded-full text-xs font-semibold transition-all whitespace-nowrap ${
                   isActive
                     ? "bg-dpr-emerald dark:bg-gold-gradient text-white dark:text-dpr-navy font-bold shadow-md scale-105"
@@ -130,7 +130,7 @@ export default function MembersPage() {
             <h3 className="text-slate-900 dark:text-white font-bold text-base font-serif">Tidak Ada Peserta Ditemukan</h3>
             <p className="text-xs text-slate-500 dark:text-slate-400">Coba ubah kata kunci pencarian atau reset filter batch.</p>
             <button
-              onClick={() => { setSelectedDapil("Semua"); setSearchQuery(""); }}
+              onClick={() => { setSelectedBatch("Semua"); setSearchQuery(""); }}
               className="bg-slate-100 dark:bg-dpr-navy text-dpr-emerald-dark dark:text-dpr-gold border border-slate-300 dark:border-dpr-gold/30 px-4 py-2 rounded-full text-xs font-semibold"
             >
               Reset Filter
@@ -142,3 +142,5 @@ export default function MembersPage() {
     </div>
   );
 }
+
+

@@ -43,7 +43,7 @@ export default function AgendaPage() {
           <span>JADWAL KEGIATAN & AGENDA MAGANG</span>
         </div>
         <h1 className="text-3xl sm:text-5xl font-extrabold text-slate-900 dark:text-white">
-          Agenda Kegiatan <span className="text-dpr-emerald dark:text-red-600">GOLKAR INTERNSHIP STUDENT</span>
+          Agenda Kegiatan <span className="text-dpr-emerald dark:text-red-600">Golkar Internship Student</span>
         </h1>
         <p className="text-slate-700 dark:text-slate-300 text-xs sm:text-sm leading-relaxed">
           Jadwal pelaksanaan program magang, mencakup sesi diskusi terbuka, pembekalan materi intensif, rapat komisi, serta kelas bimbingan teknis bersama para pakar dan mentor.

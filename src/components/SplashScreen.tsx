@@ -444,7 +444,7 @@ export default function SplashScreen() {
           animate={{ opacity: 1, y: 0, letterSpacing: "-0.01em" }}
           transition={{ delay: 0.3, duration: 0.9, ease: "easeOut" }}
         >
-          GOLKAR INTERNSHIP STUDENT
+          Golkar Internship Student
         </motion.p>
         <motion.p
           className="mt-1 text-center text-[11px] sm:text-xs font-semibold text-slate-400 tracking-wide"

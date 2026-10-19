@@ -73,7 +73,7 @@ export default function AdminProfilSejarahPage() {
   const getSection = (title: string) => page?.sections.find((s) => s.title === title);
 
   const headerSub = getSection("Header Halaman Sejarah")?.subsections[0];
-  const factSubs = getSection("Statistik & Fakta Komisi")?.subsections || [];
+  const factSubs = getSection("Statistik & Fakta Program")?.subsections || [];
   const narasiSubs = getSection("Narasi Latar Belakang Pembentukan")?.subsections || [];
   const timelineSubs = getSection("Linimasa Sejarah Penting")?.subsections || [];
 
@@ -118,16 +118,16 @@ export default function AdminProfilSejarahPage() {
       )}
 
       {/* Facts Section */}
-      <SectionCard icon={BookOpen} title="Statistik & Fakta Komisi (4 Fact Cards)" description="Nilai dan label yang tampil pada 4 kartu statistik di bagian atas halaman sejarah.">
+      <SectionCard icon={BookOpen} title="Statistik & Fakta Program (4 Fact Cards)" description="Nilai dan label yang tampil pada 4 kartu statistik di bagian atas halaman sejarah.">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           {factSubs.map((sub) => (
             <div key={sub.id} className="p-4 rounded-xl bg-slate-50 dark:bg-dpr-navy border border-slate-200 dark:border-white/10 space-y-3">
               <p className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase">{sub.title}</p>
               <Field label="Label">
-                <Input value={sub.fields.label || ""} onChange={(e) => updateField("Statistik & Fakta Komisi", sub.id, "label", e.target.value)} className="w-full" />
+                <Input value={sub.fields.label || ""} onChange={(e) => updateField("Statistik & Fakta Program", sub.id, "label", e.target.value)} className="w-full" />
               </Field>
               <Field label="Nilai">
-                <Input value={sub.fields.value || ""} onChange={(e) => updateField("Statistik & Fakta Komisi", sub.id, "value", e.target.value)} className="w-full" />
+                <Input value={sub.fields.value || ""} onChange={(e) => updateField("Statistik & Fakta Program", sub.id, "value", e.target.value)} className="w-full" />
               </Field>
             </div>
           ))}

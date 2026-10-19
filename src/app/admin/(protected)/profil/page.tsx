@@ -58,7 +58,7 @@ export default function AdminProfilPage() {
   };
 
   const headerSub = getSub("Header Halaman Profil");
-  const sejarahSub = getSub("Sejarah Komisi");
+  const sejarahSub = getSub("Sejarah Program");
   const visiSub = getSub("Visi & Misi", "profil-visi-misi-utama");
   const pilarSub = getSub("Visi & Misi", "profil-visi-misi-pilar");
 
@@ -139,19 +139,19 @@ export default function AdminProfilPage() {
           <Field label="Paragraf Intro Sejarah">
             <Textarea
               value={sejarahSub.fields.intro || ""}
-              onChange={(e) => updateField("Sejarah Komisi", sejarahSub.id, "intro", e.target.value)}
+              onChange={(e) => updateField("Sejarah Program", sejarahSub.id, "intro", e.target.value)}
               rows={4}
             />
           </Field>
           <Field label="Paragraf Body Sejarah">
             <Textarea
               value={sejarahSub.fields.body || ""}
-              onChange={(e) => updateField("Sejarah Komisi", sejarahSub.id, "body", e.target.value)}
+              onChange={(e) => updateField("Sejarah Program", sejarahSub.id, "body", e.target.value)}
               rows={4}
             />
           </Field>
           <div className="p-3 rounded-xl bg-blue-50 dark:bg-blue-950/20 border border-blue-200 dark:border-blue-800 text-xs text-blue-700 dark:text-blue-300">
-            Untuk mengedit konten sejarah lengkap (timeline, milestones, dll), gunakan menu <strong>Sejarah Komisi</strong> di sidebar.
+            Untuk mengedit konten sejarah lengkap (timeline, milestones, dll), gunakan menu <strong>Sejarah Program</strong> di sidebar.
           </div>
         </SectionCard>
       )}

@@ -74,12 +74,12 @@ export default function AdminProfilVisiMisiPage() {
   const getSection = (title: string) => page?.sections.find((s) => s.title === title);
 
   const headerSub = getSection("Header Halaman Visi & Misi")?.subsections[0];
-  const visiSub = getSection("Visi Utama Komisi")?.subsections[0];
-  const misiSubs = getSection("Misi Kerja Komisi (4 Pilar Strategis)")?.subsections || [];
-  const nilaiSubs = getSection("Nilai-Nilai Utama Komisi")?.subsections || [];
+  const visiSub = getSection("Visi Utama Program")?.subsections[0];
+  const misiSubs = getSection("Misi Kerja Program (4 Pilar Strategis)")?.subsections || [];
+  const nilaiSubs = getSection("Nilai-Nilai Utama Program")?.subsections || [];
 
   const addNilai = () => {
-    updatePageSection("Nilai-Nilai Utama Komisi", (subs) => [
+    updatePageSection("Nilai-Nilai Utama Program", (subs) => [
       ...subs,
       { id: `visimisi-nilai-${Date.now()}`, title: "Nilai Baru", fields: { judul: "Judul Nilai", deskripsi: "Deskripsi nilai baru." } },
     ]);
@@ -87,7 +87,7 @@ export default function AdminProfilVisiMisiPage() {
 
   const deleteNilai = (subId: string) => {
     if (!confirm("Hapus nilai ini?")) return;
-    updatePageSection("Nilai-Nilai Utama Komisi", (subs) => subs.filter((s) => s.id !== subId));
+    updatePageSection("Nilai-Nilai Utama Program", (subs) => subs.filter((s) => s.id !== subId));
   };
 
   return (
@@ -115,18 +115,18 @@ export default function AdminProfilVisiMisiPage() {
 
       {/* Visi */}
       {visiSub && (
-        <SectionCard icon={Eye} title="Visi Utama Komisi" description="Pernyataan visi yang ditampilkan sebagai blockquote besar di halaman visi & misi.">
+        <SectionCard icon={Eye} title="Visi Utama Program" description="Pernyataan visi yang ditampilkan sebagai blockquote besar di halaman visi & misi.">
           <Field label="Label Visi">
-            <Input value={visiSub.fields.label || ""} onChange={(e) => updateField("Visi Utama Komisi", visiSub.id, "label", e.target.value)} className="w-full" />
+            <Input value={visiSub.fields.label || ""} onChange={(e) => updateField("Visi Utama Program", visiSub.id, "label", e.target.value)} className="w-full" />
           </Field>
           <Field label="Sub-judul Visi">
-            <Input value={visiSub.fields.judul || ""} onChange={(e) => updateField("Visi Utama Komisi", visiSub.id, "judul", e.target.value)} className="w-full" />
+            <Input value={visiSub.fields.judul || ""} onChange={(e) => updateField("Visi Utama Program", visiSub.id, "judul", e.target.value)} className="w-full" />
           </Field>
           <Field label="Pernyataan Visi (blockquote)">
-            <Textarea value={visiSub.fields.visi || ""} onChange={(e) => updateField("Visi Utama Komisi", visiSub.id, "visi", e.target.value)} rows={3} />
+            <Textarea value={visiSub.fields.visi || ""} onChange={(e) => updateField("Visi Utama Program", visiSub.id, "visi", e.target.value)} rows={3} />
           </Field>
           <Field label="Penjelasan Visi">
-            <Textarea value={visiSub.fields.penjelasan || ""} onChange={(e) => updateField("Visi Utama Komisi", visiSub.id, "penjelasan", e.target.value)} rows={3} />
+            <Textarea value={visiSub.fields.penjelasan || ""} onChange={(e) => updateField("Visi Utama Program", visiSub.id, "penjelasan", e.target.value)} rows={3} />
           </Field>
         </SectionCard>
       )}
@@ -140,7 +140,7 @@ export default function AdminProfilVisiMisiPage() {
           <div className="flex items-center gap-3">
             {expandedMisi ? <ChevronDown className="w-4 h-4 text-dpr-emerald dark:text-dpr-gold" /> : <ChevronRightIcon className="w-4 h-4 text-dpr-emerald dark:text-dpr-gold" />}
             <div>
-              <h3 className="text-sm font-extrabold text-slate-900 dark:text-white">4 Pilar Misi Komisi</h3>
+              <h3 className="text-sm font-extrabold text-slate-900 dark:text-white">4 Pilar Misi Program</h3>
               <p className="text-xs text-slate-500 dark:text-slate-400">Judul, isi, dan 3 target capaian per misi</p>
             </div>
           </div>
@@ -152,16 +152,16 @@ export default function AdminProfilVisiMisiPage() {
                 <div key={sub.id} className="border border-slate-200 dark:border-white/10 rounded-xl p-4 space-y-3 bg-white/60 dark:bg-dpr-navy/40">
                   <p className="text-xs font-bold text-dpr-emerald dark:text-dpr-gold uppercase">Misi {sub.fields.nomorMisi || i + 1}</p>
                   <Field label="Judul Misi">
-                    <Input value={sub.fields.judul || ""} onChange={(e) => updateField("Misi Kerja Komisi (4 Pilar Strategis)", sub.id, "judul", e.target.value)} className="w-full" />
+                    <Input value={sub.fields.judul || ""} onChange={(e) => updateField("Misi Kerja Program (4 Pilar Strategis)", sub.id, "judul", e.target.value)} className="w-full" />
                   </Field>
                   <Field label="Isi / Deskripsi Misi">
-                    <Textarea value={sub.fields.isi || ""} onChange={(e) => updateField("Misi Kerja Komisi (4 Pilar Strategis)", sub.id, "isi", e.target.value)} rows={4} />
+                    <Textarea value={sub.fields.isi || ""} onChange={(e) => updateField("Misi Kerja Program (4 Pilar Strategis)", sub.id, "isi", e.target.value)} rows={4} />
                   </Field>
                   <div className="space-y-2">
                     <p className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Target Capaian (3 butir)</p>
                     {["target1", "target2", "target3"].map((key, ti) => (
                       <Field key={key} label={`Target ${ti + 1}`}>
-                        <Input value={sub.fields[key] || ""} onChange={(e) => updateField("Misi Kerja Komisi (4 Pilar Strategis)", sub.id, key, e.target.value)} className="w-full" />
+                        <Input value={sub.fields[key] || ""} onChange={(e) => updateField("Misi Kerja Program (4 Pilar Strategis)", sub.id, key, e.target.value)} className="w-full" />
                       </Field>
                     ))}
                   </div>
@@ -181,7 +181,7 @@ export default function AdminProfilVisiMisiPage() {
           <div className="flex items-center gap-3">
             {expandedNilai ? <ChevronDown className="w-4 h-4 text-dpr-emerald dark:text-dpr-gold" /> : <ChevronRightIcon className="w-4 h-4 text-dpr-emerald dark:text-dpr-gold" />}
             <div>
-              <h3 className="text-sm font-extrabold text-slate-900 dark:text-white">Nilai-Nilai Utama Komisi</h3>
+              <h3 className="text-sm font-extrabold text-slate-900 dark:text-white">Nilai-Nilai Utama Program</h3>
               <p className="text-xs text-slate-500 dark:text-slate-400">{nilaiSubs.length} nilai tersedia</p>
             </div>
           </div>
@@ -208,10 +208,10 @@ export default function AdminProfilVisiMisiPage() {
                       </button>
                     </div>
                     <Field label="Judul Nilai">
-                      <Input value={sub.fields.judul || ""} onChange={(e) => updateField("Nilai-Nilai Utama Komisi", sub.id, "judul", e.target.value)} className="w-full" />
+                      <Input value={sub.fields.judul || ""} onChange={(e) => updateField("Nilai-Nilai Utama Program", sub.id, "judul", e.target.value)} className="w-full" />
                     </Field>
                     <Field label="Deskripsi">
-                      <Textarea value={sub.fields.deskripsi || ""} onChange={(e) => updateField("Nilai-Nilai Utama Komisi", sub.id, "deskripsi", e.target.value)} rows={2} />
+                      <Textarea value={sub.fields.deskripsi || ""} onChange={(e) => updateField("Nilai-Nilai Utama Program", sub.id, "deskripsi", e.target.value)} rows={2} />
                     </Field>
                   </div>
                 ))}

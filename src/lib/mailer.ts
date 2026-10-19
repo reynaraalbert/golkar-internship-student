@@ -33,7 +33,7 @@ export async function sendPasswordResetEmail(
           <tr>
             <td style="background:linear-gradient(135deg,#1a2744 0%,#0D1626 100%);padding:32px 40px;text-align:center;border-bottom:1px solid rgba(212,175,55,0.2);">
               <div style="display:inline-block;background:rgba(212,175,55,0.12);border:1px solid rgba(212,175,55,0.35);border-radius:999px;padding:4px 16px;margin-bottom:16px;">
-                <span style="color:#F5C518;font-size:10px;font-weight:800;letter-spacing:3px;text-transform:uppercase;">GOLKAR INTERNSHIP STUDENT</span>
+                <span style="color:#F5C518;font-size:10px;font-weight:800;letter-spacing:3px;text-transform:uppercase;">Golkar Internship Student</span>
               </div>
               <h1 style="margin:0;font-size:22px;font-weight:900;color:#FFFFFF;letter-spacing:-0.5px;">Reset Kata Sandi</h1>
               <p style="margin:8px 0 0;font-size:13px;color:#94A3B8;">Portal Resmi Pendaftaran &amp; Pembinaan Magang</p>

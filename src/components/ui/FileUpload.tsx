@@ -26,6 +26,16 @@ const ACCEPT_MAP = {
 
 const ALLOWED_MIME = ACCEPT_MAP.all.split(",");
 
+/**
+ * Fallback upload target used only when the private Supabase bucket is not
+ * configured. This is the preset the portal used before storage was hardened.
+ */
+const CLOUDINARY_UPLOAD_URL =
+  process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_URL ||
+  "https://api.cloudinary.com/v1_1/aeknpwzs/upload";
+const CLOUDINARY_UPLOAD_PRESET =
+  process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET || "golkar_uploads";
+
 /** Compress image in-browser before upload. Target ~800px wide, quality 0.75. */
 async function compressImage(file: File, maxWidth = 800, quality = 0.75): Promise<File> {
   return new Promise((resolve) => {
@@ -101,6 +111,7 @@ export default function FileUpload({
         return;
       }
 
+      // Primary path: private Supabase storage via our API (owner-scoped access).
       const formData = new FormData();
       formData.append("file", uploadFile);
 
@@ -112,11 +123,33 @@ export default function FileUpload({
 
       const data = await res.json().catch(() => ({}));
 
-      if (!res.ok || !data?.url) {
+      if (res.ok && data?.url) {
+        onChange(data.url);
+        return;
+      }
+
+      // Fallback: Supabase storage is not configured yet. Keep uploads working
+      // through the existing Cloudinary preset (previous behaviour).
+      const isNotConfigured =
+        res.status === 500 && /tidak dikonfigurasi|credentials missing/i.test(String(data?.error || ""));
+      if (!isNotConfigured) {
         throw new Error(data?.error || "Gagal mengunggah berkas.");
       }
 
-      onChange(data.url);
+      const cloudForm = new FormData();
+      cloudForm.append("upload_preset", CLOUDINARY_UPLOAD_PRESET);
+      cloudForm.append("file", uploadFile);
+
+      const cloudRes = await fetch(CLOUDINARY_UPLOAD_URL, { method: "POST", body: cloudForm });
+      const cloudData = await cloudRes.json().catch(() => ({}));
+
+      if (!cloudRes.ok || !cloudData?.secure_url) {
+        throw new Error(
+          cloudData?.error?.message || "Gagal mengunggah berkas. Silakan coba lagi."
+        );
+      }
+
+      onChange(cloudData.secure_url);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Gagal memproses file. Coba lagi.");
     } finally {

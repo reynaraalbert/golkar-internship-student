@@ -28,7 +28,6 @@ export default function AdminLoginPage() {
         body: JSON.stringify({ username, password, role }),
       });
       if (res.ok) {
-        localStorage.setItem("admin_role", role);
         router.replace("/admin");
         router.refresh();
       } else {

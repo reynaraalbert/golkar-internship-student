@@ -1,16 +1,21 @@
 import { NextRequest, NextResponse } from "next/server";
-import { requireAuth } from "@/lib/api-auth";
+import { staffGuard } from "@/lib/api-auth";
 import { readDbCollection, writeDbCollection } from "@/lib/db-store";
 import type { Aspirasi } from "@/lib/data";
 
 export const dynamic = "force-dynamic";
 
 export async function GET(req: NextRequest) {
-  if (!requireAuth(req)) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  const guard = staffGuard(req);
+  if ("response" in guard) return guard.response;
+
+  try {
+    const aspirasi = (await readDbCollection("aspirasi")) as Aspirasi[] | null;
+    return NextResponse.json(aspirasi ?? []);
+  } catch (err) {
+    console.error("[Aspirasi GET]", (err as Error).message);
+    return NextResponse.json({ error: "Gagal memuat aspirasi." }, { status: 500 });
   }
-  const aspirasi = (await readDbCollection("aspirasi")) as Aspirasi[] | null;
-  return NextResponse.json(aspirasi ?? []);
 }
 
 export async function POST(req: NextRequest) {
@@ -34,7 +39,8 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Gagal menyimpan aspirasi ke database" }, { status: 500 });
     }
     return NextResponse.json({ ok: true, id: newAspirasi.id });
-  } catch {
-    return NextResponse.json({ error: "Invalid request" }, { status: 400 });
+  } catch (err) {
+    console.error("[Aspirasi POST]", (err as Error).message);
+    return NextResponse.json({ error: "Permintaan tidak valid." }, { status: 400 });
   }
 }

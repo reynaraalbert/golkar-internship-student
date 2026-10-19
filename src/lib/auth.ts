@@ -1,16 +1,26 @@
 /**
- * Lightweight admin authentication using HMAC-signed tokens.
+ * Admin authentication using HMAC-signed stateless tokens.
  *
- * Tokens are signed with ADMIN_JWT_SECRET using SHA-256, making them
- * stateless — no in-memory session store needed. This survives server
- * hot-reloads and serverless function cold starts.
+ * Token payload (base64url): `<username>:<role>:<expires>:<hmac-sha256>`
+ * The role is signed server-side so a client cannot elevate itself by editing
+ * localStorage or the request body.
  */
 import crypto from "crypto";
+
+export type AdminRole = "admin" | "seleksi";
 
 export interface AdminCredentials {
   username: string;
   password: string;
 }
+
+export interface AdminSession {
+  username: string;
+  role: AdminRole;
+  expires: number;
+}
+
+export const AUTH_COOKIE = "golkar_internship_admin_token";
 
 export function getAdminCredentials(): AdminCredentials | null {
   const username = process.env.ADMIN_USERNAME;
@@ -20,45 +30,60 @@ export function getAdminCredentials(): AdminCredentials | null {
 }
 
 function getSecret(): string {
-  return process.env.ADMIN_JWT_SECRET || "golkar-internship-student-super-secret-key";
+  const secret = process.env.ADMIN_JWT_SECRET;
+  if (secret) return secret;
+  if (process.env.NODE_ENV === "production") {
+    throw new Error("ADMIN_JWT_SECRET is not configured");
+  }
+  // Development-only fallback so local dev works without a .env file.
+  return "dev-only-insecure-admin-secret";
 }
 
 function signPayload(payload: string): string {
   return crypto.createHmac("sha256", getSecret()).update(payload).digest("hex");
 }
 
-export function createSessionToken(): string {
-  // payload = username + timestamp (valid for 7 days)
+export function createSessionToken(role: AdminRole = "admin"): string {
   const creds = getAdminCredentials();
   const username = creds?.username || "admin";
   const expires = Date.now() + 7 * 24 * 60 * 60 * 1000;
-  const payload = `${username}:${expires}`;
+  const payload = `${username}:${role}:${expires}`;
   const sig = signPayload(payload);
-  // encode as base64url for safe cookie transport
   return Buffer.from(`${payload}:${sig}`).toString("base64url");
 }
 
-export function isValidToken(token: string | undefined): boolean {
-  if (!token) return false;
+export function getSessionFromToken(token: string | undefined): AdminSession | null {
+  if (!token) return null;
   try {
     const decoded = Buffer.from(token, "base64url").toString("utf-8");
     const parts = decoded.split(":");
-    if (parts.length < 3) return false;
-    // last part is sig, second-to-last is expires, rest is username
+    if (parts.length < 3) return null;
+
     const sig = parts[parts.length - 1];
-    const expires = parseInt(parts[parts.length - 2], 10);
-    if (isNaN(expires) || Date.now() > expires) return false;
+    const expires = Number.parseInt(parts[parts.length - 2], 10);
+    if (!Number.isFinite(expires) || Date.now() > expires) return null;
+
     const payload = parts.slice(0, -1).join(":");
     const expectedSig = signPayload(payload);
-    // Constant-time comparison
-    if (sig.length !== expectedSig.length) return false;
-    return crypto.timingSafeEqual(Buffer.from(sig), Buffer.from(expectedSig));
+    if (sig.length !== expectedSig.length) return null;
+    if (!crypto.timingSafeEqual(Buffer.from(sig), Buffer.from(expectedSig))) return null;
+
+    // Legacy tokens were `<username>:<expires>:<sig>` and always belonged to
+    // the full admin role.
+    const role: AdminRole = parts.length >= 4 && parts[parts.length - 3] === "seleksi" ? "seleksi" : "admin";
+    const username = parts.slice(0, -2).join(":");
+
+    return { username, role, expires };
   } catch {
-    return false;
+    return null;
   }
 }
 
-// Legacy no-op (kept for backward compat — no longer needed with stateless tokens)
+export function isValidToken(token: string | undefined): boolean {
+  return getSessionFromToken(token) !== null;
+}
+
+// Legacy no-op (kept for backward compat — tokens are stateless)
 export function registerSession(_token: string): void {}
 export function revokeSession(_token: string): void {}
 
@@ -74,5 +99,3 @@ export function verifyCredentials(username: string, password: string): boolean {
     crypto.timingSafeEqual(a, b) && crypto.timingSafeEqual(c, d)
   );
 }
-
-export const AUTH_COOKIE = "golkar_internship_admin_token";

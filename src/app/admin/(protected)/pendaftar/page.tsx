@@ -125,14 +125,20 @@ export default function AdminVerifikasiPendaftarPage() {
 
   useEffect(() => {
     try {
-      const role = localStorage.getItem("admin_role") as "admin" | "seleksi";
-      if (role) setAdminRole(role);
-      
       const name = localStorage.getItem("tim_seleksi_nama") || "Tim Seleksi";
       setAdminName(name);
     } catch {
       // ignore error
     }
+
+    // Role comes from the signed server session, never from localStorage.
+    fetch("/api/auth/verify", { cache: "no-store" })
+      .then((r) => r.json())
+      .then((data) => {
+        if (data?.role === "seleksi") setAdminRole("seleksi");
+        else if (data?.role === "admin") setAdminRole("admin");
+      })
+      .catch(() => {});
 
     // Fetch real registered users from Supabase database
     fetch("/api/admin/peserta")

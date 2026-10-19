@@ -1,16 +1,21 @@
 import { NextRequest, NextResponse } from "next/server";
-import { requireAuth } from "@/lib/api-auth";
+import { staffGuard } from "@/lib/api-auth";
 import { readDbCollection, writeDbCollection } from "@/lib/db-store";
 import type { NewsSubmission } from "@/lib/data";
 
 export const dynamic = "force-dynamic";
 
 export async function GET(req: NextRequest) {
-  if (!requireAuth(req)) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  const guard = staffGuard(req);
+  if ("response" in guard) return guard.response;
+
+  try {
+    const submissions = (await readDbCollection("submissions")) as NewsSubmission[] | null;
+    return NextResponse.json(submissions ?? []);
+  } catch (err) {
+    console.error("[Submissions GET]", (err as Error).message);
+    return NextResponse.json({ error: "Gagal memuat kiriman berita." }, { status: 500 });
   }
-  const submissions = (await readDbCollection("submissions")) as NewsSubmission[] | null;
-  return NextResponse.json(submissions ?? []);
 }
 
 export async function POST(req: NextRequest) {
@@ -37,6 +42,6 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ ok: true, id: newSubmission.id });
   } catch (err) {
     console.error("[Submissions POST Error]", (err as Error).message);
-    return NextResponse.json({ error: "Invalid request" }, { status: 400 });
+    return NextResponse.json({ error: "Permintaan tidak valid." }, { status: 400 });
   }
 }

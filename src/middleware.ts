@@ -1,48 +1,34 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
+import { AUTH_COOKIE, isValidToken } from "@/lib/auth";
 
-const AUTH_COOKIE = "golkar_internship_admin_token";
-
+/**
+ * Edge middleware is a first line of defence only. Every admin API route also
+ * verifies the session server-side (`staffGuard`/`adminGuard`), because
+ * middleware alone must never be treated as the authorization boundary.
+ */
 export function middleware(request: NextRequest) {
   const url = request.nextUrl;
-  const hostname = request.headers.get("host") || "";
-
-  // Tentukan apakah request dikirim dari Domain Admin
-  // (misalnya: admingolkarinternship.com, admin.golkarinternship.com, admin.localhost, dsb)
-  const isAdminDomain =
-    hostname.startsWith("admin.") ||
-    hostname.includes("admingolkarinternship") ||
-    url.searchParams.get("domain") === "admin";
-
   const token = request.cookies.get(AUTH_COOKIE)?.value;
+  const isAuthenticated = isValidToken(token);
+
   const isLoginPage = url.pathname === "/admin/login";
-  const isAdminRoute = url.pathname.startsWith("/admin");
+  const isAdminPage = url.pathname.startsWith("/admin");
+  const isAdminApi = url.pathname.startsWith("/api/admin");
 
-  // --- Skenario 1: Akses Melalui Domain Admin (admingolkarinternship.com) ---
-  if (isAdminDomain) {
-    // Jika mengakses root '/' pada domain admin
-    if (url.pathname === "/") {
-      if (!token) {
-        return NextResponse.redirect(new URL("/admin/login", request.url));
-      }
-      return NextResponse.rewrite(new URL("/admin", request.url));
+  if (isAdminApi) {
+    if (!isAuthenticated) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
-
-    // Protection check untuk halaman admin pada domain admin
-    if (isAdminRoute && !isLoginPage && !token) {
-      return NextResponse.redirect(new URL("/admin/login", request.url));
-    }
-
-    if (isLoginPage && token) {
-      return NextResponse.redirect(new URL("/admin", request.url));
-    }
+    return NextResponse.next();
   }
 
-  // --- Skenario 2: Akses Melalui Domain User Utama (golkarinternship.com) ---
-  if (!isAdminDomain && isAdminRoute) {
-    // Jika mengakses /admin/login tanpa token di domain utama
-    if (!token && !isLoginPage) {
+  if (isAdminPage) {
+    if (!isAuthenticated && !isLoginPage) {
       return NextResponse.redirect(new URL("/admin/login", request.url));
+    }
+    if (isAuthenticated && isLoginPage) {
+      return NextResponse.redirect(new URL("/admin", request.url));
     }
   }
 
@@ -53,7 +39,6 @@ export const config = {
   matcher: [
     /*
      * Match all request paths except for:
-     * - api routes (unless handled)
      * - _next/static (static files)
      * - _next/image (image optimization files)
      * - favicon.ico, images, uploads

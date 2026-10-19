@@ -1,21 +1,30 @@
 "use client";
 
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState } from "react";
+
+export type AdminRole = "admin" | "seleksi";
 
 /**
  * Verifies the admin session by calling the verify endpoint.
- * Redirects to /admin/login when unauthenticated.
+ * The role is returned by the server (signed inside the session token) so the
+ * UI never has to trust a client-stored value.
  */
 export function useAdminAuth() {
   const [status, setStatus] = useState<"loading" | "authenticated" | "unauthenticated">("loading");
+  const [role, setRole] = useState<AdminRole>("admin");
 
   useEffect(() => {
     let cancelled = false;
     async function check() {
       try {
         const res = await fetch("/api/auth/verify", { cache: "no-store" });
-        if (!cancelled) {
-          setStatus(res.ok ? "authenticated" : "unauthenticated");
+        if (cancelled) return;
+        if (res.ok) {
+          const data = await res.json().catch(() => ({}));
+          setRole(data?.role === "seleksi" ? "seleksi" : "admin");
+          setStatus("authenticated");
+        } else {
+          setStatus("unauthenticated");
         }
       } catch {
         if (!cancelled) setStatus("unauthenticated");
@@ -27,7 +36,7 @@ export function useAdminAuth() {
     };
   }, []);
 
-  return status;
+  return { status, role };
 }
 
 export async function logout() {

@@ -1,5 +1,5 @@
-import { NextRequest, NextResponse } from "next/server";
-import { requireAuth } from "@/lib/api-auth";
+﻿import { NextRequest, NextResponse } from "next/server";
+import { staffGuard } from "@/lib/api-auth";
 import { prisma } from "@/lib/prisma";
 import type { NewsSubmission, NewsArticle } from "@/lib/data";
 
@@ -46,9 +46,8 @@ function buildArticle(sub: NewsSubmission, proofread: Proofread, id: string): Ne
 }
 
 export async function PUT(req: NextRequest, { params }: Params) {
-  if (!requireAuth(req)) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  }
+  const guard = staffGuard(req);
+  if ("response" in guard) return guard.response;
 
   try {
     const body = await req.json();
@@ -67,7 +66,7 @@ export async function PUT(req: NextRequest, { params }: Params) {
         data: {
           status: patch.status || sub.status,
           proofreadNotes: patch.proofreadNotes !== undefined ? patch.proofreadNotes : body.proofreadNotes || row.proofreadNotes,
-          artikel: patch.artikel !== undefined ? (patch.artikel as any) : row.artikel,
+          artikel: patch.artikel !== undefined ? (patch.artikel as object) : (row.artikel as object),
         },
       });
 

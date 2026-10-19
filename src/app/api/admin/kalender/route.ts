@@ -1,6 +1,6 @@
-import { NextRequest, NextResponse } from "next/server";
+﻿import { NextRequest, NextResponse } from "next/server";
 import { revalidatePath } from "next/cache";
-import { requireAuth } from "@/lib/api-auth";
+import { staffGuard } from "@/lib/api-auth";
 import {
   deleteCalendarEvent,
   getAllCalendarEvents,
@@ -10,26 +10,26 @@ import {
 
 export const dynamic = "force-dynamic";
 
-const unauthorized = () => NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-
 export async function GET(req: NextRequest) {
-  if (!requireAuth(req)) return unauthorized();
+  const guard = staffGuard(req);
+  if ("response" in guard) return guard.response;
   return NextResponse.json({ events: getAllCalendarEvents() });
 }
 
 /** Create an event, or update one when `id` matches an existing event. */
 export async function POST(req: NextRequest) {
-  if (!requireAuth(req)) return unauthorized();
+  const guard = staffGuard(req);
+  if ("response" in guard) return guard.response;
 
   let body: unknown;
   try {
     body = await req.json();
   } catch {
-    return NextResponse.json({ error: "Invalid JSON" }, { status: 400 });
+    return NextResponse.json({ error: "Data yang dikirim tidak valid." }, { status: 400 });
   }
 
-  const id = (body as any)?.id;
-  const existing = id ? getAllCalendarEvents().find((e) => e.id === id) : undefined;
+  const id = (body as { id?: unknown })?.id;
+  const existing = typeof id === "string" ? getAllCalendarEvents().find((e) => e.id === id) : undefined;
   const result = normalizeCalendarEvent(body, existing);
   if ("error" in result) {
     return NextResponse.json({ error: result.error }, { status: 400 });
@@ -45,7 +45,8 @@ export async function POST(req: NextRequest) {
 }
 
 export async function DELETE(req: NextRequest) {
-  if (!requireAuth(req)) return unauthorized();
+  const guard = staffGuard(req);
+  if ("response" in guard) return guard.response;
 
   const id = req.nextUrl.searchParams.get("id");
   if (!id) return NextResponse.json({ error: "id wajib diisi" }, { status: 400 });

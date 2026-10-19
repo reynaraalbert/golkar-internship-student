@@ -1,22 +1,24 @@
 import { NextRequest, NextResponse } from "next/server";
-import { requireAuth } from "@/lib/api-auth";
+import { adminGuard } from "@/lib/api-auth";
 import { prisma } from "@/lib/prisma";
+import { z } from "zod";
 
 export const dynamic = "force-dynamic";
 
+const timSeleksiMemberSchema = z.object({
+  id: z.string().trim().min(1),
+  status: z.enum(["PENDING", "APPROVED", "REJECTED"]),
+});
+
 /**
  * GET /api/admin/tim-seleksi
- * Returns the list of Tim Seleksi members from the database.
- * Currently returns an empty array since there's no dedicated TimSeleksi model yet.
- * This endpoint is ready to be connected to a real model when needed.
+ * Returns the list of Tim Seleksi members from PageContent ("tim_seleksi").
  */
 export async function GET(req: NextRequest) {
-  if (!requireAuth(req)) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  }
+  const guard = adminGuard(req);
+  if ("response" in guard) return guard.response;
 
   try {
-    // Read from PageContent with slug "tim_seleksi"
     const row = await prisma.pageContent.findUnique({
       where: { slug: "tim_seleksi" },
     });
@@ -32,8 +34,9 @@ export async function GET(req: NextRequest) {
     if (!Array.isArray(data)) data = [];
 
     return NextResponse.json(data);
-  } catch {
-    return NextResponse.json([]);
+  } catch (err) {
+    console.error("[Admin Tim Seleksi GET]", (err as Error).message);
+    return NextResponse.json({ error: "Gagal memuat tim seleksi." }, { status: 500 });
   }
 }
 
@@ -42,46 +45,47 @@ export async function GET(req: NextRequest) {
  * Update a Tim Seleksi member's status (APPROVED/REJECTED).
  */
 export async function PUT(req: NextRequest) {
-  if (!requireAuth(req)) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  const guard = adminGuard(req);
+  if ("response" in guard) return guard.response;
+
+  let body: unknown;
+  try {
+    body = await req.json();
+  } catch {
+    return NextResponse.json({ error: "Data yang dikirim tidak valid." }, { status: 400 });
   }
 
+  const parsed = timSeleksiMemberSchema.safeParse(body);
+  if (!parsed.success) {
+    return NextResponse.json({ error: "ID atau status tidak valid." }, { status: 400 });
+  }
+  const { id, status } = parsed.data;
+
   try {
-    const body = await req.json();
-    const { id, status } = body;
-
-    if (!id || !status) {
-      return NextResponse.json({ error: "Missing id or status" }, { status: 400 });
-    }
-
-    // Read current data
     const row = await prisma.pageContent.findUnique({
       where: { slug: "tim_seleksi" },
     });
 
-    let members: any[] = [];
+    let members: Record<string, unknown>[] = [];
     if (row) {
       let data = row.sections;
       if (typeof data === "string") {
         try { data = JSON.parse(data); } catch { data = []; }
       }
-      if (Array.isArray(data)) members = data;
+      if (Array.isArray(data)) members = data as Record<string, unknown>[];
     }
 
-    // Update the status of the member
-    const updated = members.map((m: any) =>
-      m.id === id ? { ...m, status } : m
-    );
+    const updated = members.map((m) => (m.id === id ? { ...m, status } : m));
 
-    // Save back
     await prisma.pageContent.upsert({
       where: { slug: "tim_seleksi" },
-      update: { sections: updated as any },
-      create: { slug: "tim_seleksi", title: "Tim Seleksi", sections: updated as any },
+      update: { sections: updated as object },
+      create: { slug: "tim_seleksi", title: "Tim Seleksi", sections: updated as object },
     });
 
     return NextResponse.json({ ok: true });
   } catch (err) {
-    return NextResponse.json({ error: "Failed to update" }, { status: 500 });
+    console.error("[Admin Tim Seleksi PUT]", (err as Error).message);
+    return NextResponse.json({ error: "Gagal memperbarui tim seleksi." }, { status: 500 });
   }
 }

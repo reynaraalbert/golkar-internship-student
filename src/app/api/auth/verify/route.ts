@@ -1,17 +1,16 @@
-import { NextResponse } from "next/server";
-import { AUTH_COOKIE, isValidToken } from "@/lib/auth";
+import { NextRequest, NextResponse } from "next/server";
+import { getAdminSession } from "@/lib/api-auth";
 
-export async function GET(req: Request) {
-  const headers = req.headers;
-  const cookieHeader = headers.get("cookie") || "";
-  const match = cookieHeader
-    .split(";")
-    .map((c) => c.trim())
-    .find((c) => c.startsWith(`${AUTH_COOKIE}=`));
-  const token = match ? decodeURIComponent(match.split("=")[1]) : undefined;
+export const dynamic = "force-dynamic";
 
-  if (!token || !isValidToken(token)) {
+export async function GET(req: NextRequest) {
+  const session = getAdminSession(req);
+  if (!session) {
     return NextResponse.json({ authenticated: false }, { status: 401 });
   }
-  return NextResponse.json({ authenticated: true });
+  return NextResponse.json({
+    authenticated: true,
+    role: session.role,
+    username: session.username,
+  });
 }

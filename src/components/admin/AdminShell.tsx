@@ -138,18 +138,12 @@ function ClockDisplay() {
 function AdminShellContent({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const router = useRouter();
-  const status = useAdminAuth();
+  const { status, role: adminRole } = useAdminAuth();
   const { theme, toggleTheme } = useTheme();
   const { syncLive, setSyncLive } = useSyncLive();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [desktopSidebarCollapsed, setDesktopSidebarCollapsed] = useState(false);
-  const [adminRole, setAdminRole] = useState<"admin" | "seleksi">("admin");
   const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
-
-  useEffect(() => {
-    const storedRole = localStorage.getItem("admin_role") as "admin" | "seleksi";
-    if (storedRole) setAdminRole(storedRole);
-  }, []);
 
   // Lock body scroll when mobile sidebar is open
   useEffect(() => {

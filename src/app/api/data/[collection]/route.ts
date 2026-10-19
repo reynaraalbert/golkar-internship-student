@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { revalidatePath } from "next/cache";
-import { requireAuth } from "@/lib/api-auth";
+import { adminGuard } from "@/lib/api-auth";
 import { CmsData, defaultCollection } from "@/lib/cms-store";
 import { readDbCollectionSafe, writeDbCollection } from "@/lib/db-store";
 
@@ -25,6 +25,19 @@ const COLLECTIONS: (keyof CmsData)[] = [
   "faqs",
 ];
 
+/**
+ * Collections that contain no personal data and are safe to expose to
+ * anonymous visitors (used by public pages such as /user/posisi).
+ */
+const PUBLIC_READ_COLLECTIONS: (keyof CmsData)[] = [
+  "posisi_magang",
+  "timeline",
+  "tracks",
+  "steps",
+  "requirements",
+  "faqs",
+];
+
 interface Params {
   params: { collection: string };
 }
@@ -36,12 +49,14 @@ const NO_CACHE_HEADERS = {
 };
 
 export async function GET(req: NextRequest, { params }: Params) {
-  if (!requireAuth(req)) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401, headers: NO_CACHE_HEADERS });
-  }
   const key = params.collection as keyof CmsData;
   if (!COLLECTIONS.includes(key)) {
     return NextResponse.json({ error: "Unknown collection" }, { status: 400, headers: NO_CACHE_HEADERS });
+  }
+
+  if (!PUBLIC_READ_COLLECTIONS.includes(key)) {
+    const guard = adminGuard(req);
+    if ("response" in guard) return guard.response;
   }
 
   const dbData = await readDbCollectionSafe(key);
@@ -50,9 +65,9 @@ export async function GET(req: NextRequest, { params }: Params) {
 }
 
 export async function PUT(req: NextRequest, { params }: Params) {
-  if (!requireAuth(req)) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401, headers: NO_CACHE_HEADERS });
-  }
+  const guard = adminGuard(req);
+  if ("response" in guard) return guard.response;
+
   const key = params.collection as keyof CmsData;
   if (!COLLECTIONS.includes(key)) {
     return NextResponse.json({ error: "Unknown collection" }, { status: 400, headers: NO_CACHE_HEADERS });

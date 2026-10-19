@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import React, { useState } from "react";
 import Link from "next/link";
@@ -12,7 +12,7 @@ function PasswordStrength({ password }: { password: string }) {
     { label: "Huruf kapital (A-Z)", ok: /[A-Z]/.test(password) },
     { label: "Huruf kecil (a-z)", ok: /[a-z]/.test(password) },
     { label: "Angka (0-9)", ok: /[0-9]/.test(password) },
-    { label: "Simbol (@, #, !, _…)", ok: /[^A-Za-z0-9]/.test(password) },
+    { label: "Simbol (@, #, !, _â€¦)", ok: /[^A-Za-z0-9]/.test(password) },
   ];
   const passed = checks.filter((c) => c.ok).length;
   const colors = ["bg-red-500", "bg-orange-500", "bg-yellow-500", "bg-lime-500", "bg-emerald-500"];
@@ -53,6 +53,7 @@ export default function UserRegisterPage() {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [privacyConsent, setPrivacyConsent] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -80,7 +81,7 @@ export default function UserRegisterPage() {
       const res = await fetch("/api/user/auth/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({ ...formData, privacyConsent: true, policyVersion: "2026-10-19" }),
       });
 
       const data = await res.json();
@@ -304,10 +305,28 @@ export default function UserRegisterPage() {
               </div>
             </div>
 
+            <div className="flex items-start gap-2.5 p-3.5 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700">
+              <input
+                type="checkbox"
+                id="privacy-consent"
+                required
+                checked={privacyConsent}
+                onChange={(e) => setPrivacyConsent(e.target.checked)}
+                className="mt-0.5 w-4 h-4 accent-amber-500 cursor-pointer"
+              />
+              <label htmlFor="privacy-consent" className="text-[11px] leading-relaxed text-slate-600 dark:text-slate-300 cursor-pointer">
+                Saya telah membaca dan menyetujui{" "}
+                <Link href="/kebijakan-privasi" className="underline font-bold text-amber-700 dark:text-amber-400" target="_blank">
+                  Kebijakan Privasi
+                </Link>{" "}
+                serta pemrosesan data pribadi saya (nama, email, nomor kontak, dan dokumen pendaftaran) untuk keperluan seleksi dan administrasi program magang.
+              </label>
+            </div>
+
             <button
               type="submit"
-              disabled={loading}
-              className="w-full py-3.5 px-6 rounded-xl font-black text-sm text-slate-950 bg-gradient-to-r from-amber-400 via-amber-500 to-yellow-500 hover:from-amber-500 hover:to-amber-600 shadow-md transition-all mt-4 cursor-pointer"
+              disabled={loading || !privacyConsent}
+              className="w-full py-3.5 px-6 rounded-xl font-black text-sm text-slate-950 bg-gradient-to-r from-amber-400 via-amber-500 to-yellow-500 hover:from-amber-500 hover:to-amber-600 shadow-md transition-all mt-4 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {loading ? "Mendaftarkan Akun..." : "Daftar Akun Peserta"}
             </button>
@@ -340,3 +359,5 @@ export default function UserRegisterPage() {
     </div>
   );
 }
+
+

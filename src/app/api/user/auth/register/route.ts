@@ -15,6 +15,11 @@ const registerSchema = z.object({
   university: z.string().trim().min(2, "Nama perguruan tinggi wajib diisi.").max(160),
   major: z.string().trim().max(160).optional(),
   phone: z.string().trim().max(30).optional(),
+  // Explicit consent is mandatory; the client must send `true`.
+  privacyConsent: z
+    .boolean()
+    .refine((value) => value === true, "Anda harus menyetujui Kebijakan Privasi untuk mendaftar."),
+  policyVersion: z.string().trim().max(20).optional(),
 });
 
 export async function POST(request: NextRequest) {

@@ -1,73 +1,107 @@
-"use client";
+﻿"use client";
 
 import React from "react";
-import { Shield, Lock, Eye, Database, UserCheck, AlertCircle } from "lucide-react";
+import { Shield, Lock, Eye, Database, UserCheck, AlertCircle, FileText, Clock, Scale } from "lucide-react";
+import Link from "next/link";
 import { Reveal, StaggerList, FadeCard } from "@/components/ui/AnimationWrapper";
+import { siteConfig } from "@/config/site";
+import { PRIVACY_POLICY_VERSION } from "@/lib/privacy";
+
+const LAST_UPDATED = "19 Oktober 2026";
 
 const sections = [
   {
-    icon: Eye,
-    title: "1. Data yang Kami Kumpulkan",
+    icon: Scale,
+    title: "1. Dasar Hukum dan Pengendali Data",
     content: [
-      "Portal Golkar Internship Student dapat mengumpulkan data berikut secara otomatis saat Anda menggunakan layanan ini:",
-      "• Data teknis seperti alamat IP, jenis browser, sistem operasi, dan halaman yang Anda kunjungi.",
-      "• Waktu dan durasi kunjungan ke portal untuk keperluan analisis statistik penggunaan layanan publik.",
-      "• Informasi yang Anda masukkan secara sukarela, seperti saat mengisi formulir aspirasi atau pertanyaan kepada komisi.",
-      "Kami tidak mengumpulkan data sensitif seperti data keuangan, kesehatan, atau Nomor Induk Kependudukan (NIK) tanpa persetujuan eksplisit Anda.",
-    ]
+      "Kebijakan Privasi ini disusun berdasarkan Undang-Undang Nomor 27 Tahun 2022 tentang Pelindungan Data Pribadi (UU PDP) serta peraturan pelaksanaannya.",
+      `Pengendali data pribadi adalah pengelola program ${siteConfig.name} (${siteConfig.organizer}).`,
+      `Kontak pengendali data: ${siteConfig.secretariat.email} Â· ${siteConfig.secretariat.phone} Â· ${siteConfig.secretariat.address}.`,
+      "Dasar pemrosesan data: (a) persetujuan eksplisit Anda saat mendaftar dan mengunggah berkas; (b) pelaksanaan hubungan program magang; dan (c) pemenuhan kewajiban hukum.",
+    ],
   },
   {
     icon: Database,
-    title: "2. Penggunaan Data",
+    title: "2. Data yang Kami Kumpulkan",
     content: [
-      "Data yang dikumpulkan digunakan semata-mata untuk tujuan berikut:",
-      "• Meningkatkan kualitas dan fungsionalitas layanan informasi publik komisi.",
-      "• Memproses dan menanggapi pertanyaan, aspirasi, atau masukan yang Anda kirimkan kepada Golkar Internship.",
-      "• Melakukan analisis statistik dan pelaporan penggunaan portal secara anonim demi pengembangan layanan.",
-      "• Mematuhi kewajiban hukum dan peraturan yang berlaku di Negara Kesatuan Republik Indonesia.",
-    ]
+      "a. Data akun: nama lengkap, alamat email, nomor telepon/WhatsApp, kata sandi (disimpan sebagai hash, bukan teks asli).",
+      "b. Data akademik: perguruan tinggi, program studi, NIM, IPK, semester, dan data institusi.",
+      "c. Dokumen pendaftaran: Curriculum Vitae (CV), transkrip nilai, surat rekomendasi/pengantar kampus, Kartu Tanda Mahasiswa (KTM) atau Kartu Tanda Penduduk (KTP), pasfoto, dan portofolio (opsional).",
+      "d. Data aktivitas: status lamaran, posisi yang dilamar, riwayat pengalaman yang Anda isi, serta jadwal seleksi.",
+      "e. Data teknis: alamat IP, jenis browser/perangkat, waktu akses, dan catatan pembatasan laju permintaan (rate limit) untuk mencegah penyalahgunaan.",
+      "f. Data komunikasi: isi aspirasi/pesan yang Anda kirimkan, beserta nama, email, dan/atau nomor WhatsApp bila Anda memilih mode terbuka.",
+      "Kami tidak meminta data keuangan, data kesehatan, atau data biometrik. NIK hanya diproses bila Anda mengunggah KTP sebagai dokumen identitas pendaftaran, dan hanya digunakan untuk verifikasi peserta.",
+    ],
+  },
+  {
+    icon: FileText,
+    title: "3. Tujuan dan Dasar Pemrosesan Dokumen Pendaftaran",
+    content: [
+      "CV dan portofolio: menilai kualifikasi dan kesesuaian bidang magang â€” dasar: persetujuan dan pelaksanaan seleksi.",
+      "Transkrip nilai: memverifikasi pemenuhan syarat akademik (mis. IPK minimum) â€” dasar: persetujuan dan pelaksanaan seleksi.",
+      "Surat rekomendasi/pengantar: memverifikasi status mahasiswa dan dukungan institusi â€” dasar: persetujuan.",
+      "KTM/KTP dan pasfoto: memverifikasi identitas peserta serta keperluan administrasi dan sertifikat â€” dasar: persetujuan.",
+      "Data identitas tidak ditampilkan pada halaman publik. Halaman Peserta Magang hanya menampilkan data yang memang dipublikasikan oleh pengelola program.",
+    ],
+  },
+  {
+    icon: Clock,
+    title: "4. Masa Retensi",
+    content: [
+      "Data pendaftar yang tidak diterima disimpan maksimal 12 bulan setelah pengumuman seleksi, kemudian dihapus atau dianonimkan.",
+      "Data peserta yang diterima disimpan selama masa magang dan maksimal 24 bulan setelah program berakhir untuk keperluan administrasi, sertifikat, dan pelaporan.",
+      "Dokumen identitas (KTP/KTM) dihapus lebih cepat bila sudah tidak diperlukan untuk verifikasi.",
+      "Data aspirasi disimpan maksimal 24 bulan sejak diterima, kecuali diwajibkan lain oleh ketentuan hukum.",
+      "Catatan teknis (IP/rate limit) bersifat sementara dan tidak disimpan permanen di luar log operasional.",
+      "Anda dapat meminta penghapusan lebih awal melalui kontak pengendali data.",
+    ],
   },
   {
     icon: UserCheck,
-    title: "3. Hak-Hak Anda",
+    title: "5. Hak Subjek Data",
     content: [
-      "Sebagai pengguna portal dan warga negara, Anda memiliki hak penuh atas data pribadi Anda, meliputi:",
-      "• Hak untuk mengakses data pribadi yang telah kami kumpulkan terkait Anda.",
-      "• Hak untuk meminta koreksi atas data yang tidak akurat atau tidak lengkap.",
-      "• Hak untuk meminta penghapusan data pribadi Anda dari sistem kami.",
-      "• Hak untuk mengajukan keberatan terhadap pemrosesan data Anda.",
-      "Untuk menggunakan hak-hak ini, silakan hubungi Sekretariat Golkar Internship melalui email resmi.",
-    ]
+      "Sesuai UU PDP, Anda berhak: (a) mendapatkan informasi tentang pemrosesan data; (b) mengakses dan memperoleh salinan data pribadi; (c) meminta koreksi data yang tidak akurat; (d) meminta penghapusan data; (e) menarik kembali persetujuan; (f) mengajukan keberatan atas pemrosesan; dan (g) mengajukan pengaduan kepada otoritas pengawas.",
+      `Permintaan dapat dikirim ke ${siteConfig.secretariat.email}. Kami akan memverifikasi identitas pemohon sebelum memproses permintaan.`,
+      "Penarikan persetujuan tidak memengaruhi keabsahan pemrosesan yang telah dilakukan sebelumnya.",
+    ],
   },
   {
     icon: Lock,
-    title: "4. Keamanan Data",
+    title: "6. Keamanan Data",
     content: [
-      "Kami berkomitmen untuk melindungi integritas dan kerahasiaan data Anda melalui langkah-langkah keamanan berikut:",
-      "• Enkripsi data pada transmisi menggunakan protokol HTTPS/TLS.",
-      "• Akses data dibatasi hanya bagi personel yang berwenang dan membutuhkan data tersebut.",
-      "• Audit keamanan berkala untuk memastikan sistem bebas dari potensi celah keamanan.",
-      "Meskipun kami berupaya maksimal menjaga keamanan, tidak ada sistem yang sepenuhnya terjamin. Kami menyarankan Anda untuk tidak mengirimkan data sensitif melalui formulir publik.",
-    ]
+      "Kata sandi disimpan dalam bentuk hash (bcrypt) dan tidak pernah dikembalikan melalui API.",
+      "Transmisi data menggunakan HTTPS/TLS. Sesi pengguna menggunakan cookie httpOnly.",
+      "Akses ke data peserta dibatasi pada akun admin/tim seleksi yang terautentikasi.",
+      "Berkas pendaftaran disimpan di penyimpanan privat dan hanya dapat diakses oleh pemilik berkas atau admin melalui route yang memeriksa hak akses.",
+      "Meskipun demikian, tidak ada sistem yang sepenuhnya bebas risiko. Laporkan dugaan insiden ke kontak resmi di atas.",
+    ],
+  },
+  {
+    icon: Eye,
+    title: "7. Berbagi Data dengan Pihak Ketiga",
+    content: [
+      "Data dapat diproses oleh penyedia layanan teknis (hosting, basis data, penyimpanan berkas, dan pengiriman email) yang terikat kewajiban kerahasiaan.",
+      "Data tidak dijual atau disewakan kepada pihak ketiga untuk tujuan pemasaran.",
+      "Data dapat diungkapkan bila diwajibkan oleh peraturan perundang-undangan atau permintaan otoritas yang berwenang.",
+    ],
   },
   {
     icon: AlertCircle,
-    title: "5. Tautan Pihak Ketiga",
+    title: "8. Tautan Pihak Ketiga",
     content: [
-      "Portal ini mungkin mengandung tautan menuju situs web pihak ketiga seperti situs resmi DPR RI, atau media massa.",
-      "Kebijakan privasi ini hanya berlaku untuk portal Golkar Internship Student. Kami tidak bertanggung jawab atas praktik privasi situs web pihak ketiga yang ditautkan.",
-      "Kami menyarankan Anda untuk membaca kebijakan privasi dari setiap situs web yang Anda kunjungi melalui tautan di portal ini.",
-    ]
+      "Portal ini dapat memuat tautan menuju situs pihak ketiga. Kebijakan Privasi ini hanya berlaku untuk portal ini.",
+      "Kami menyarankan Anda membaca kebijakan privasi situs tujuan sebelum memberikan data pribadi.",
+    ],
   },
   {
     icon: Shield,
-    title: "6. Perubahan Kebijakan",
+    title: "9. Perubahan Kebijakan",
     content: [
-      "Kebijakan Privasi ini dapat diperbarui dari waktu ke waktu sesuai dengan perkembangan hukum, teknologi, atau kebutuhan organisasi.",
-      "Setiap perubahan material akan diberitahukan melalui pengumuman di portal ini dengan mencantumkan tanggal pembaruan terbaru.",
-      "Penggunaan berkelanjutan atas portal setelah pembaruan kebijakan diterbitkan dianggap sebagai penerimaan Anda atas kebijakan yang diperbarui.",
-    ]
-  }
+      `Versi kebijakan ini: ${PRIVACY_POLICY_VERSION}. Pembaruan terakhir: ${LAST_UPDATED}.`,
+      "Perubahan material akan ditandai dengan pembaruan versi dan tanggal pada halaman ini.",
+      "Bila diperlukan, persetujuan ulang akan diminta pada formulir pendaftaran atau unggah berkas.",
+    ],
+  },
 ];
 
 export default function KebijakanPrivasiPage() {
@@ -76,15 +110,21 @@ export default function KebijakanPrivasiPage() {
       <Reveal className="text-center space-y-4 max-w-2xl mx-auto">
         <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-dpr-emerald/10 dark:bg-dpr-gold/10 border border-dpr-emerald/30 dark:border-dpr-gold/30 text-dpr-emerald-dark dark:text-dpr-gold text-xs font-bold">
           <Lock className="w-4 h-4" />
-          <span>DOKUMEN LEGAL RESMI</span>
+          <span>DOKUMEN LEGAL</span>
         </div>
         <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white">
           Kebijakan <span className="text-dpr-emerald dark:text-dpr-gold">Privasi</span>
         </h1>
         <p className="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
-          Portal Informasi Resmi Golkar Internship Student berkomitmen penuh untuk melindungi privasi dan data pribadi pengguna layanan ini. Kebijakan ini berlaku sejak <strong>1 Januari 2025</strong>.
+          Kebijakan ini menjelaskan bagaimana {siteConfig.name} memproses data pribadi peserta dan pengunjung portal.
+          Pembaruan terakhir: <strong>{LAST_UPDATED}</strong> Â· Versi <strong>{PRIVACY_POLICY_VERSION}</strong>.
         </p>
       </Reveal>
+
+      <div className="glass-panel p-5 rounded-2xl border border-amber-300 dark:border-amber-700/50 bg-amber-50/80 dark:bg-amber-950/30 text-xs text-amber-900 dark:text-amber-200 leading-relaxed">
+        <strong>Catatan:</strong> draf ini perlu ditinjau oleh pihak hukum sebelum dipublikasikan sebagai dokumen final.
+        {/* TODO(konfirmasi-owner): finalisasi oleh tim hukum dan konfirmasi masa retensi. */}
+      </div>
 
       <StaggerList className="space-y-6">
         {sections.map((section, i) => {
@@ -98,8 +138,8 @@ export default function KebijakanPrivasiPage() {
                 {section.title}
               </h2>
               <div className="space-y-2 pl-11">
-                {section.content.map((paragraph, i) => (
-                  <p key={i} className="text-sm text-slate-700 dark:text-slate-300 leading-relaxed">{paragraph}</p>
+                {section.content.map((paragraph, index) => (
+                  <p key={index} className="text-sm text-slate-700 dark:text-slate-300 leading-relaxed">{paragraph}</p>
                 ))}
               </div>
             </FadeCard>
@@ -107,9 +147,19 @@ export default function KebijakanPrivasiPage() {
         })}
       </StaggerList>
 
-      <div className="glass-panel p-6 rounded-2xl border border-dpr-emerald/30 dark:border-dpr-gold/30 bg-dpr-emerald/5 dark:bg-dpr-gold/5 text-sm text-slate-700 dark:text-slate-300">
-        <strong className="text-dpr-emerald-dark dark:text-dpr-gold">Hubungi Kami:</strong> Untuk pertanyaan atau permintaan terkait data pribadi Anda, silakan hubungi Sekretariat Golkar Internship Student melalui email: <a href="mailto:golkarinternshipstudent@gmail.com" className="underline font-semibold text-dpr-emerald dark:text-dpr-gold">golkarinternshipstudent@gmail.com</a> atau melalui halaman <a href="/aspirasi" className="underline font-semibold text-dpr-emerald dark:text-dpr-gold">Aspirasi</a>.
+      <div className="glass-panel p-6 rounded-2xl border border-dpr-emerald/30 dark:border-dpr-gold/30 bg-dpr-emerald/5 dark:bg-dpr-gold/5 text-sm text-slate-700 dark:text-slate-300 space-y-2">
+        <p>
+          <strong className="text-dpr-emerald-dark dark:text-dpr-gold">Hubungi pengendali data:</strong>{" "}
+          <a href={`mailto:${siteConfig.secretariat.email}`} className="underline font-semibold text-dpr-emerald dark:text-dpr-gold">
+            {siteConfig.secretariat.email}
+          </a>{" "}
+          Â· {siteConfig.secretariat.phone}
+        </p>
+        <p>
+          Lihat juga <Link href="/syarat-penggunaan" className="underline font-semibold text-dpr-emerald dark:text-dpr-gold">Syarat Penggunaan</Link>.
+        </p>
       </div>
     </div>
   );
 }
+

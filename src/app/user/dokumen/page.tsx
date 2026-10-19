@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
@@ -9,6 +9,7 @@ import FileUpload from "@/components/ui/FileUpload";
 export default function UserDokumenPage() {
   const [documents, setDocuments] = useState<Record<string, string>>({});
   const [loading, setLoading] = useState(true);
+  const [consent, setConsent] = useState(false);
 
   const docList = [
     { id: "ktm", title: "Kartu Tanda Mahasiswa (KTM)", type: "Wajib" },
@@ -74,6 +75,31 @@ export default function UserDokumenPage() {
             </p>
           </Reveal>
 
+          {/* Persetujuan eksplisit sebelum mengunggah berkas pribadi */}
+          <div className="p-4 rounded-2xl bg-amber-50 dark:bg-amber-950/30 border border-amber-300 dark:border-amber-800/60 space-y-2">
+            <div className="flex items-start gap-2.5">
+              <input
+                type="checkbox"
+                id="doc-consent"
+                checked={consent}
+                onChange={(e) => setConsent(e.target.checked)}
+                className="mt-0.5 w-4 h-4 accent-amber-500 cursor-pointer"
+              />
+              <label htmlFor="doc-consent" className="text-xs leading-relaxed text-amber-900 dark:text-amber-200 cursor-pointer">
+                Saya menyetujui pemrosesan dokumen pribadi (CV, transkrip, surat rekomendasi, KTM/KTP, dan portofolio) untuk keperluan verifikasi dan seleksi magang sesuai{" "}
+                <Link href="/kebijakan-privasi" className="underline font-bold" target="_blank">
+                  Kebijakan Privasi
+                </Link>
+                . Dokumen disimpan di penyimpanan privat dan hanya dapat diakses oleh saya atau admin.
+              </label>
+            </div>
+            {!consent && (
+              <p className="text-[11px] text-amber-800 dark:text-amber-300 font-semibold pl-6">
+                Centang persetujuan untuk mengaktifkan unggahan berkas.
+              </p>
+            )}
+          </div>
+
           {/* List Dokumen */}
           <StaggerList className="grid grid-cols-1 gap-4">
             {docList.map((doc, idx) => {
@@ -116,6 +142,7 @@ export default function UserDokumenPage() {
                       maxSizeBytes={1 * 1024 * 1024}
                       value={fileUrl}
                       onChange={(url) => handleChange(doc.id, url)}
+                      disabled={!consent}
                     />
                   </div>
                 </FadeCard>
@@ -127,3 +154,4 @@ export default function UserDokumenPage() {
     </div>
   );
 }
+

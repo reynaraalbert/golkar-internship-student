@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import { createPortal } from "react-dom";
 import Image from "next/image";
 import { Member } from "@/lib/data";
-import { Shield, Mail, MapPin, Award, FileText, ChevronRight, X } from "lucide-react";
+import { Shield, MapPin, Award, FileText, ChevronRight, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 interface MemberCardProps {
@@ -149,11 +149,7 @@ export default function MemberCard({ member }: MemberCardProps) {
                     </span>
                     <h2 className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white">{member.name}</h2>
                     <p className="text-dpr-emerald-dark dark:text-dpr-gold text-xs font-semibold">{member.fraksi} — {member.dapil}</p>
-                    
-                    <div className="flex items-center justify-center sm:justify-start gap-2 text-xs text-slate-700 dark:text-slate-300 pt-1 font-medium">
-                      <Mail className="w-4 h-4 text-dpr-emerald dark:text-dpr-gold" />
-                      <span>{member.email}</span>
-                    </div>
+                    {/* Email peserta tidak ditampilkan publik (minimisasi data). */}
                   </div>
                 </div>
 

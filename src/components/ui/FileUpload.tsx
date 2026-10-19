@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import React, { useRef, useState } from "react";
 import { Upload, X, FileText, Image as ImageIcon, Loader2, CheckCircle2 } from "lucide-react";
@@ -11,6 +11,8 @@ interface FileUploadProps {
   className?: string;
   /** Max file size in bytes. Defaults: image=2MB, document=5MB */
   maxSizeBytes?: number;
+  /** When true, the uploader is read-only (e.g. consent not yet given). */
+  disabled?: boolean;
 }
 
 const IMAGE_MAX = 2 * 1024 * 1024;   // 2 MB
@@ -69,6 +71,7 @@ export default function FileUpload({
   label,
   className = "",
   maxSizeBytes,
+  disabled = false,
 }: FileUploadProps) {
   const inputRef   = useRef<HTMLInputElement>(null);
   const [loading, setLoading] = useState(false);
@@ -185,8 +188,8 @@ export default function FileUpload({
         <div
           onDragOver={(e) => e.preventDefault()}
           onDrop={handleDrop}
-          onClick={() => !loading && inputRef.current?.click()}
-          className="border-2 border-dashed border-slate-300 dark:border-slate-700 rounded-xl p-8 text-center hover:bg-slate-50 dark:hover:bg-white/5 transition-colors cursor-pointer group"
+          onClick={() => !loading && !disabled && inputRef.current?.click()}
+          className={`border-2 border-dashed border-slate-300 dark:border-slate-700 rounded-xl p-8 text-center transition-colors group ${disabled ? "opacity-50 cursor-not-allowed" : "hover:bg-slate-50 dark:hover:bg-white/5 cursor-pointer"}`}
         >
           {loading ? (
             <div className="space-y-2">
@@ -205,10 +208,10 @@ export default function FileUpload({
               </p>
               <p className="text-[10px] text-slate-400">
                 {accept === "image"
-                  ? `PNG, JPG, WEBP — maks. ${(maxBytes / 1024 / 1024).toFixed(0)} MB`
+                  ? `PNG, JPG, WEBP â€” maks. ${(maxBytes / 1024 / 1024).toFixed(0)} MB`
                   : accept === "document"
-                  ? `PDF, DOCX, XLSX — maks. ${(maxBytes / 1024 / 1024).toFixed(0)} MB`
-                  : `PDF, Foto, DOCX, XLSX — maks. ${(maxBytes / 1024 / 1024).toFixed(0)} MB`}
+                  ? `PDF, DOCX, XLSX â€” maks. ${(maxBytes / 1024 / 1024).toFixed(0)} MB`
+                  : `PDF, Foto, DOCX, XLSX â€” maks. ${(maxBytes / 1024 / 1024).toFixed(0)} MB`}
               </p>
             </div>
           )}
@@ -233,3 +236,4 @@ export default function FileUpload({
     </div>
   );
 }
+

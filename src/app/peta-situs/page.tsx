@@ -2,7 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
-import { Map, Home, Users, Newspaper, Info, Calendar, MessageSquare, FileText, Lock } from "lucide-react";
+import { Map, Home, Users, Newspaper, Info, Calendar, MessageSquare, FileText, Clock, Briefcase } from "lucide-react";
 import { Reveal, StaggerList, FadeCard } from "@/components/ui/AnimationWrapper";
 
 const siteMap = [
@@ -11,55 +11,61 @@ const siteMap = [
     icon: Home,
     links: [
       { name: "Beranda", href: "/", desc: "Halaman utama portal" },
-    ]
+      { name: "Timeline Pendaftaran", href: "/timeline", desc: "Jadwal dan status tahapan per batch" },
+    ],
   },
   {
-    title: "Anggota DPR",
+    title: "Peserta Magang",
     icon: Users,
     links: [
-      { name: "Daftar Anggota", href: "/anggota", desc: "Seluruh anggota Fraksi Golkar di Golkar Internship" },
-    ]
+      { name: "Daftar Peserta", href: "/anggota", desc: "Peserta yang telah dipublikasikan oleh pengelola program" },
+    ],
   },
   {
     title: "Berita & Informasi",
     icon: Newspaper,
     links: [
       { name: "Baca Berita", href: "/berita", desc: "Berita dan siaran pers terkini" },
-      { name: "Tulis Berita", href: "/berita/tulis", desc: "Kirimkan berita atau artikel Anda" },
-    ]
+      { name: "Tulis Berita", href: "/berita/tulis", desc: "Kirim artikel (khusus peserta yang sudah masuk)" },
+    ],
   },
   {
-    title: "Profil GIS",
+    title: "Profil Program",
     icon: Info,
     links: [
-      { name: "Sejarah Golkar Internship", href: "/profil#sejarah", desc: "Latar belakang dan sejarah pembentukan" },
-      { name: "Visi & Misi", href: "/profil#visi-misi", desc: "Visi dan misi kerja Golkar Internship" },
-      { name: "Pimpinan & Anggota", href: "/anggota", desc: "Struktur pimpinan Fraksi Golkar" },
-    ]
+      { name: "Profil", href: "/profil", desc: "Gambaran umum program" },
+      { name: "Sejarah Program", href: "/profil/sejarah", desc: "Latar belakang program" },
+      { name: "Visi & Misi", href: "/profil/visi-misi", desc: "Arah dan tujuan program" },
+      { name: "Pimpinan & Pengurus", href: "/profil/pimpinan", desc: "Struktur pengelola program" },
+    ],
   },
   {
-    title: "Agenda Rapat",
+    title: "Agenda & Layanan",
     icon: Calendar,
     links: [
-      { name: "Jadwal Rapat", href: "/agenda", desc: "Jadwal rapat dan siaran langsung" },
-    ]
+      { name: "Agenda Kegiatan", href: "/agenda", desc: "Jadwal kegiatan program" },
+      { name: "Aspirasi & Masukan", href: "/aspirasi", desc: "Sampaikan pertanyaan atau masukan" },
+      { name: "Posisi Magang", href: "/user/posisi", desc: "Pilihan posisi (setelah masuk)" },
+    ],
   },
   {
-    title: "Aspirasi Rakyat",
-    icon: MessageSquare,
+    title: "Akun Peserta",
+    icon: Briefcase,
     links: [
-      { name: "Kirim Aspirasi", href: "/aspirasi", desc: "Sampaikan aspirasi kepada komisi" },
-    ]
+      { name: "Masuk", href: "/user/login", desc: "Masuk ke akun peserta" },
+      { name: "Daftar Akun", href: "/user/register", desc: "Buat akun peserta baru" },
+      { name: "Lupa Kata Sandi", href: "/user/forgot-password", desc: "Minta tautan reset kata sandi" },
+    ],
   },
   {
     title: "Informasi Legal",
     icon: FileText,
     links: [
-      { name: "Kebijakan Privasi", href: "/kebijakan-privasi", desc: "Kebijakan penggunaan data pribadi" },
+      { name: "Kebijakan Privasi", href: "/kebijakan-privasi", desc: "Pemrosesan dan pelindungan data pribadi" },
       { name: "Syarat Penggunaan", href: "/syarat-penggunaan", desc: "Syarat dan ketentuan penggunaan portal" },
       { name: "Peta Situs", href: "/peta-situs", desc: "Peta navigasi portal ini" },
-    ]
-  }
+    ],
+  },
 ];
 
 export default function PetaSitusPage() {
@@ -74,7 +80,7 @@ export default function PetaSitusPage() {
           Peta <span className="text-dpr-emerald dark:text-dpr-gold">Situs</span>
         </h1>
         <p className="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
-          Temukan semua halaman dan fitur yang tersedia di Portal Resmi Golkar Internship Student.
+          Temukan semua halaman dan fitur yang tersedia di portal resmi Golkar Internship Student.
         </p>
       </Reveal>
 

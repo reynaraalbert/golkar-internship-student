@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import React from "react";
 import { FileText, CheckCircle2, XCircle, Scale, AlertCircle, Globe } from "lucide-react";
@@ -10,7 +10,7 @@ const sections = [
     title: "1. Penerimaan Syarat",
     content: [
       "Dengan mengakses dan menggunakan Portal Informasi Resmi Golkar Internship Student, Anda secara otomatis dianggap telah membaca, memahami, dan menyetujui seluruh ketentuan yang tercantum dalam Syarat Penggunaan ini.",
-      "Portal ini dikelola oleh Sekretariat Golkar Internship Dewan Perwakilan Rakyat Republik Indonesia sebagai layanan informasi publik. Penggunaan portal ini bersifat sukarela dan tidak mengikat secara hukum untuk keperluan yang tidak berkaitan dengan urusan resmi kenegaraan.",
+      "Portal ini dikelola oleh pengelola program Golkar Internship Student, Fraksi Partai Golkar DPR RI, sebagai layanan informasi program magang. Penggunaan portal ini bersifat sukarela dan tidak mengikat secara hukum untuk keperluan yang tidak berkaitan dengan urusan resmi kenegaraan.",
     ]
   },
   {
@@ -18,11 +18,11 @@ const sections = [
     title: "2. Penggunaan yang Diizinkan",
     content: [
       "Anda diperbolehkan menggunakan portal ini untuk tujuan-tujuan yang sah dan konstruktif, antara lain:",
-      "• Mengakses informasi publik mengenai kegiatan Golkar Internship Student.",
-      "• Membaca berita, siaran pers, dan risalah rapat yang dipublikasikan secara resmi.",
-      "• Mengirimkan aspirasi dan masukan konstruktif kepada Golkar Internship.",
-      "• Memantau jadwal dan agenda rapat komisi.",
-      "• Mengunduh dokumen publik yang tersedia untuk keperluan edukasi dan penelitian.",
+      "â€¢ Mengakses informasi publik mengenai kegiatan Golkar Internship Student.",
+      "â€¢ Membaca berita, siaran pers, dan informasi kegiatan yang dipublikasikan secara resmi.",
+      "â€¢ Mengirimkan aspirasi dan masukan konstruktif kepada Golkar Internship.",
+      "â€¢ Memantau jadwal dan agenda kegiatan program.",
+      "â€¢ Mengunduh dokumen publik yang tersedia untuk keperluan edukasi dan penelitian.",
     ]
   },
   {
@@ -30,11 +30,11 @@ const sections = [
     title: "3. Larangan Penggunaan",
     content: [
       "Anda dilarang menggunakan portal ini untuk hal-hal berikut:",
-      "• Menyebarkan informasi palsu (hoaks), fitnah, atau konten yang merendahkan martabat lembaga negara.",
-      "• Melakukan percobaan peretasan (hacking), injeksi kode berbahaya, atau serangan siber lainnya.",
-      "• Menggunakan konten portal ini untuk kepentingan komersial tanpa izin tertulis dari Sekretariat Golkar Internship.",
-      "• Meniru identitas anggota DPR, staf sekretariat, atau lembaga lain yang berkaitan.",
-      "• Mengumpulkan data pengguna lain secara tidak sah melalui portal ini.",
+      "â€¢ Menyebarkan informasi palsu (hoaks), fitnah, atau konten yang merendahkan martabat lembaga negara.",
+      "â€¢ Melakukan percobaan peretasan (hacking), injeksi kode berbahaya, atau serangan siber lainnya.",
+      "â€¢ Menggunakan konten portal ini untuk kepentingan komersial tanpa izin tertulis dari Sekretariat Golkar Internship.",
+      "â€¢ Meniru identitas peserta, pengelola program, atau pihak lain yang berkaitan.",
+      "â€¢ Mengumpulkan data pengguna lain secara tidak sah melalui portal ini.",
       "Pelanggaran terhadap ketentuan ini dapat berakibat pada pemblokiran akses dan tindakan hukum sesuai peraturan yang berlaku.",
     ]
   },
@@ -62,7 +62,7 @@ const sections = [
     content: [
       "Golkar Internship Student berhak untuk sewaktu-waktu mengubah, menangguhkan, atau menghentikan layanan portal ini tanpa pemberitahuan sebelumnya.",
       "Syarat Penggunaan ini dapat diperbarui kapan saja. Versi terbaru akan selalu dipublikasikan di halaman ini dengan tanggal pembaruan yang jelas.",
-      "Pembaruan syarat terakhir: 30 Agustus 2026.",
+      "Pembaruan syarat terakhir: 19 Oktober 2026.",
       "Pertanyaan mengenai Syarat Penggunaan dapat diajukan melalui email resmi Sekretariat Golkar Internship.",
     ]
   }
@@ -111,3 +111,4 @@ export default function SyaratPenggunaanPage() {
     </div>
   );
 }
+

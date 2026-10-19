@@ -1,7 +1,7 @@
 ﻿"use client";
 
 import React from "react";
-import { Users, Award, ChevronRight, ChevronLeft, MapPin, Mail, GraduationCap, Briefcase, BadgeCheck } from "lucide-react";
+import { Users, Award, ChevronRight, ChevronLeft, MapPin, GraduationCap, Briefcase, BadgeCheck } from "lucide-react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { useCmsContent } from "@/components/CmsProvider";
@@ -90,10 +90,6 @@ export default function PimpinanPage() {
                   <span>Asal/Unit: <strong className="text-slate-900 dark:text-white">{pimpinan[0].dapil}</strong></span>
                 </div>
                 <div className="flex items-center gap-2 text-slate-600 dark:text-slate-400">
-                  <Mail className="w-3.5 h-3.5 text-dpr-emerald dark:text-dpr-gold shrink-0" />
-                  <span>{pimpinan[0].email}</span>
-                </div>
-                <div className="flex items-center gap-2 text-slate-600 dark:text-slate-400">
                   <GraduationCap className="w-3.5 h-3.5 text-dpr-emerald dark:text-dpr-gold shrink-0" />
                   <span>{pimpinan[0].pendidikan}</span>
                 </div>
@@ -172,8 +168,7 @@ export default function PimpinanPage() {
               </div>
               <div className="space-y-1.5 text-xs text-slate-600 dark:text-slate-400">
                 <div className="flex items-center gap-1.5"><BadgeCheck className="w-3 h-3 shrink-0 text-dpr-emerald dark:text-dpr-gold" /> No. {anggota.nomorAnggota}</div>
-                <div className="flex items-center gap-1.5"><MapPin className="w-3 h-3 shrink-0 text-dpr-emerald dark:text-dpr-gold" /> {anggota.dapil}</div>
-                <div className="flex items-center gap-1.5"><Mail className="w-3 h-3 shrink-0 text-dpr-emerald dark:text-dpr-gold" /> {anggota.email}</div>
+                <div className="flex items-center gap-1.5"><MapPin className="w-3 h-3 shrink-0 text-dpr-emerald dark:text-dpr-gold" /> {anggota.dapil}</div>
                 {anggota.pendidikan && (
                   <div className="flex items-start gap-1.5"><GraduationCap className="w-3 h-3 shrink-0 text-dpr-emerald dark:text-dpr-gold mt-0.5" /> {anggota.pendidikan}</div>
                 )}

@@ -36,3 +36,7 @@ next-env.d.ts
 # python
 __pycache__/
 *.pyc
+
+# runtime data (may contain personal data / credentials)
+data/
+

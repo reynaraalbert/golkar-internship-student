@@ -12,9 +12,9 @@ export async function GET() {
   }
 }
 
-export async function PUT(req: Request) {
+export async function PUT(request: Request) {
   try {
-    const { id, statusMagang, bio } = await req.json();
+    const { id, statusMagang, bio } = await request.json();
     if (!id) return NextResponse.json({ error: "User ID required" }, { status: 400 });
     const user = await findStudentUserById(id);
     if (!user) return NextResponse.json({ error: "User not found" }, { status: 404 });

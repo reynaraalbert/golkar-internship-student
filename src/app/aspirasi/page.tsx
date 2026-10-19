@@ -48,14 +48,27 @@ export default function AspirasiPage() {
     subject: "",
     message: "",
   });
+  const [honeypot, setHoneypot] = useState("");
+  const [submitError, setSubmitError] = useState<string | null>(null);
   const [aspirationSubmitted, setAspirationSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [openFaq, setOpenFaq] = useState<number | null>(0);
 
   const handleAspirationSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (submissionMethod === "Terbuka" && !aspirationForm.name) return;
-    if (!aspirationForm.message) return;
+    setSubmitError(null);
+    if (submissionMethod === "Terbuka" && !aspirationForm.name) {
+      setSubmitError("Nama wajib diisi untuk pengiriman terbuka.");
+      return;
+    }
+    if (!aspirationForm.subject.trim()) {
+      setSubmitError("Subjek aspirasi wajib diisi.");
+      return;
+    }
+    if (!aspirationForm.message.trim()) {
+      setSubmitError("Detail isi aspirasi wajib diisi.");
+      return;
+    }
     setSubmitting(true);
     try {
       const res = await fetch("/api/aspirasi", {
@@ -69,6 +82,7 @@ export default function AspirasiPage() {
           subject: aspirationForm.subject,
           message: aspirationForm.message,
           category: selectedTopic,
+          website: honeypot,
         }),
       });
       if (res.ok) {
@@ -78,10 +92,11 @@ export default function AspirasiPage() {
           setAspirationForm({ name: "", email: "", whatsapp: "", subject: "", message: "" });
         }, 5000);
       } else {
-        alert("Gagal mengirim aspirasi. Silakan coba lagi.");
+        const data = await res.json().catch(() => ({}));
+        setSubmitError(data?.error || "Gagal mengirim aspirasi. Silakan coba lagi.");
       }
     } catch {
-      alert("Gagal mengirim aspirasi. Periksa koneksi internet Anda.");
+      setSubmitError("Gagal mengirim aspirasi. Periksa koneksi internet Anda.");
     } finally {
       setSubmitting(false);
     }
@@ -134,7 +149,7 @@ export default function AspirasiPage() {
             transition={{ delay: 0.2 }}
             className="text-slate-700 dark:text-slate-300 text-sm sm:text-base max-w-3xl mx-auto font-medium leading-relaxed"
           >
-            Sampaikan masukan, aduan penegakan hukum, evaluasi hak asasi manusia, imigrasi, pemasyarakatan, maupun usulan regulasi langsung ke GOLKAR INTERNSHIP STUDENT secara terbuka atau anonim.
+            Sampaikan pertanyaan, masukan, kendala pendaftaran, maupun usulan perbaikan layanan langsung ke pengelola GOLKAR INTERNSHIP STUDENT secara terbuka atau anonim.
           </motion.p>
         </div>
       </section>
@@ -156,7 +171,7 @@ export default function AspirasiPage() {
               </div>
               <div className="inline-flex items-center gap-1 text-xs text-dpr-emerald-dark dark:text-dpr-gold font-bold bg-emerald-50 dark:bg-dpr-navy px-3 py-1.5 rounded-full border border-emerald-200 dark:border-white/10 shrink-0">
                 <Lock className="w-3.5 h-3.5" />
-                <span>Protokol Enkripsi Aman</span>
+                <span>Identitas tidak ditampilkan ke publik</span>
               </div>
             </div>
 
@@ -194,7 +209,7 @@ export default function AspirasiPage() {
                   <ShieldCheck className="w-4 h-4 shrink-0 text-dpr-emerald dark:text-dpr-gold" />
                   <div className="flex flex-col items-center sm:items-start text-center sm:text-left leading-tight">
                     <span className="text-xs sm:text-sm font-bold">Anonim</span>
-                    <span className="text-[9px] sm:text-[10px] font-medium opacity-80">(Kerahasiaan 100%)</span>
+                    <span className="text-[9px] sm:text-[10px] font-medium opacity-80">(Tanpa nama & email)</span>
                   </div>
                 </button>
               </div>
@@ -357,6 +372,32 @@ export default function AspirasiPage() {
                     className="w-full bg-slate-50 dark:bg-slate-800 text-xs sm:text-sm text-slate-900 dark:text-white p-3.5 rounded-xl border border-slate-200 dark:border-white/10 focus:border-blue-500 focus:outline-none font-medium leading-relaxed"
                   />
                 </div>
+
+                {/* Honeypot: hidden from humans, filled by bots */}
+                <div className="hidden" aria-hidden="true">
+                  <label htmlFor="website">Website</label>
+                  <input
+                    id="website"
+                    name="website"
+                    type="text"
+                    tabIndex={-1}
+                    autoComplete="off"
+                    value={honeypot}
+                    onChange={(e) => setHoneypot(e.target.value)}
+                  />
+                </div>
+
+                {submitError && (
+                  <div className="p-3 rounded-xl bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-800/50 text-red-700 dark:text-red-300 text-xs font-medium">
+                    {submitError}
+                  </div>
+                )}
+
+                <p className="text-[11px] text-slate-500 dark:text-slate-400 leading-relaxed">
+                  Dengan mengirim aspirasi, Anda menyetujui pemrosesan data sesuai{" "}
+                  <Link href="/kebijakan-privasi" className="underline font-bold">Kebijakan Privasi</Link>.
+                  Data teknis seperti alamat IP dapat dicatat terbatas untuk mencegah penyalahgunaan.
+                </p>
 
                 <button
                   type="submit"

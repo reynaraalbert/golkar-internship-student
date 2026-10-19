@@ -1,36 +1,40 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
-  Upload, FileText, Link as LinkIcon, Camera, CheckCircle2, ChevronDown,
-  User, BadgeCheck, Building2, Plus, Trash2, Tag, AlignLeft, Hash, Loader2
+  Upload, FileText, Link as LinkIcon, CheckCircle2, ChevronDown,
+  User, Plus, Trash2, Tag, AlignLeft, Hash, Loader2, ShieldCheck, AlertCircle
 } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import FileUpload from "@/components/ui/FileUpload";
 
-type TipePenulis = "umum" | "anggota_dpr" | "pegawai_dpr";
 type KategoriBerita = "Kegiatan Magang" | "Opini Mahasiswa" | "Pengumuman" | "Siaran Pers" | "Kisah Alumni" | "Lainnya";
 
 interface Sumber { judul: string; url: string; }
 
+interface SessionUser {
+  id: string;
+  name: string;
+  email: string;
+  university?: string;
+  major?: string;
+}
+
 export default function TulisBeritaPage() {
+  const router = useRouter();
+
   const [step, setStep] = useState<1 | 2 | 3>(1);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [stepErrors, setStepErrors] = useState<string[]>([]);
 
-  const [tipePenulis, setTipePenulis] = useState<TipePenulis>("umum");
-  const [namaLengkap, setNamaLengkap] = useState("");
-  const [email, setEmail] = useState("");
-  const [nomorAnggota, setNomorAnggota] = useState("");
-  const [fraksi, setFraksi] = useState("");
-  const [dapil, setDapil] = useState("");
-  const [masaJabatan, setMasaJabatan] = useState("");
-  const [nip, setNip] = useState("");
-  const [unitKerja, setUnitKerja] = useState("");
-  const [jabatan, setJabatan] = useState("");
-  const [pekerjaan, setPekerjaan] = useState("");
+  const [sessionUser, setSessionUser] = useState<SessionUser | null>(null);
+  const [sessionLoading, setSessionLoading] = useState(true);
+
+  const [batch, setBatch] = useState("");
+  const [batches, setBatches] = useState<string[]>([]);
   const [instansi, setInstansi] = useState("");
 
   const [judulBerita, setJudulBerita] = useState("");
@@ -43,6 +47,61 @@ export default function TulisBeritaPage() {
   const [imageUrl, setImageUrl] = useState("");
   const [documentUrl, setDocumentUrl] = useState("");
   const [hasLampiran, setHasLampiran] = useState(false);
+  const [privacyAccepted, setPrivacyAccepted] = useState(false);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    async function loadSession() {
+      try {
+        const res = await fetch("/api/user/auth/me", { cache: "no-store" });
+        if (!res.ok) {
+          router.replace("/user/login?next=/berita/tulis");
+          return;
+        }
+        const data = await res.json();
+        if (cancelled) return;
+        if (data?.authenticated && data.user) {
+          setSessionUser({
+            id: data.user.id,
+            name: data.user.name,
+            email: data.user.email,
+            university: data.user.university,
+            major: data.user.major,
+          });
+          setInstansi(
+            [data.user.university, data.user.major].filter(Boolean).join(" - ")
+          );
+        } else {
+          router.replace("/user/login?next=/berita/tulis");
+        }
+      } catch {
+        if (!cancelled) router.replace("/user/login?next=/berita/tulis");
+      } finally {
+        if (!cancelled) setSessionLoading(false);
+      }
+    }
+
+    async function loadBatches() {
+      try {
+        const res = await fetch("/api/timeline", { cache: "no-store" });
+        if (!res.ok) return;
+        const data = await res.json();
+        if (cancelled) return;
+        const list: string[] = Array.isArray(data?.allBatches) ? data.allBatches : [];
+        setBatches(list);
+        if (list.length > 0) setBatch(list[list.length - 1]);
+      } catch {
+        // Batch list is optional; server validates the rest.
+      }
+    }
+
+    loadSession();
+    loadBatches();
+    return () => {
+      cancelled = true;
+    };
+  }, [router]);
 
   const addSumber = () => setSumber(prev => [...prev, { judul: "", url: "" }]);
   const removeSumber = (i: number) => setSumber(prev => prev.filter((_, idx) => idx !== i));
@@ -52,23 +111,9 @@ export default function TulisBeritaPage() {
 
   const validateStep1 = (): string[] => {
     const errors: string[] = [];
-    if (!namaLengkap.trim()) errors.push("Nama Lengkap wajib diisi.");
-    if (!email.trim()) errors.push("Alamat Email wajib diisi.");
-    if (tipePenulis === "anggota_dpr") {
-      if (!nomorAnggota.trim()) errors.push("Nomor Anggota DPR RI wajib diisi.");
-      if (!fraksi.trim()) errors.push("Fraksi wajib dipilih.");
-      if (!dapil.trim()) errors.push("Daerah Pemilihan (Dapil) wajib diisi.");
-      if (!masaJabatan.trim()) errors.push("Masa Jabatan wajib diisi.");
-    }
-    if (tipePenulis === "umum") {
-      if (!pekerjaan.trim()) errors.push("Batch magang wajib diisi.");
-      if (!instansi.trim()) errors.push("Universitas / Jurusan wajib diisi.");
-    }
-    if (tipePenulis === "pegawai_dpr") {
-      if (!nip.trim()) errors.push("NIP wajib diisi.");
-      if (!unitKerja.trim()) errors.push("Unit Kerja wajib diisi.");
-      if (!jabatan.trim()) errors.push("Jabatan / Pangkat wajib diisi.");
-    }
+    if (!sessionUser) errors.push("Sesi Anda tidak valid. Silakan masuk kembali.");
+    if (!batch.trim()) errors.push("Batch magang wajib dipilih.");
+    if (!instansi.trim()) errors.push("Universitas / Jurusan wajib diisi.");
     return errors;
   };
 
@@ -82,7 +127,6 @@ export default function TulisBeritaPage() {
   };
 
   const goToStep = (target: 1 | 2 | 3) => {
-    // Hanya boleh kembali ke step sebelumnya, tidak boleh loncat maju
     if (target >= step) return;
     setStepErrors([]);
     setStep(target);
@@ -104,26 +148,21 @@ export default function TulisBeritaPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!sessionUser) {
+      router.replace("/user/login?next=/berita/tulis");
+      return;
+    }
+    if (!privacyAccepted) {
+      setStepErrors(["Anda harus menyetujui pernyataan privasi & orisinalitas."]);
+      return;
+    }
+    setStepErrors([]);
     setSubmitting(true);
     try {
       const res = await fetch("/api/submissions", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          biodata: {
-            tipePenulis,
-            nama: namaLengkap,
-            email,
-            nomorAnggota,
-            fraksi,
-            dapil,
-            masaJabatan,
-            nip,
-            unitKerja,
-            jabatan,
-            pekerjaan,
-            instansi,
-          },
           artikel: {
             judul: judulBerita,
             kategori,
@@ -137,16 +176,18 @@ export default function TulisBeritaPage() {
             imageUrl: imageUrl || undefined,
             documentUrl: hasLampiran ? documentUrl || undefined : undefined,
           },
+          meta: { batch, instansi },
         }),
       });
       if (res.ok) {
         setIsSubmitted(true);
         setTimeout(() => { window.location.href = "/berita"; }, 3000);
       } else {
-        alert("Gagal mengirim berita. Silakan coba lagi.");
+        const data = await res.json().catch(() => ({}));
+        setStepErrors([data?.error || "Gagal mengirim berita. Silakan coba lagi."]);
       }
     } catch {
-      alert("Gagal mengirim berita. Periksa koneksi internet Anda.");
+      setStepErrors(["Gagal mengirim berita. Periksa koneksi internet Anda."]);
     } finally {
       setSubmitting(false);
     }
@@ -154,6 +195,19 @@ export default function TulisBeritaPage() {
 
   const inputClass = "w-full bg-slate-50 dark:bg-dpr-navy-card text-sm text-slate-900 dark:text-white placeholder-slate-400 px-4 py-3 rounded-xl border border-slate-200 dark:border-white/10 focus:border-dpr-emerald dark:focus:border-dpr-gold focus:outline-none transition-colors";
   const labelClass = "block text-sm font-bold text-slate-900 dark:text-white mb-1.5";
+
+  if (sessionLoading) {
+    return (
+      <div className="min-h-[60vh] flex items-center justify-center">
+        <div className="flex items-center gap-3 text-slate-600 dark:text-slate-300">
+          <Loader2 className="w-5 h-5 animate-spin" />
+          <span className="text-sm font-semibold">Memeriksa sesi...</span>
+        </div>
+      </div>
+    );
+  }
+
+  if (!sessionUser) return null;
 
   if (isSubmitted) {
     return (
@@ -163,7 +217,7 @@ export default function TulisBeritaPage() {
         </motion.div>
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }} className="space-y-3">
           <h2 className="text-2xl font-bold text-slate-900 dark:text-white">Berita Berhasil Dikirim!</h2>
-          <p className="text-slate-600 dark:text-slate-400 text-sm">Terima kasih, <strong>{namaLengkap}</strong>. Artikel Anda sedang dalam proses tinjauan oleh tim redaksi GOLKAR INTERNSHIP STUDENT sebelum dipublikasikan.</p>
+          <p className="text-slate-600 dark:text-slate-400 text-sm">Terima kasih, <strong>{sessionUser.name}</strong>. Artikel Anda sedang dalam proses tinjauan (status: menunggu moderasi) oleh tim redaksi Golkar Internship Student sebelum dipublikasikan.</p>
           <p className="text-slate-500 dark:text-slate-500 text-xs">Anda akan diarahkan kembali ke halaman Berita dalam beberapa detik...</p>
         </motion.div>
       </div>
@@ -181,7 +235,7 @@ export default function TulisBeritaPage() {
         <h1 className="text-3xl font-extrabold text-slate-900 dark:text-white">
           Tulis <span className="text-dpr-emerald dark:text-dpr-gold">Berita</span>
         </h1>
-        <p className="text-slate-600 dark:text-slate-400 text-sm">Bagikan informasi, opini, atau laporan terkini seputar kegiatan GOLKAR INTERNSHIP STUDENT Fraksi Partai Golkar.</p>
+        <p className="text-slate-600 dark:text-slate-400 text-sm">Bagikan informasi, opini, atau laporan terkini seputar kegiatan Golkar Internship Student Fraksi Partai Golkar.</p>
       </div>
 
       <div className="flex items-center gap-0 max-w-md mx-auto">
@@ -215,112 +269,38 @@ export default function TulisBeritaPage() {
                   Data Diri Penulis
                 </h2>
 
-                <div className="space-y-2">
-                  <label className={labelClass}>Jenis Penulis <span className="text-red-500">*</span></label>
-                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                    {([
-                      { value: "umum", label: "Peserta GIS", icon: User },
-                      { value: "pegawai_dpr", label: "Tenaga Ahli Fraksi", icon: Building2 },
-                      { value: "anggota_dpr", label: "Anggota DPR RI Fraksi Golkar", icon: BadgeCheck },
-                    ] as const).map(opt => {
-                      const Icon = opt.icon;
-                      return (
-                        <button
-                          type="button"
-                          key={opt.value}
-                          onClick={() => setTipePenulis(opt.value)}
-                          className={`flex items-center gap-3 p-4 rounded-xl border-2 text-left transition-all ${tipePenulis === opt.value ? "border-dpr-emerald dark:border-dpr-gold bg-dpr-emerald/5 dark:bg-dpr-gold/5" : "border-slate-200 dark:border-white/10 hover:border-dpr-emerald/40 dark:hover:border-dpr-gold/40"}`}
-                        >
-                          <Icon className={`w-5 h-5 ${tipePenulis === opt.value ? "text-dpr-emerald dark:text-dpr-gold" : "text-slate-400"}`} />
-                          <span className={`text-sm font-semibold ${tipePenulis === opt.value ? "text-dpr-emerald-dark dark:text-dpr-gold" : "text-slate-700 dark:text-slate-300"}`}>{opt.label}</span>
-                        </button>
-                      );
-                    })}
+                <div className="p-4 rounded-2xl bg-slate-50 dark:bg-dpr-navy-card border border-slate-200 dark:border-white/10 space-y-2">
+                  <p className="text-xs font-bold uppercase tracking-wide text-slate-500 dark:text-slate-400">Jenis Penulis</p>
+                  <p className="text-sm font-semibold text-slate-900 dark:text-white">Peserta Golkar Internship Student</p>
+                  <p className="text-xs text-slate-500 dark:text-slate-400">
+                    Jenis penulis ditetapkan otomatis dari akun Anda dan tidak dapat diubah dari formulir.
+                  </p>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <label className={labelClass}>Nama Lengkap</label>
+                    <input type="text" readOnly value={sessionUser.name} className={inputClass + " opacity-80 cursor-not-allowed"} />
+                  </div>
+                  <div>
+                    <label className={labelClass}>Alamat Email</label>
+                    <input type="email" readOnly value={sessionUser.email} className={inputClass + " opacity-80 cursor-not-allowed"} />
                   </div>
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <label className={labelClass}>Nama Lengkap <span className="text-red-500">*</span></label>
-                    <input type="text" required value={namaLengkap} onChange={e => setNamaLengkap(e.target.value)} placeholder="Contoh: Dr. H. Budi Santoso, S.H., M.Hum." className={inputClass} />
+                    <label className={labelClass}>Batch Magang <span className="text-red-500">*</span></label>
+                    <select value={batch} onChange={e => setBatch(e.target.value)} className={inputClass}>
+                      <option value="">-- Pilih Batch --</option>
+                      {batches.map((b) => <option key={b} value={b}>{b}</option>)}
+                    </select>
                   </div>
                   <div>
-                    <label className={labelClass}>Alamat Email <span className="text-red-500">*</span></label>
-                    <input type="email" required value={email} onChange={e => setEmail(e.target.value)} placeholder="nama@domain.com" className={inputClass} />
+                    <label className={labelClass}>Universitas / Jurusan <span className="text-red-500">*</span></label>
+                    <input type="text" value={instansi} onChange={e => setInstansi(e.target.value)} placeholder="Contoh: Universitas Indonesia - Ilmu Hukum" className={inputClass} />
                   </div>
                 </div>
-
-                {tipePenulis === "anggota_dpr" && (
-                  <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} className="space-y-4 p-5 bg-dpr-emerald/5 dark:bg-dpr-gold/5 rounded-2xl border border-dpr-emerald/20 dark:border-dpr-gold/20">
-                    <h3 className="text-sm font-bold text-dpr-emerald-dark dark:text-dpr-gold flex items-center gap-2">
-                      <BadgeCheck className="w-4 h-4" /> Data Keanggotaan DPR RI
-                    </h3>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                      <div>
-                        <label className={labelClass}>Nomor Anggota DPR RI <span className="text-red-500">*</span></label>
-                        <input type="text" value={nomorAnggota} onChange={e => setNomorAnggota(e.target.value)} placeholder="Contoh: A-123" className={inputClass} />
-                      </div>
-                      <div>
-                        <label className={labelClass}>Fraksi <span className="text-red-500">*</span></label>
-                        <select value={fraksi} onChange={e => setFraksi(e.target.value)} className={inputClass}>
-                          <option value="">-- Pilih Fraksi --</option>
-                          {["Partai Golkar"].map(f => <option key={f} value={f}>{f}</option>)}
-                        </select>
-                      </div>
-                      <div>
-                        <label className={labelClass}>Daerah Pemilihan (Dapil) <span className="text-red-500">*</span></label>
-                        <input type="text" value={dapil} onChange={e => setDapil(e.target.value)} placeholder="Contoh: Jawa Barat IV" className={inputClass} />
-                      </div>
-                      <div>
-                        <label className={labelClass}>Masa Jabatan <span className="text-red-500">*</span></label>
-                        <input type="text" value={masaJabatan} onChange={e => setMasaJabatan(e.target.value)} placeholder="Contoh: 2024 – 2029" className={inputClass} />
-                      </div>
-                    </div>
-                  </motion.div>
-                )}
-
-                {tipePenulis === "pegawai_dpr" && (
-                  <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} className="space-y-4 p-5 bg-slate-100 dark:bg-dpr-navy-card rounded-2xl border border-slate-200 dark:border-white/10">
-                    <h3 className="text-sm font-bold text-slate-700 dark:text-white flex items-center gap-2">
-                      <Building2 className="w-4 h-4 text-dpr-emerald dark:text-dpr-gold" /> Data Tenaga Ahli / Staf
-                    </h3>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                      <div>
-                        <label className={labelClass}>NIP <span className="text-red-500">*</span></label>
-                        <input type="text" value={nip} onChange={e => setNip(e.target.value)} placeholder="18 digit NIP" className={inputClass} />
-                      </div>
-                      <div>
-                        <label className={labelClass}>Unit Kerja <span className="text-red-500">*</span></label>
-                        <input type="text" value={unitKerja} onChange={e => setUnitKerja(e.target.value)} placeholder="Contoh: Sekretariat Golkar Internship" className={inputClass} />
-                      </div>
-                      <div className="sm:col-span-2">
-                        <label className={labelClass}>Jabatan / Pangkat <span className="text-red-500">*</span></label>
-                        <input type="text" value={jabatan} onChange={e => setJabatan(e.target.value)} placeholder="Contoh: Analis Legislatif Ahli Muda / IV-a" className={inputClass} />
-                      </div>
-                    </div>
-                  </motion.div>
-                )}
-
-                {tipePenulis === "umum" && (
-                  <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} className="space-y-4 p-5 bg-dpr-emerald/5 dark:bg-dpr-gold/5 rounded-2xl border border-dpr-emerald/20 dark:border-dpr-gold/20">
-                    <h3 className="text-sm font-bold text-dpr-emerald-dark dark:text-dpr-gold flex items-center gap-2">
-                      <User className="w-4 h-4" /> Data Peserta GIS
-                    </h3>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                      <div>
-                        <label className={labelClass}>Batch Magang <span className="text-red-500">*</span></label>
-                        <select value={pekerjaan} onChange={e => setPekerjaan(e.target.value)} className={inputClass}>
-                          <option value="">-- Pilih Batch --</option>
-                          {["Batch 1 (2024)", "Batch 2 (2025)", "Batch 3 (2026)"].map(f => <option key={f} value={f}>{f}</option>)}
-                        </select>
-                      </div>
-                      <div>
-                        <label className={labelClass}>Universitas / Jurusan <span className="text-red-500">*</span></label>
-                        <input type="text" value={instansi} onChange={e => setInstansi(e.target.value)} placeholder="Contoh: Universitas Indonesia - Ilmu Hukum" className={inputClass} />
-                      </div>
-                    </div>
-                  </motion.div>
-                )}
 
                 {stepErrors.length > 0 && (
                   <div className="bg-red-50 dark:bg-red-900/20 border border-red-300 dark:border-red-700/40 rounded-xl p-4 space-y-1">
@@ -356,8 +336,8 @@ export default function TulisBeritaPage() {
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                   <div className="sm:col-span-2">
                     <label className={labelClass}>Judul / Headline Berita <span className="text-red-500">*</span></label>
-                    <input type="text" required value={judulBerita} onChange={e => setJudulBerita(e.target.value)} placeholder="Tuliskan judul yang informatif dan menarik..." className={inputClass} />
-                    <p className="text-xs text-slate-400 mt-1">{judulBerita.length}/150 karakter</p>
+                    <input type="text" required maxLength={200} value={judulBerita} onChange={e => setJudulBerita(e.target.value)} placeholder="Tuliskan judul yang informatif dan menarik..." className={inputClass} />
+                    <p className="text-xs text-slate-400 mt-1">{judulBerita.length}/200 karakter</p>
                   </div>
                   <div>
                     <label className={labelClass}>Kategori <span className="text-red-500">*</span></label>
@@ -380,14 +360,14 @@ export default function TulisBeritaPage() {
 
                 <div>
                   <label className={labelClass}>Ringkasan / Lead Berita <span className="text-red-500">*</span></label>
-                  <textarea required rows={3} value={ringkasan} onChange={e => setRingkasan(e.target.value)} placeholder="Tuliskan 2–3 kalimat ringkasan yang menjelaskan inti berita." className={`${inputClass} resize-y`} />
-                  <p className="text-xs text-slate-400 mt-1">{ringkasan.length}/300 karakter</p>
+                  <textarea required rows={3} maxLength={400} value={ringkasan} onChange={e => setRingkasan(e.target.value)} placeholder="Tuliskan 2-3 kalimat ringkasan yang menjelaskan inti berita." className={`${inputClass} resize-y`} />
+                  <p className="text-xs text-slate-400 mt-1">{ringkasan.length}/400 karakter</p>
                 </div>
 
                 <div>
                   <label className={labelClass}>Isi Berita Lengkap <span className="text-red-500">*</span></label>
-                  <textarea required rows={12} value={isiBerita} onChange={e => setIsiBerita(e.target.value)} placeholder="Tulis isi berita secara lengkap dan terstruktur di sini..." className={`${inputClass} resize-y`} />
-                  <p className="text-xs text-slate-400 mt-1">{isiBerita.length} karakter (minimum 500 karakter disarankan)</p>
+                  <textarea required rows={12} maxLength={20000} value={isiBerita} onChange={e => setIsiBerita(e.target.value)} placeholder="Tulis isi berita secara lengkap dan terstruktur di sini..." className={`${inputClass} resize-y`} />
+                  <p className="text-xs text-slate-400 mt-1">{isiBerita.length} karakter (minimum 50 karakter). Teks biasa, HTML akan dibersihkan otomatis.</p>
                 </div>
 
                 <div className="space-y-3">
@@ -461,9 +441,9 @@ export default function TulisBeritaPage() {
                 <div className="bg-slate-50 dark:bg-dpr-navy-card p-5 rounded-2xl border border-slate-200 dark:border-white/10 space-y-3 text-sm">
                   <h3 className="font-bold text-slate-900 dark:text-white">Ringkasan Pengiriman</h3>
                   <div className="space-y-2 text-slate-600 dark:text-slate-400">
-                    <div className="flex gap-2"><span className="font-semibold text-slate-700 dark:text-slate-300 w-28 shrink-0">Penulis:</span> <span>{namaLengkap || "—"}</span></div>
-                    <div className="flex gap-2"><span className="font-semibold text-slate-700 dark:text-slate-300 w-28 shrink-0">Jenis Penulis:</span> <span className="capitalize">{tipePenulis.replace("_", " ")}</span></div>
-                    <div className="flex gap-2"><span className="font-semibold text-slate-700 dark:text-slate-300 w-28 shrink-0">Email:</span> <span>{email || "—"}</span></div>
+                    <div className="flex gap-2"><span className="font-semibold text-slate-700 dark:text-slate-300 w-28 shrink-0">Penulis:</span> <span>{sessionUser.name || "—"}</span></div>
+                    <div className="flex gap-2"><span className="font-semibold text-slate-700 dark:text-slate-300 w-28 shrink-0">Jenis Penulis:</span> <span>Peserta GIS</span></div>
+                    <div className="flex gap-2"><span className="font-semibold text-slate-700 dark:text-slate-300 w-28 shrink-0">Email:</span> <span>{sessionUser.email || "—"}</span></div>
                     <div className="flex gap-2"><span className="font-semibold text-slate-700 dark:text-slate-300 w-28 shrink-0">Judul:</span> <span className="line-clamp-1">{judulBerita || "—"}</span></div>
                     <div className="flex gap-2"><span className="font-semibold text-slate-700 dark:text-slate-300 w-28 shrink-0">Kategori:</span> <span>{kategori}</span></div>
                     <div className="flex gap-2"><span className="font-semibold text-slate-700 dark:text-slate-300 w-28 shrink-0">Foto:</span> <span>{imageUrl ? "✓ Terupload" : "—"}</span></div>
@@ -472,17 +452,36 @@ export default function TulisBeritaPage() {
                 </div>
 
                 <div className="flex items-start gap-3 p-4 bg-amber-50 dark:bg-amber-900/10 rounded-xl border border-amber-200 dark:border-amber-700/30">
-                  <input type="checkbox" required id="deklarasi" className="w-4 h-4 accent-amber-500 mt-0.5 shrink-0" />
+                  <input
+                    type="checkbox"
+                    required
+                    id="deklarasi"
+                    checked={privacyAccepted}
+                    onChange={(e) => setPrivacyAccepted(e.target.checked)}
+                    className="w-4 h-4 accent-amber-500 mt-0.5 shrink-0"
+                  />
                   <label htmlFor="deklarasi" className="text-xs text-amber-800 dark:text-amber-300 cursor-pointer leading-relaxed">
-                    Saya menyatakan bahwa artikel ini adalah karya orisinal, tidak mengandung unsur SARA, hoaks, atau pelanggaran hak cipta. Saya bertanggung jawab penuh atas kebenaran informasi yang disampaikan sesuai UU No. 11 Tahun 2008 tentang Informasi dan Transaksi Elektronik (UU ITE).
+                    Saya menyatakan artikel ini karya orisinal, tidak mengandung SARA/hoaks/pelanggaran hak cipta, dan saya menyetujui pemrosesan nama serta email saya sesuai{" "}
+                    <Link href="/kebijakan-privasi" className="underline font-bold">Kebijakan Privasi</Link>{" "}
+                    untuk keperluan moderasi dan publikasi. Artikel akan berstatus menunggu moderasi.
                   </label>
                 </div>
+
+                {stepErrors.length > 0 && (
+                  <div className="bg-red-50 dark:bg-red-900/20 border border-red-300 dark:border-red-700/40 rounded-xl p-4 space-y-1">
+                    {stepErrors.map((err, i) => (
+                      <p key={i} className="flex items-start gap-2 text-xs text-red-600 dark:text-red-400 font-medium">
+                        <AlertCircle className="w-3.5 h-3.5 shrink-0 mt-0.5" /> {err}
+                      </p>
+                    ))}
+                  </div>
+                )}
 
                 <div className="flex justify-between pt-2">
                   <button type="button" onClick={() => { setStepErrors([]); setStep(2); }} className="flex items-center gap-2 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-semibold px-5 py-2.5 rounded-xl text-sm border border-slate-300 dark:border-white/10">
                     ← Kembali
                   </button>
-                  <button type="submit" disabled={submitting} className="flex items-center gap-2 bg-dpr-emerald dark:bg-gold-gradient hover:opacity-90 text-white dark:text-dpr-navy font-bold text-sm px-8 py-2.5 rounded-xl shadow-md transition-all disabled:opacity-50">
+                  <button type="submit" disabled={submitting || !privacyAccepted} className="flex items-center gap-2 bg-dpr-emerald dark:bg-gold-gradient hover:opacity-90 text-white dark:text-dpr-navy font-bold text-sm px-8 py-2.5 rounded-xl shadow-md transition-all disabled:opacity-50">
                     {submitting ? <Loader2 className="w-4 h-4 animate-spin" /> : <Upload className="w-4 h-4" />}
                     {submitting ? "Mengirim..." : "Kirim Berita Sekarang"}
                   </button>
@@ -493,8 +492,9 @@ export default function TulisBeritaPage() {
         </AnimatePresence>
       </form>
 
-      <div className="text-center text-xs text-slate-400 dark:text-slate-500">
-        Artikel yang masuk akan ditinjau oleh tim redaksi sebelum dipublikasikan. •{" "}
+      <div className="text-center text-xs text-slate-400 dark:text-slate-500 flex items-center justify-center gap-1.5">
+        <ShieldCheck className="w-3.5 h-3.5" />
+        Artikel yang masuk akan ditinjau oleh tim redaksi sebelum dipublikasikan.{" "}
         <Link href="/berita" className="underline hover:text-dpr-emerald dark:hover:text-dpr-gold">Kembali ke Daftar Berita</Link>
       </div>
     </div>

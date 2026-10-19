@@ -1,12 +1,16 @@
 import { MetadataRoute } from "next";
 
 export default function robots(): MetadataRoute.Robots {
+  const baseUrl = (
+    process.env.NEXT_PUBLIC_SITE_URL || "https://golkar-internship-student.vercel.app"
+  ).replace(/\/$/, "");
+
   return {
     rules: {
       userAgent: "*",
       allow: "/",
-      disallow: ["/admin/", "/user/dashboard/", "/user/pengalaman/"],
+      disallow: ["/admin", "/admin/", "/api/", "/user/", "/berita/tulis"],
     },
-    sitemap: "https://golkarinternship.com/sitemap.xml", // Replace with your actual domain
+    sitemap: `${baseUrl}/sitemap.xml`,
   };
 }

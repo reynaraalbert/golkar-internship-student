@@ -13,7 +13,7 @@ interface FileUploadProps {
   maxSizeBytes?: number;
 }
 
-const IMAGE_MAX = 2 * 1024 * 1024;   // 2 MB → keeps base64 reasonable
+const IMAGE_MAX = 2 * 1024 * 1024;   // 2 MB
 const DOC_MAX   = 5 * 1024 * 1024;   // 5 MB
 
 const ACCEPT_MAP = {
@@ -22,9 +22,11 @@ const ACCEPT_MAP = {
   all:      "image/jpeg,image/png,image/webp,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
 };
 
-/** Compress image in-browser before base64 encoding. Target ~800px wide, quality 0.75. */
-async function compressImage(file: File, maxWidth = 800, quality = 0.75): Promise<string> {
-  return new Promise((resolve, reject) => {
+const ALLOWED_MIME = ACCEPT_MAP.all.split(",");
+
+/** Compress image in-browser before upload. Target ~800px wide, quality 0.75. */
+async function compressImage(file: File, maxWidth = 800, quality = 0.75): Promise<File> {
+  return new Promise((resolve) => {
     const img = new Image();
     const url = URL.createObjectURL(file);
     img.onload = () => {
@@ -32,23 +34,31 @@ async function compressImage(file: File, maxWidth = 800, quality = 0.75): Promis
       const canvas = document.createElement("canvas");
       canvas.width  = Math.round(img.width  * scale);
       canvas.height = Math.round(img.height * scale);
-      const ctx = canvas.getContext("2d")!;
+      const ctx = canvas.getContext("2d");
+      if (!ctx) {
+        URL.revokeObjectURL(url);
+        resolve(file);
+        return;
+      }
       ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
       URL.revokeObjectURL(url);
-      resolve(canvas.toDataURL("image/jpeg", quality));
+      canvas.toBlob(
+        (blob) => {
+          if (!blob) {
+            resolve(file);
+            return;
+          }
+          resolve(new File([blob], file.name.replace(/\.[^.]+$/, "") + ".jpg", { type: "image/jpeg" }));
+        },
+        "image/jpeg",
+        quality
+      );
     };
-    img.onerror = reject;
+    img.onerror = () => {
+      URL.revokeObjectURL(url);
+      resolve(file);
+    };
     img.src = url;
-  });
-}
-
-/** Convert any file to a data-URL via FileReader. */
-function fileToDataUrl(file: File): Promise<string> {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onload = () => resolve(reader.result as string);
-    reader.onerror = reject;
-    reader.readAsDataURL(file);
   });
 }
 
@@ -66,12 +76,14 @@ export default function FileUpload({
 
   const maxBytes = maxSizeBytes ?? (accept === "image" ? IMAGE_MAX : DOC_MAX);
 
-  const CLOUDINARY_URL = "https://api.cloudinary.com/v1_1/aeknpwzs/upload";
-  const UPLOAD_PRESET = "golkar_uploads";
-
   const handleFile = async (file: File) => {
     setError(null);
-    
+
+    if (!ALLOWED_MIME.includes(file.type)) {
+      setError("Tipe berkas tidak diizinkan.");
+      return;
+    }
+
     if (file.size > maxBytes) {
       setError(`File terlalu besar (${(file.size / 1024 / 1024).toFixed(1)} MB). Maks. ${maxBytes / 1024 / 1024} MB.`);
       return;
@@ -79,32 +91,31 @@ export default function FileUpload({
 
     setLoading(true);
     try {
-      const formData = new FormData();
-      formData.append("upload_preset", UPLOAD_PRESET);
-      
-      // If it's an image, compress it first
-      if (file.type.startsWith("image/")) {
-        const compressedBase64 = await compressImage(file);
-        // Cloudinary accepts base64 data URLs directly in the 'file' field!
-        formData.append("file", compressedBase64);
-      } else {
-        formData.append("file", file);
+      const uploadFile = file.type.startsWith("image/") ? await compressImage(file) : file;
+
+      if (uploadFile.size > maxBytes) {
+        setError(`File terlalu besar setelah dikompresi. Maks. ${maxBytes / 1024 / 1024} MB.`);
+        return;
       }
 
-      const res = await fetch(CLOUDINARY_URL, {
+      const formData = new FormData();
+      formData.append("file", uploadFile);
+
+      const res = await fetch("/api/upload", {
         method: "POST",
         body: formData,
+        credentials: "include",
       });
 
-      const data = await res.json();
+      const data = await res.json().catch(() => ({}));
 
-      if (!res.ok) {
-        throw new Error(data.error?.message || "Gagal mengunggah. Pastikan Upload Preset sudah dibuat.");
+      if (!res.ok || !data?.url) {
+        throw new Error(data?.error || "Gagal mengunggah berkas.");
       }
 
-      onChange(data.secure_url);
-    } catch (err: any) {
-      setError(err.message || "Gagal memproses file. Coba lagi.");
+      onChange(data.url);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Gagal memproses file. Coba lagi.");
     } finally {
       setLoading(false);
     }
@@ -116,7 +127,7 @@ export default function FileUpload({
     if (file) handleFile(file);
   };
 
-  // Detect previews: both remote URLs and local data-URLs
+  // Detect previews: remote URLs, API file URLs, and local data-URLs
   const isImage = value && (
     /\.(jpg|jpeg|png|webp|gif|svg)/i.test(value) ||
     value.startsWith("data:image/")
@@ -136,7 +147,7 @@ export default function FileUpload({
         <div className="relative border border-slate-200 dark:border-white/10 rounded-xl overflow-hidden">
           {isImage ? (
             // eslint-disable-next-line @next/next/no-img-element
-            <img src={value} alt="Preview" className="w-full h-40 object-cover" />
+            <img src={value} alt="Pratinjau berkas" className="w-full h-40 object-cover" />
           ) : isPdf ? (
             <div className="w-full h-40 flex items-center justify-center bg-slate-50 dark:bg-slate-800">
               <div className="text-center space-y-2">
@@ -159,6 +170,7 @@ export default function FileUpload({
               type="button"
               onClick={() => { onChange(""); setError(null); }}
               className="p-1.5 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors shadow-md"
+              aria-label="Hapus berkas"
             >
               <X className="w-3.5 h-3.5" />
             </button>
@@ -179,7 +191,7 @@ export default function FileUpload({
           {loading ? (
             <div className="space-y-2">
               <Loader2 className="w-8 h-8 text-dpr-emerald dark:text-dpr-gold mx-auto animate-spin" />
-              <p className="text-xs text-slate-500 font-semibold">Memproses gambar…</p>
+              <p className="text-xs text-slate-500 font-semibold">Mengunggah berkas...</p>
             </div>
           ) : (
             <div className="space-y-2">

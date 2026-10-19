@@ -1,14 +1,27 @@
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
-import { findStudentUserById, saveStudentUser } from "@/lib/user-store";
+import { findStudentUserById } from "@/lib/user-store";
 import { verifyUserSessionToken, USER_AUTH_COOKIE, passwordFingerprint } from "@/lib/user-auth";
-import { toSafeUser } from "@/lib/safe-user";
 
-export const dynamic = "force-dynamic";
+function readCookie(req: Request | undefined, name: string): string | undefined {
+  if (req) {
+    const header = req.headers.get("cookie") || "";
+    const match = header
+      .split(";")
+      .map((c) => c.trim())
+      .find((c) => c.startsWith(`${name}=`));
+    if (match) return decodeURIComponent(match.split("=").slice(1).join("="));
+  }
+  try {
+    return cookies().get(name)?.value;
+  } catch {
+    return undefined;
+  }
+}
 
 /** Resolves the signed-in participant and re-checks the session fingerprint. */
-export async function getSessionUser() {
-  const token = cookies().get(USER_AUTH_COOKIE)?.value;
+export async function getSessionUser(req?: Request) {
+  const token = readCookie(req, USER_AUTH_COOKIE);
   const session = verifyUserSessionToken(token);
   if (!session) return null;
 

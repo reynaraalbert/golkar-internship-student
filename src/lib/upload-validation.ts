@@ -71,5 +71,10 @@ export function matchesMagicBytes(buffer: Buffer, mime: string): boolean {
 }
 
 export function sanitizeFileName(name: string): string {
-  return name.replace(/[^a-zA-Z0-9._-]/g, "_").slice(0, 80);
+  return name
+    .replace(/[^a-zA-Z0-9._-]/g, "_")
+    // Collapse any dot runs so ".." traversal sequences cannot survive.
+    .replace(/\.{2,}/g, "_")
+    .replace(/^[._]+/, "")
+    .slice(0, 80) || "file";
 }

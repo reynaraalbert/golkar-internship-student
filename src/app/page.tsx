@@ -102,6 +102,8 @@ export default function HomePage() {
   const [selectedAgenda, setSelectedAgenda] = useState<AgendaItem | null>(null);
   const [openFaq, setOpenFaq] = useState<number | null>(0);
   const [activeTrack, setActiveTrack] = useState<string>("");
+  const [registrationOpen, setRegistrationOpen] = useState<boolean | null>(null);
+  const [latestBatchName, setLatestBatchName] = useState<string>("");
 
   const hero = siteContent.hero;
   const statBar = siteContent.statBar;
@@ -109,6 +111,24 @@ export default function HomePage() {
   const kontak = siteContent.kontak;
   const maps = siteContent.maps;
   const liveAgenda = agenda.find((a) => a.status === "LIVE NOW") || null;
+
+  // Registration status comes from the same source as the timeline page.
+  React.useEffect(() => {
+    let cancelled = false;
+    fetch("/api/timeline", { cache: "no-store" })
+      .then((r) => (r.ok ? r.json() : null))
+      .then((data) => {
+        if (cancelled || !data) return;
+        setRegistrationOpen(Boolean(data.registrationOpen));
+        setLatestBatchName(data.latestBatch || "");
+      })
+      .catch(() => {
+        if (!cancelled) setRegistrationOpen(false);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   // Track data mapped directly from posisi_magang collection
   const tracks = (posisi_magang && posisi_magang.length > 0) ? posisi_magang.map((p: any, i: number) => {
@@ -208,7 +228,7 @@ export default function HomePage() {
     <div className="pb-20 overflow-x-hidden">
 
       {/* --- RUNNING ANNOUNCEMENT MARQUEE TICKER --- */}
-      {siteContent.announcement?.text && (
+      {siteContent.announcement?.text && registrationOpen !== false && (
         <div className="bg-gradient-to-r from-amber-400 via-amber-500 to-yellow-400 text-slate-950 py-2 sm:py-2.5 px-2 sm:px-4 font-bold text-xs shadow-md border-b border-amber-300 w-full relative z-30">
           <div className="max-w-7xl mx-auto w-full flex items-center justify-between gap-1.5 sm:gap-3">
             <div className="flex items-center gap-1.5 shrink-0">
@@ -225,7 +245,7 @@ export default function HomePage() {
               )}
             </div>
 
-            {siteContent.announcement.ctaHref && (
+            {siteContent.announcement.ctaHref && registrationOpen === true && (
               <Link
                 href={siteContent.announcement.ctaHref}
                 className="shrink-0 bg-slate-950 text-amber-300 hover:bg-slate-900 text-[9px] sm:text-[11px] font-black px-2 sm:px-3 py-1 rounded-full flex items-center gap-0.5 sm:gap-1 transition-transform hover:scale-105 whitespace-nowrap"
@@ -325,13 +345,19 @@ export default function HomePage() {
             transition={{ duration: 0.3, delay: 0.15 }}
             className="flex flex-wrap items-center justify-center gap-3.5 pt-3"
           >
-            <Link
-              href={hero?.ctaPrimaryHref || "/user/login"}
-              className="bg-amber-400 hover:bg-amber-500 text-slate-950 font-black text-xs sm:text-sm px-8 py-4 rounded-full shadow-xl hover:scale-105 transition-all flex items-center gap-2 border border-amber-300/60"
-            >
-              <UserPlus className="w-4 h-4" />
-              <span>{hero?.ctaPrimaryLabel || "Daftar Magang Sekarang"}</span>
-            </Link>
+            {registrationOpen === true ? (
+              <Link
+                href={hero?.ctaPrimaryHref || "/user/login"}
+                className="bg-amber-400 hover:bg-amber-500 text-slate-950 font-black text-xs sm:text-sm px-8 py-4 rounded-full shadow-xl hover:scale-105 transition-all flex items-center gap-2 border border-amber-300/60"
+              >
+                <UserPlus className="w-4 h-4" />
+                <span>{hero?.ctaPrimaryLabel || "Daftar Magang Sekarang"}</span>
+              </Link>
+            ) : registrationOpen === false ? (
+              <div className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-md text-slate-700 dark:text-slate-300 font-bold text-xs sm:text-sm px-6 py-4 rounded-full border border-slate-300 dark:border-white/20 text-center">
+                Pendaftaran belum dibuka. Pantau pengumuman resmi{latestBatchName ? ` untuk ${latestBatchName}` : ""}.
+              </div>
+            ) : null}
 
             {(() => {
               const secondaryHref = hero?.ctaSecondaryHref || "#alur-seleksi";
@@ -418,27 +444,29 @@ export default function HomePage() {
       </section>
 
       {/* --- STATS COUNTER BAR --- */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-12 sm:mt-16">
-        <motion.div
-          variants={staggerContainer}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-80px" }}
-          className="glass-panel rounded-3xl p-6 sm:p-8 border border-amber-200 dark:border-white/10 grid grid-cols-2 md:grid-cols-4 gap-6 text-center shadow-xl bg-white/80 dark:bg-slate-900/80"
-        >
-          {[
-            { num: statBar.value1 || "1,500+", label: statBar.label1 || "Alumni Magang", gold: true },
-            { num: statBar.value2 || "30+", label: statBar.label2 || "Universitas Partner", gold: false },
-            { num: statBar.value3 || "98%", label: statBar.label3 || "Kepuasan Mentorship", gold: true },
-            { num: statBar.value4 || "100+", label: statBar.label4 || "Policy Brief Dihasilkan", gold: false },
-          ].map((s, i) => (
-            <motion.div key={i} variants={fadeUp} custom={i} className="space-y-1">
-              <span className={`text-3xl sm:text-4xl font-black block ${s.gold ? "text-[#B45309] dark:text-[#F5C518]" : "text-slate-950 dark:text-white"}`}>{s.num}</span>
-              <span className="text-xs text-slate-800 dark:text-slate-300 font-bold block uppercase tracking-wider">{s.label}</span>
-            </motion.div>
-          ))}
-        </motion.div>
-      </section>
+      {[statBar.value1, statBar.value2, statBar.value3, statBar.value4].some(Boolean) && (
+        <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-12 sm:mt-16">
+          <motion.div
+            variants={staggerContainer}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-80px" }}
+            className="glass-panel rounded-3xl p-6 sm:p-8 border border-amber-200 dark:border-white/10 grid grid-cols-2 md:grid-cols-4 gap-6 text-center shadow-xl bg-white/80 dark:bg-slate-900/80"
+          >
+            {[
+              { num: statBar.value1, label: statBar.label1 || "Alumni Magang", gold: true },
+              { num: statBar.value2, label: statBar.label2 || "Universitas Partner", gold: false },
+              { num: statBar.value3, label: statBar.label3 || "Kepuasan Mentorship", gold: true },
+              { num: statBar.value4, label: statBar.label4 || "Policy Brief Dihasilkan", gold: false },
+            ].filter((s) => Boolean(s.num)).map((s, i) => (
+              <motion.div key={i} variants={fadeUp} custom={i} className="space-y-1">
+                <span className={`text-3xl sm:text-4xl font-black block ${s.gold ? "text-[#B45309] dark:text-[#F5C518]" : "text-slate-950 dark:text-white"}`}>{s.num}</span>
+                <span className="text-xs text-slate-800 dark:text-slate-300 font-bold block uppercase tracking-wider">{s.label}</span>
+              </motion.div>
+            ))}
+          </motion.div>
+        </section>
+      )}
 
       {/* --- TENTANG PROGRAM & KEUNGGULAN (PILLARS) --- */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10 mt-12 sm:mt-16">
@@ -515,7 +543,12 @@ export default function HomePage() {
           viewport={{ once: true, margin: "-80px" }}
           className="grid grid-cols-1 md:grid-cols-3 gap-6"
         >
-          {berita.filter(a => a.pinned).slice(0, 6).map((article, idx) => (
+          {berita.filter(a => a.pinned).slice(0, 6).length === 0 ? (
+            <div className="col-span-full text-center py-12 glass-panel rounded-3xl border border-slate-200 dark:border-white/10">
+              <h3 className="text-lg font-bold text-slate-800 dark:text-slate-200">Belum ada berita atau siaran pers.</h3>
+              <p className="text-sm text-slate-500 mt-2">Informasi terbaru akan ditampilkan di sini setelah dipublikasikan.</p>
+            </div>
+          ) : berita.filter(a => a.pinned).slice(0, 6).map((article, idx) => (
             <motion.div
               key={article.id}
               variants={fadeUp}
@@ -559,13 +592,15 @@ export default function HomePage() {
             <span className="text-xs font-black text-[#B45309] dark:text-[#F5C518] uppercase tracking-widest">LOWONGAN TERSEDIA</span>
             <h2 className="text-2xl sm:text-3xl font-black text-slate-950 dark:text-white">Pilihan Lowongan Magang</h2>
           </div>
-          <Link
-            href={siteContent.cta?.buttonLink || "/user/login"}
-            className="text-xs text-[#B45309] dark:text-[#F5C518] font-bold hover:underline flex items-center gap-1 shrink-0"
-          >
-            <span>Daftar & Pilih Posisi Magang</span>
-            <ArrowRight className="w-4 h-4" />
-          </Link>
+          {registrationOpen === true && tracks.length > 0 && (
+            <Link
+              href={siteContent.cta?.buttonLink || "/user/login"}
+              className="text-xs text-[#B45309] dark:text-[#F5C518] font-bold hover:underline flex items-center gap-1 shrink-0"
+            >
+              <span>Daftar & Pilih Posisi Magang</span>
+              <ArrowRight className="w-4 h-4" />
+            </Link>
+          )}
         </Reveal>
 
         {/* Tracks Grid / Tabs */}
@@ -573,6 +608,13 @@ export default function HomePage() {
           <div className="text-center py-12 glass-panel rounded-3xl border border-slate-200 dark:border-white/10">
             <h3 className="text-xl font-bold text-slate-800 dark:text-slate-200">Belum ada posisi magang yang tersedia saat ini.</h3>
             <p className="text-sm text-slate-500 mt-2">Silakan pantau terus informasi pendaftaran terbaru kami.</p>
+          </div>
+        ) : registrationOpen === false ? (
+          <div className="text-center py-12 glass-panel rounded-3xl border border-slate-200 dark:border-white/10">
+            <h3 className="text-xl font-bold text-slate-800 dark:text-slate-200">Pendaftaran belum dibuka.</h3>
+            <p className="text-sm text-slate-500 mt-2">
+              Posisi magang akan dapat dipilih setelah periode pendaftaran resmi dibuka. Pantau pengumuman kami.
+            </p>
           </div>
         ) : (
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
@@ -777,7 +819,12 @@ export default function HomePage() {
           viewport={{ once: true, margin: "-80px" }}
           className="grid grid-cols-1 md:grid-cols-3 gap-6"
         >
-          {(siteContent.alumniItems && siteContent.alumniItems.length > 0 ? siteContent.alumniItems : testimonials).map((t: any, idx: number) => (
+          {(siteContent.alumniItems && siteContent.alumniItems.length > 0 ? siteContent.alumniItems : testimonials).length === 0 ? (
+            <div className="col-span-full text-center py-10 glass-panel rounded-3xl border border-slate-200 dark:border-white/10">
+              <h3 className="text-lg font-bold text-slate-800 dark:text-slate-200">Belum ada kisah alumni yang dipublikasikan.</h3>
+              <p className="text-sm text-slate-500 mt-2">Testimoni alumni akan ditampilkan setelah tersedia.</p>
+            </div>
+          ) : (siteContent.alumniItems && siteContent.alumniItems.length > 0 ? siteContent.alumniItems : testimonials).map((t: any, idx: number) => (
             <motion.div
               key={idx}
               variants={fadeUp}

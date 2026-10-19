@@ -133,6 +133,17 @@ export default function ProfilPage() {
         <div className="glass-panel p-8 rounded-3xl border border-slate-200 dark:border-white/10 space-y-8">
           
           {/* Chairman Spotlight */}
+          {(!pimpinan || pimpinan.length === 0) && (
+            <div className="text-center py-8 space-y-2">
+              {/* TODO(konfirmasi-owner): data pimpinan GIS belum tersedia di CMS. */}
+              <Users className="w-10 h-10 text-slate-400 mx-auto" />
+              <h3 className="text-base font-bold text-slate-900 dark:text-white">Data pimpinan belum tersedia</h3>
+              <p className="text-xs text-slate-500 dark:text-slate-400">
+                Susunan pimpinan akan ditampilkan setelah datanya diisi oleh pengelola program.
+              </p>
+            </div>
+          )}
+
           {pimpinan && pimpinan.length > 0 && (
             <div className="max-w-md mx-auto text-center space-y-3 p-6 rounded-2xl bg-gradient-to-b from-amber-100 to-white dark:from-amber-900/30 dark:to-slate-900 border border-amber-300 dark:border-amber-400/40 shadow-lg">
               <span className="bg-amber-400 text-slate-950 font-extrabold text-xs px-4 py-1 rounded-full uppercase tracking-wider shadow-sm">

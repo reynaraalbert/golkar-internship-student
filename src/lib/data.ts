@@ -1,5 +1,5 @@
-// ============================================================
-// data.ts — GOLKAR INTERNSHIP STUDENT
+﻿// ============================================================
+// data.ts â€” GOLKAR INTERNSHIP STUDENT
 // TODO: Isi dengan data konten project Golkar Internship Student
 // ============================================================
 
@@ -330,7 +330,9 @@ export const SiteContent: SiteContent = {
     statuteProgressValue: "5 Divisi",
   },
   statBar: {
-    value1: "1,500+", value2: "30+", value3: "98%", value4: "100+",
+    // TODO(konfirmasi-owner): isi angka resmi yang dapat dibuktikan. Biarkan kosong
+    // agar statistik tidak ditampilkan di beranda.
+    value1: "", value2: "", value3: "", value4: "",
     label1: "Alumni Magang", label2: "Universitas Partner", label3: "Kepuasan Mentorship", label4: "Policy Brief Dihasilkan",
   },
   keunggulan: { title: "Keunggulan Program Magang", subtitle: "Mengapa Golkar Internship Student Menjadi Pilihan Tepat untuk Karir Anda?" },
@@ -364,7 +366,7 @@ Jakarta Pusat, DKI Jakarta 10270`,
     email: "golkarinternshipstudent@gmail.com",
     transparencyText: "Fraksi Partai Golkar DPR RI senantiasa memegang teguh prinsip keterbukaan informasi dan akuntabilitas kelembagaan.",
     ppidText: "Layanan informasi publik dikelola melalui Pejabat Pengelola Informasi dan Dokumentasi (PPID).",
-    copyrightText: "© 2024 Golkar Internship Student. Hak Cipta Dilindungi.",
+    copyrightText: "Â© 2024 Golkar Internship Student. Hak Cipta Dilindungi.",
   },
   maps: {
     embedUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3966.44977461462!2d106.79727507582531!3d-6.204342260775988!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69f6ba89b33a59%3A0xb35a507cb8e2db26!2sGedung%20Nusantara%20I%20DPR%20RI!5e0!3m2!1sid!2sid!4v1710000000000!5m2!1sid!2sid",
@@ -385,3 +387,4 @@ Jakarta Pusat, 10270`,
     url: "https://fraksigolkar.com/",
   },
 };
+

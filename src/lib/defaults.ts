@@ -1,4 +1,4 @@
-import type { SiteContent } from "@/lib/data";
+﻿import type { SiteContent } from "@/lib/data";
 
 export const EMPTY_STATS = {
   totalMembers: 0,
@@ -15,7 +15,8 @@ export const EMPTY_SITECONTENT: SiteContent = {
     ctaPrimaryLabel: "", ctaPrimaryHref: "", ctaSecondaryLabel: "", ctaSecondaryHref: "",
     statuteQuote: "", statuteProgressLabel: "", statuteProgressValue: "",
   },
-  statBar: { value1: "1,500+", value2: "30+", value3: "98%", value4: "100+", label1: "Alumni Magang", label2: "Universitas Partner", label3: "Kepuasan Mentorship", label4: "Policy Brief Dihasilkan" },
+  // TODO(konfirmasi-owner): angka statistik sengaja kosong sampai ada data resmi.
+  statBar: { value1: "", value2: "", value3: "", value4: "", label1: "Alumni Magang", label2: "Universitas Partner", label3: "Kepuasan Mentorship", label4: "Policy Brief Dihasilkan" },
   keunggulan: { title: "Keunggulan Program Magang", subtitle: "Mengapa Golkar Internship Student Menjadi Pilihan Tepat untuk Karir Anda?" },
   keunggulanItems: [
     { title: "Mentorship Eksklusif", desc: "Dapatkan bimbingan langsung dari Anggota DPR RI, tenaga ahli komisi, serta pakar kebijakan publik yang berpengalaman di tingkat nasional.", iconName: "Users" },
@@ -117,3 +118,4 @@ export const DEFAULT_POSISI: KomisiPosisi[] = [
   { id: "banggar", namaKomisi: "Badan Anggaran (Banggar)", kodeKomisi: "BANGGAR", kuota: "5", status: "TERBUKA", deskripsiTugas: "Pembahasan dan pengawasan APBN, evaluasi realisasi anggaran negara per kementerian.", bidangKerja: "APBN, Fiskal, Anggaran Negara", mitraKerja: "Kemenkeu, Bappenas, BPK", persyaratan: "Ekonomi/Akuntansi/Keuangan Negara,IPK min 3.25,CV ATS-Friendly" },
   { id: "bamus", namaKomisi: "Badan Urusan Rumah Tangga (BURT)", kodeKomisi: "BURT", kuota: "4", status: "TERBUKA", deskripsiTugas: "Pengelolaan administrasi, tata kelola internal, dan keprotokoleran DPR RI.", bidangKerja: "Administrasi Internal, Keprotokoleran, Tata Kelola DPR", mitraKerja: "Sekretariat Jenderal DPR RI", persyaratan: "Administrasi/Manajemen/Sekretaris,IPK min 3.00,CV ATS-Friendly" },
 ];
+

@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
@@ -26,14 +26,10 @@ export default function UserPosisiPage() {
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
   const [agreed, setAgreed] = useState(false);
   const [checkedDocs, setCheckedDocs] = useState<Record<number, boolean>>({});
-  const [selectedBatch, setSelectedBatch] = useState("Batch 4");
-
-  const batches = [
-    { id: "Batch 1", label: "Batch 1 (Ditutup)", disabled: true },
-    { id: "Batch 2", label: "Batch 2 (Ditutup)", disabled: true },
-    { id: "Batch 3", label: "Batch 3 (Ditutup)", disabled: true },
-    { id: "Batch 4", label: "Batch 4 (Pendaftaran Dibuka)", disabled: false },
-  ];
+  const [selectedBatch, setSelectedBatch] = useState("");
+  const [batches, setBatches] = useState<{ id: string; label: string; disabled: boolean }[]>([]);
+  const [registrationOpen, setRegistrationOpen] = useState<boolean | null>(null);
+  const [applyError, setApplyError] = useState<string | null>(null);
 
   const [posisiList, setPosisiList] = useState<PosisiItem[]>([]);
   const [loading, setLoading] = useState(true);
@@ -43,13 +39,31 @@ export default function UserPosisiPage() {
   useEffect(() => {
     async function loadData() {
       try {
-        const [posRes, meRes] = await Promise.all([
+        const [posRes, meRes, timelineRes] = await Promise.all([
           fetch("/api/data/posisi_magang"),
           fetch("/api/user/auth/me"),
+          fetch("/api/timeline", { cache: "no-store" }),
         ]);
 
         const posData = await posRes.json();
         const meData = await meRes.json();
+        const timelineData = timelineRes.ok ? await timelineRes.json() : null;
+
+        const isOpen = Boolean(timelineData?.registrationOpen);
+        setRegistrationOpen(isOpen);
+
+        const infoList: { name: string; status: string; registrationOpen: boolean }[] =
+          Array.isArray(timelineData?.batchInfo) ? timelineData.batchInfo : [];
+        setBatches(
+          infoList.map((b) => ({
+            id: b.name,
+            label: `${b.name} (${b.status})`,
+            disabled: !b.registrationOpen,
+          }))
+        );
+        const openBatch = infoList.find((b) => b.registrationOpen);
+        setSelectedBatch(openBatch?.name || infoList[infoList.length - 1]?.name || "");
+
 
         const currentUser = meData.authenticated ? meData.user : null;
         if (currentUser) setUser(currentUser);
@@ -97,18 +111,25 @@ export default function UserPosisiPage() {
   const handleSubmitApplication = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!agreed || !selectedPosisi) return;
+    setApplyError(null);
 
     setIsSubmitting(true);
     try {
-      if (user) {
-        await fetch("/api/user/auth/me", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            posisiDilamar: selectedPosisi.title,
-            statusMagang: "MENUNGGU_VERIFIKASI",
-          }),
-        });
+      if (!user) {
+        router.push("/user/login");
+        return;
+      }
+
+      const res = await fetch("/api/user/apply", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ posisi: selectedPosisi.title }),
+      });
+
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        setApplyError(data?.error || "Gagal mengirim pendaftaran. Silakan coba lagi.");
+        return;
       }
 
       setPosisiList((prev) =>
@@ -126,7 +147,7 @@ export default function UserPosisiPage() {
         setSuccessMessage(null);
       }, 6000);
     } catch {
-      // ignore
+      setApplyError("Gagal mengirim pendaftaran. Periksa koneksi internet Anda.");
     } finally {
       setIsSubmitting(false);
     }
@@ -210,7 +231,7 @@ export default function UserPosisiPage() {
                 href="/user/status-lamaran"
                 className="px-3.5 py-1.5 rounded-xl bg-amber-500 text-slate-950 font-black text-xs hover:bg-amber-600 transition-colors shrink-0"
               >
-                Pantau Status Lamaran →
+                Pantau Status Lamaran â†’
               </Link>
             </div>
           )}
@@ -297,15 +318,16 @@ export default function UserPosisiPage() {
                         href="/user/status-lamaran"
                         className="px-3.5 py-1.5 rounded-xl bg-amber-400 text-slate-950 font-extrabold text-xs hover:bg-amber-500 transition-colors"
                       >
-                        Pantau Status →
+                        Pantau Status â†’
                       </Link>
                     </div>
                   ) : (
                     <button
                       onClick={() => handleOpenModal(pos)}
-                      className="px-5 py-2.5 rounded-2xl bg-amber-400 hover:bg-amber-500 text-slate-950 font-black text-xs shadow-sm active:scale-95 transition-all flex items-center justify-center gap-1.5"
+                      disabled={registrationOpen !== true}
+                      className="px-5 py-2.5 rounded-2xl bg-amber-400 hover:bg-amber-500 disabled:opacity-50 disabled:cursor-not-allowed text-slate-950 font-black text-xs shadow-sm active:scale-95 transition-all flex items-center justify-center gap-1.5"
                     >
-                      <FileText className="w-4 h-4" /> Daftar Posisi Ini
+                      <FileText className="w-4 h-4" /> {registrationOpen === true ? "Daftar Posisi Ini" : "Pendaftaran Ditutup"}
                     </button>
                   )}
                 </div>
@@ -411,10 +433,17 @@ export default function UserPosisiPage() {
                     className="mt-0.5 w-4 h-4 rounded text-amber-500 focus:ring-amber-500 accent-amber-500 cursor-pointer"
                   />
                   <span className="text-xs font-semibold text-slate-700 dark:text-slate-300 leading-tight">
-                    Saya menyatakan bahwa data dan berkas yang saya lampirkan adalah benar, serta bersedia mengikuti seluruh tahapan seleksi magang di DPR RI.
+                    Saya menyatakan bahwa data dan berkas yang saya lampirkan adalah benar, bersedia mengikuti seluruh tahapan seleksi magang, dan menyetujui pemrosesan data pribadi saya sesuai{" "}
+                    <Link href="/kebijakan-privasi" className="underline font-bold">Kebijakan Privasi</Link>.
                   </span>
                 </label>
               </div>
+
+              {applyError && (
+                <div className="p-3 rounded-xl bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-800/50 text-red-700 dark:text-red-300 text-xs font-medium">
+                  {applyError}
+                </div>
+              )}
 
               {/* ACTION BUTTONS */}
               <div className="flex items-center justify-end gap-3 pt-2 border-t border-slate-100 dark:border-slate-800">
@@ -451,3 +480,4 @@ export default function UserPosisiPage() {
     </div>
   );
 }
+

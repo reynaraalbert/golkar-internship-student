@@ -27,6 +27,22 @@ export default function AdminTimelinePage() {
 
   if (!loaded) return <div className="p-10 text-center text-slate-500">Memuat...</div>;
 
+  const batchSetting = (data.batchSettings?.[selectedBatch] || {}) as {
+    registrationStart?: string;
+    registrationEnd?: string;
+    status?: string;
+  };
+
+  const updateBatchSetting = (patch: Record<string, string | undefined>) => {
+    setData((prev: any) => ({
+      ...prev,
+      batchSettings: {
+        ...(prev.batchSettings || {}),
+        [selectedBatch]: { ...(prev.batchSettings?.[selectedBatch] || {}), ...patch },
+      },
+    }));
+  };
+
   const currentBatchSections = (data.sections || []).filter((s: any) => s.batch === selectedBatch || (!s.batch && selectedBatch === "Batch 4 (2026)"));
 
   const addNewBatch = async () => {
@@ -146,6 +162,47 @@ export default function AdminTimelinePage() {
             <span>Tambah Timeline</span>
           </button>
         </div>
+      </div>
+
+      <div className="glass-panel p-5 rounded-xl border border-slate-200 dark:border-white/10 space-y-3">
+        <div>
+          <h3 className="text-sm font-bold text-slate-900 dark:text-white">Status Pendaftaran — {selectedBatch}</h3>
+          <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
+            Nilai ini menjadi satu-satunya sumber untuk banner beranda, tombol CTA, dan halaman posisi.
+            Kosongkan tanggal dan pilih status secara eksplisit bila perlu.
+          </p>
+        </div>
+        <Grid cols={3}>
+          <Field label="Pendaftaran Mulai">
+            <Input
+              type="date"
+              value={batchSetting.registrationStart || ""}
+              onChange={(e) => updateBatchSetting({ registrationStart: e.target.value })}
+              className="w-full"
+            />
+          </Field>
+          <Field label="Pendaftaran Selesai">
+            <Input
+              type="date"
+              value={batchSetting.registrationEnd || ""}
+              onChange={(e) => updateBatchSetting({ registrationEnd: e.target.value })}
+              className="w-full"
+            />
+          </Field>
+          <Field label="Status (opsional, menimpa tanggal)">
+            <Select
+              value={batchSetting.status || ""}
+              onChange={(e) => updateBatchSetting({ status: (e.target.value || undefined) as any })}
+              className="w-full"
+            >
+              <option value="">Otomatis dari tanggal</option>
+              <option value="Dibuka">Dibuka</option>
+              <option value="Ditutup">Ditutup</option>
+              <option value="Selesai">Selesai</option>
+              <option value="Belum Dibuka">Belum Dibuka</option>
+            </Select>
+          </Field>
+        </Grid>
       </div>
 
       <div className="space-y-4">

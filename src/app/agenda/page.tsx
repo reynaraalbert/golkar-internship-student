@@ -147,6 +147,15 @@ export default function AgendaPage() {
 
       {/* Agenda Timeline List */}
       <StaggerList className="space-y-4">
+        {filteredAgendas.length === 0 && (
+          <div className="glass-panel p-12 rounded-3xl text-center space-y-3">
+            <Calendar className="w-12 h-12 text-slate-400 dark:text-slate-500 mx-auto" />
+            <h3 className="text-slate-900 dark:text-white font-bold text-base">Belum ada agenda yang ditampilkan</h3>
+            <p className="text-xs text-slate-500 dark:text-slate-400">
+              Agenda kegiatan akan dipublikasikan oleh pengelola program. Silakan periksa kembali nanti.
+            </p>
+          </div>
+        )}
         {filteredAgendas.map((item, idx) => (
           <FadeCard
             key={item.id}

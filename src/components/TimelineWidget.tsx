@@ -2,15 +2,30 @@
 
 import React, { useEffect, useState } from "react";
 import TimelineViewer from "@/app/timeline/TimelineViewer";
+import type { BatchInfo, StageStatus, TimelineStage } from "@/lib/batch";
+
+const STATUS_LABELS: Record<StageStatus, string> = {
+  selesai: "Selesai",
+  berlangsung: "Berlangsung",
+  "akan-datang": "Akan Datang",
+};
+
+interface TimelineResponse {
+  sections: (TimelineStage & { status?: StageStatus })[];
+  allBatches: string[];
+  latestBatch: string;
+  batchInfo?: BatchInfo[];
+  registrationOpen?: boolean;
+}
 
 export default function TimelineWidget() {
-  const [data, setData] = useState<{ sections: any[], allBatches: string[], latestBatch: string } | null>(null);
+  const [data, setData] = useState<TimelineResponse | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("/api/timeline")
-      .then(res => res.json())
-      .then(d => {
+    fetch("/api/timeline", { cache: "no-store" })
+      .then((res) => (res.ok ? res.json() : null))
+      .then((d) => {
         setData(d);
         setLoading(false);
       })
@@ -35,10 +50,12 @@ export default function TimelineWidget() {
         <h2 className="text-2xl font-black text-slate-900 dark:text-white">Timeline Pelaksanaan Magang</h2>
         <p className="text-sm text-slate-500 dark:text-slate-400 mt-2">Pantau jadwal dan tahapan penting dalam program GIS.</p>
       </div>
-      <TimelineViewer 
-        allSections={data.sections} 
-        batches={data.allBatches} 
-        initialBatch={data.latestBatch} 
+      <TimelineViewer
+        allSections={data.sections}
+        batches={data.allBatches}
+        batchInfo={data.batchInfo || []}
+        initialBatch={data.latestBatch}
+        statusLabels={STATUS_LABELS}
       />
     </div>
   );

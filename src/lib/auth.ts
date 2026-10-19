@@ -31,13 +31,7 @@ export function getAdminCredentials(): AdminCredentials | null {
 }
 
 function getSecret(): string {
-  const secret = process.env.ADMIN_JWT_SECRET;
-  if (secret) return secret;
-  if (process.env.NODE_ENV === "production") {
-    throw new Error("ADMIN_JWT_SECRET is not configured");
-  }
-  // Development-only fallback so local dev works without a .env file.
-  return "dev-only-insecure-admin-secret";
+  return resolveSecret(process.env.ADMIN_JWT_SECRET, "ADMIN_JWT_SECRET");
 }
 
 function signPayload(payload: string): string {

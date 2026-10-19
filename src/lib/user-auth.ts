@@ -11,12 +11,7 @@ export interface UserSessionPayload {
 }
 
 function getSecret(): string {
-  const secret = process.env.USER_JWT_SECRET;
-  if (secret) return secret;
-  if (process.env.NODE_ENV === "production") {
-    throw new Error("USER_JWT_SECRET is not configured");
-  }
-  return "dev-only-insecure-user-secret";
+  return resolveSecret(process.env.USER_JWT_SECRET, "USER_JWT_SECRET");
 }
 
 function sign(payload: string): string {

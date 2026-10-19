@@ -14,7 +14,7 @@ describe("resolveSecret", () => {
   });
 
   it("menurunkan kunci stabil bila env khusus belum diset (production)", () => {
-    process.env.NODE_ENV = "production";
+    Object.defineProperty(process.env, "NODE_ENV", { value: "production", configurable: true, writable: true });
     delete process.env.USER_JWT_SECRET;
     process.env.ADMIN_JWT_SECRET = "base-secret-abcdefghijklmnop";
     const a = resolveSecret(undefined, "USER_JWT_SECRET");
@@ -26,7 +26,7 @@ describe("resolveSecret", () => {
   });
 
   it("tidak melempar error saat production selama ada secret dasar", () => {
-    process.env.NODE_ENV = "production";
+    Object.defineProperty(process.env, "NODE_ENV", { value: "production", configurable: true, writable: true });
     delete process.env.USER_JWT_SECRET;
     delete process.env.ADMIN_JWT_SECRET;
     process.env.DATABASE_URL = "postgresql://user:pass@host:5432/db";

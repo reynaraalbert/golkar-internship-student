@@ -1,5 +1,5 @@
-﻿// ============================================================
-// pages.ts â€” Golkar Internship Student
+// ============================================================
+// pages.ts — Golkar Internship Student
 // TODO: Definisikan halaman-halaman untuk project Golkar Internship Student
 // ============================================================
 

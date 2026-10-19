@@ -1,4 +1,4 @@
-﻿import { NextRequest, NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { findStudentUserByEmail, updateStudentPasswordHash } from "@/lib/user-store";
 import { createUserSessionToken } from "@/lib/user-auth";
 import { setUserSessionCookie } from "@/lib/user-session";

@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import React, { useState } from "react";
 import { useCmsContent } from "@/components/CmsProvider";
@@ -49,7 +49,7 @@ export default function MembersPage() {
         </p>
       </Reveal>
 
-      {/* Filter & Search Bar â€” Placed at the top for instant mobile & desktop access */}
+      {/* Filter & Search Bar — Placed at the top for instant mobile & desktop access */}
       <div className="glass-panel p-4 sm:p-6 rounded-3xl border border-slate-200 dark:border-white/10 space-y-4 sm:space-y-5">
         <div className="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-3 sm:gap-4">
           <div className="flex items-center justify-between gap-2">
@@ -57,7 +57,7 @@ export default function MembersPage() {
               <Filter className="w-4 h-4 text-dpr-emerald dark:text-dpr-gold shrink-0" />
               <span>Filter Berdasarkan Batch Magang</span>
             </div>
-            <span className="text-[10px] text-slate-400 font-normal sm:hidden">â† Geser batch â†’</span>
+            <span className="text-[10px] text-slate-400 font-normal sm:hidden">← Geser batch →</span>
           </div>
 
           <div className="relative w-full md:w-80">

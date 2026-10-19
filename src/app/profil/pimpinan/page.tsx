@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import React from "react";
 import { Users, Award, ChevronRight, ChevronLeft, MapPin, GraduationCap, Briefcase, BadgeCheck } from "lucide-react";
@@ -11,7 +11,7 @@ export default function PimpinanPage() {
   const page = pages.find((p) => p.slug === "profil/pimpinan");
   const headerSub = page?.sections.find((s) => s.title === "Header Halaman Pimpinan")?.subsections[0]?.fields || {};
 
-  const badge = headerSub.badge || "PROFIL Golkar Internship â€” PIMPINAN & ANGGOTA";
+  const badge = headerSub.badge || "PROFIL Golkar Internship — PIMPINAN & ANGGOTA";
   const judul = headerSub.judul || "Pimpinan & Pengurus GIS";
   const deskripsi = headerSub.deskripsi || "Daftar pimpinan dan pengurus Golkar Internship Student beserta profil singkat dan perannya dalam program.";
 
@@ -40,7 +40,7 @@ export default function PimpinanPage() {
           { label: "Total Pengurus", value: anggota.length, unit: "Orang" },
           { label: "Pimpinan Program", value: pimpinan.length, unit: "Jabatan" },
           { label: "Batch Terwakili", value: new Set(anggota.map(m => m.fraksi)).size, unit: "Batch" },
-          { label: "Masa Jabatan", value: "2024", unit: "â€“ 2029" },
+          { label: "Masa Jabatan", value: "2024", unit: "– 2029" },
         ].map(stat => (
           <div key={stat.label} className="glass-panel p-5 rounded-2xl border border-slate-200 dark:border-white/10 text-center space-y-1">
             <p className="text-2xl font-extrabold text-dpr-emerald dark:text-dpr-gold">{stat.value}</p>
@@ -78,7 +78,7 @@ export default function PimpinanPage() {
             <div className="flex-1 space-y-4">
               <div>
                 <h2 className="text-xl font-extrabold text-slate-900 dark:text-white">{pimpinan[0].name}</h2>
-                <p className="text-sm text-dpr-emerald-dark dark:text-dpr-gold font-semibold">{pimpinan[0].role} â€” Golkar Internship Student</p>
+                <p className="text-sm text-dpr-emerald-dark dark:text-dpr-gold font-semibold">{pimpinan[0].role} — Golkar Internship Student</p>
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
                 <div className="flex items-center gap-2 text-slate-600 dark:text-slate-400">
@@ -187,7 +187,7 @@ export default function PimpinanPage() {
         </div>
       </div>
 
-      {/* Navigation â€” 2 Buttons side-by-side */}
+      {/* Navigation — 2 Buttons side-by-side */}
       <div className="pt-6 border-t border-slate-200 dark:border-white/10">
         <div className="grid grid-cols-2 gap-2 sm:gap-4">
           <Link

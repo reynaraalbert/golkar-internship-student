@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import React from "react";
 import Link from "next/link";
@@ -150,7 +150,7 @@ export default function ProfilPage() {
                 KETUA Golkar Internship
               </span>
               <h3 className="text-xl font-bold text-slate-900 dark:text-white">{pimpinan[0]?.name || "Ketua GIS"}</h3>
-              <p className="text-xs text-amber-700 dark:text-amber-400 font-semibold">{pimpinan[0]?.fraksi} â€” {pimpinan[0]?.dapil}</p>
+              <p className="text-xs text-amber-700 dark:text-amber-400 font-semibold">{pimpinan[0]?.fraksi} — {pimpinan[0]?.dapil}</p>
             </div>
           )}
 

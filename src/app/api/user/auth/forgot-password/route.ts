@@ -1,4 +1,4 @@
-﻿import { NextRequest, NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { findStudentUserByEmail } from "@/lib/user-store";
 import { sendPasswordResetEmail } from "@/lib/mailer";
 import { prisma } from "@/lib/prisma";

@@ -1,4 +1,4 @@
-﻿import React from "react";
+import React from "react";
 import SiteChrome from "@/components/SiteChrome";
 import { prisma } from "@/lib/prisma";
 import {

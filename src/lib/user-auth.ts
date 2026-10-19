@@ -1,4 +1,5 @@
 import crypto from "crypto";
+import { resolveSecret } from "@/lib/secrets";
 
 export interface UserSessionPayload {
   id: string;

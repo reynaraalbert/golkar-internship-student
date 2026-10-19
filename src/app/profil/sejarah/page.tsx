@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import React from "react";
 import { Clock, ChevronRight, ChevronLeft, BookOpen, Calendar, Star } from "lucide-react";
@@ -56,7 +56,7 @@ export default function SejarahPage() {
 
   // Header
   const headerSub = getSection("Header Halaman Sejarah")?.subsections[0]?.fields || {};
-  const badge = headerSub.badge || "PROFIL Golkar Internship â€” SEJARAH";
+  const badge = headerSub.badge || "PROFIL Golkar Internship — SEJARAH";
   const judul = headerSub.judul || "Sejarah Golkar Internship Student";
   const deskripsi = headerSub.deskripsi || "Perjalanan panjang pembentukan Golkar Internship Student sebagai garda terdepan pembinaan pemimpin bangsa.";
 
@@ -65,7 +65,7 @@ export default function SejarahPage() {
   const facts = factSubs.length > 0
     ? factSubs.map((sub, i) => ({
         label: sub.fields.label || DEFAULT_FACTS[i]?.label || "Label",
-        value: sub.fields.value || DEFAULT_FACTS[i]?.value || "â€“",
+        value: sub.fields.value || DEFAULT_FACTS[i]?.value || "–",
         icon: DEFAULT_FACTS[i]?.icon || Calendar,
       }))
     : DEFAULT_FACTS;
@@ -80,9 +80,9 @@ export default function SejarahPage() {
   const timelineSubs = getSection("Linimasa Sejarah Penting")?.subsections || [];
   const milestones = timelineSubs.length > 0
     ? timelineSubs.map((sub) => ({
-        year: sub.fields.tahun || "â€“",
-        title: sub.fields.judul || "â€“",
-        description: sub.fields.deskripsi || "â€“",
+        year: sub.fields.tahun || "–",
+        title: sub.fields.judul || "–",
+        description: sub.fields.deskripsi || "–",
         highlight: sub.fields.highlight === "true",
       }))
     : DEFAULT_MILESTONES;
@@ -154,7 +154,7 @@ export default function SejarahPage() {
         </div>
       </div>
 
-      {/* Navigation â€” 2 Buttons side-by-side */}
+      {/* Navigation — 2 Buttons side-by-side */}
       <div className="pt-6 border-t border-slate-200 dark:border-white/10">
         <div className="grid grid-cols-2 gap-2 sm:gap-4">
           <Link

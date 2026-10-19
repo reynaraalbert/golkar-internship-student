@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import React from "react";
 import { Target, Eye, CheckCircle2, Star, ChevronRight, ChevronLeft, Gavel, Scale, FileCheck, ShieldCheck } from "lucide-react";
@@ -52,7 +52,7 @@ export default function VisiMisiPage() {
 
   // Header
   const headerFields = getSection("Header Halaman Visi & Misi")?.subsections[0]?.fields || {};
-  const badge = headerFields.badge || "PROFIL Golkar Internship â€” VISI & MISI";
+  const badge = headerFields.badge || "PROFIL Golkar Internship — VISI & MISI";
   const judul = headerFields.judul || "Visi & Misi Golkar Internship Student";
   const deskripsi = headerFields.deskripsi || "Arah dan tujuan strategis Golkar Internship dalam membentuk pemimpin masa depan Indonesia yang inovatif, berintegritas, dan profesional melalui pendidikan politik terpadu.";
 
@@ -68,8 +68,8 @@ export default function VisiMisiPage() {
     ? misiSubs.map((sub, i) => ({
         no: Number(sub.fields.nomorMisi) || i + 1,
         icon: MISI_ICONS[i] || Gavel,
-        judul: sub.fields.judul || DEFAULT_MISI[i]?.judul || "â€“",
-        isi: sub.fields.isi || DEFAULT_MISI[i]?.isi || "â€“",
+        judul: sub.fields.judul || DEFAULT_MISI[i]?.judul || "–",
+        isi: sub.fields.isi || DEFAULT_MISI[i]?.isi || "–",
         targets: [
           sub.fields.target1 || DEFAULT_MISI[i]?.targets[0] || "",
           sub.fields.target2 || DEFAULT_MISI[i]?.targets[1] || "",
@@ -82,8 +82,8 @@ export default function VisiMisiPage() {
   const nilaiSubs = getSection("Nilai-Nilai Utama Program")?.subsections || [];
   const nilaiNilai = nilaiSubs.length > 0
     ? nilaiSubs.map((sub) => ({
-        judul: sub.fields.judul || "â€“",
-        deskripsi: sub.fields.deskripsi || "â€“",
+        judul: sub.fields.judul || "–",
+        deskripsi: sub.fields.deskripsi || "–",
       }))
     : DEFAULT_NILAI;
 
@@ -195,7 +195,7 @@ export default function VisiMisiPage() {
         </div>
       </div>
 
-      {/* Navigation â€” 2 Buttons side-by-side */}
+      {/* Navigation — 2 Buttons side-by-side */}
       <div className="pt-6 border-t border-slate-200 dark:border-white/10">
         <div className="grid grid-cols-2 gap-2 sm:gap-4">
           <Link

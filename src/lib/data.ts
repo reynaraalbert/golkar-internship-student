@@ -1,5 +1,5 @@
-﻿// ============================================================
-// data.ts â€” Golkar Internship Student
+// ============================================================
+// data.ts — Golkar Internship Student
 // TODO: Isi dengan data konten project Golkar Internship Student
 // ============================================================
 

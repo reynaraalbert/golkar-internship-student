@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import React, { useState } from "react";
 import Image from "next/image";
@@ -46,7 +46,7 @@ import {
 import * as LucideIcons from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
-// â”€â”€â”€ Animation Variants â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// --- Animation Variants ---
 const fadeUp = {
   hidden: { opacity: 0, y: 40 },
   visible: (i = 0) => ({
@@ -96,7 +96,7 @@ function Reveal({ children, className = "", delay = 0 }: { children: React.React
   );
 }
 
-// â”€â”€â”€ Main Component â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// --- Main Component ---
 export default function HomePage() {
   const { stats, mitraKerja, berita, agenda, siteContent, posisi_magang, steps: cmsSteps, requirements: cmsReqs, faqs: cmsFaqs } = useCmsContent();
   const [selectedNews, setSelectedNews] = useState<NewsArticle | null>(null);
@@ -293,7 +293,7 @@ export default function HomePage() {
             </motion.div>
           )}
 
-          {/* Main Title â€“ animated word by word */}
+          {/* Main Title – animated word by word */}
           <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
@@ -685,7 +685,7 @@ export default function HomePage() {
                               key={idx}
                               className="bg-amber-100 dark:bg-amber-400/15 border border-amber-300 dark:border-amber-400/30 text-amber-900 dark:text-amber-300 text-xs font-bold px-3 py-1 rounded-full"
                             >
-                              âœ“ {s}
+                              ✓ {s}
                             </span>
                           ))}
                         </div>
@@ -843,7 +843,7 @@ export default function HomePage() {
                 </div>
                 <div>
                   <h4 className="text-xs font-black text-slate-950 dark:text-white">{t.name}</h4>
-                  <p className="text-[10px] text-[#B45309] dark:text-[#F5C518] font-bold">{t.univ} â€¢ {t.major}</p>
+                  <p className="text-[10px] text-[#B45309] dark:text-[#F5C518] font-bold">{t.univ} • {t.major}</p>
                   <p className="text-[10px] text-slate-500 dark:text-slate-400 font-medium">{t.role}</p>
                 </div>
               </div>

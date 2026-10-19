@@ -1,4 +1,4 @@
-﻿import { NextRequest, NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { adminGuard } from "@/lib/api-auth";
 import { prisma } from "@/lib/prisma";
 import { z } from "zod";

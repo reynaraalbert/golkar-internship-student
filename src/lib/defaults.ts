@@ -1,4 +1,4 @@
-﻿import type { SiteContent } from "@/lib/data";
+import type { SiteContent } from "@/lib/data";
 
 export const EMPTY_STATS = {
   totalMembers: 0,

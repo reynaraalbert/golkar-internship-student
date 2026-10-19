@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import React from "react";
 import { Shield, Lock, Eye, Database, UserCheck, AlertCircle, FileText, Clock, Scale } from "lucide-react";
@@ -16,7 +16,7 @@ const sections = [
     content: [
       "Kebijakan Privasi ini disusun berdasarkan Undang-Undang Nomor 27 Tahun 2022 tentang Pelindungan Data Pribadi (UU PDP) serta peraturan pelaksanaannya.",
       `Pengendali data pribadi adalah pengelola program ${siteConfig.name} (${siteConfig.organizer}).`,
-      `Kontak pengendali data: ${siteConfig.secretariat.email} Â· ${siteConfig.secretariat.phone} Â· ${siteConfig.secretariat.address}.`,
+      `Kontak pengendali data: ${siteConfig.secretariat.email} · ${siteConfig.secretariat.phone} · ${siteConfig.secretariat.address}.`,
       "Dasar pemrosesan data: (a) persetujuan eksplisit Anda saat mendaftar dan mengunggah berkas; (b) pelaksanaan hubungan program magang; dan (c) pemenuhan kewajiban hukum.",
     ],
   },
@@ -37,10 +37,10 @@ const sections = [
     icon: FileText,
     title: "3. Tujuan dan Dasar Pemrosesan Dokumen Pendaftaran",
     content: [
-      "CV dan portofolio: menilai kualifikasi dan kesesuaian bidang magang â€” dasar: persetujuan dan pelaksanaan seleksi.",
-      "Transkrip nilai: memverifikasi pemenuhan syarat akademik (mis. IPK minimum) â€” dasar: persetujuan dan pelaksanaan seleksi.",
-      "Surat rekomendasi/pengantar: memverifikasi status mahasiswa dan dukungan institusi â€” dasar: persetujuan.",
-      "KTM/KTP dan pasfoto: memverifikasi identitas peserta serta keperluan administrasi dan sertifikat â€” dasar: persetujuan.",
+      "CV dan portofolio: menilai kualifikasi dan kesesuaian bidang magang — dasar: persetujuan dan pelaksanaan seleksi.",
+      "Transkrip nilai: memverifikasi pemenuhan syarat akademik (mis. IPK minimum) — dasar: persetujuan dan pelaksanaan seleksi.",
+      "Surat rekomendasi/pengantar: memverifikasi status mahasiswa dan dukungan institusi — dasar: persetujuan.",
+      "KTM/KTP dan pasfoto: memverifikasi identitas peserta serta keperluan administrasi dan sertifikat — dasar: persetujuan.",
       "Data identitas tidak ditampilkan pada halaman publik. Halaman Peserta Magang hanya menampilkan data yang memang dipublikasikan oleh pengelola program.",
     ],
   },
@@ -117,7 +117,7 @@ export default function KebijakanPrivasiPage() {
         </h1>
         <p className="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
           Kebijakan ini menjelaskan bagaimana {siteConfig.name} memproses data pribadi peserta dan pengunjung portal.
-          Pembaruan terakhir: <strong>{LAST_UPDATED}</strong> Â· Versi <strong>{PRIVACY_POLICY_VERSION}</strong>.
+          Pembaruan terakhir: <strong>{LAST_UPDATED}</strong> · Versi <strong>{PRIVACY_POLICY_VERSION}</strong>.
         </p>
       </Reveal>
 
@@ -153,7 +153,7 @@ export default function KebijakanPrivasiPage() {
           <a href={`mailto:${siteConfig.secretariat.email}`} className="underline font-semibold text-dpr-emerald dark:text-dpr-gold">
             {siteConfig.secretariat.email}
           </a>{" "}
-          Â· {siteConfig.secretariat.phone}
+          · {siteConfig.secretariat.phone}
         </p>
         <p>
           Lihat juga <Link href="/syarat-penggunaan" className="underline font-semibold text-dpr-emerald dark:text-dpr-gold">Syarat Penggunaan</Link>.

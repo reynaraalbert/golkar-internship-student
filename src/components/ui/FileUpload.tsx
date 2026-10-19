@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import React, { useRef, useState } from "react";
 import { Upload, X, FileText, Image as ImageIcon, Loader2, CheckCircle2 } from "lucide-react";
@@ -208,10 +208,10 @@ export default function FileUpload({
               </p>
               <p className="text-[10px] text-slate-400">
                 {accept === "image"
-                  ? `PNG, JPG, WEBP â€” maks. ${(maxBytes / 1024 / 1024).toFixed(0)} MB`
+                  ? `PNG, JPG, WEBP — maks. ${(maxBytes / 1024 / 1024).toFixed(0)} MB`
                   : accept === "document"
-                  ? `PDF, DOCX, XLSX â€” maks. ${(maxBytes / 1024 / 1024).toFixed(0)} MB`
-                  : `PDF, Foto, DOCX, XLSX â€” maks. ${(maxBytes / 1024 / 1024).toFixed(0)} MB`}
+                  ? `PDF, DOCX, XLSX — maks. ${(maxBytes / 1024 / 1024).toFixed(0)} MB`
+                  : `PDF, Foto, DOCX, XLSX — maks. ${(maxBytes / 1024 / 1024).toFixed(0)} MB`}
               </p>
             </div>
           )}

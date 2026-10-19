@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import React, { useState } from "react";
 import Link from "next/link";
@@ -12,7 +12,7 @@ function PasswordStrength({ password }: { password: string }) {
     { label: "Huruf kapital (A-Z)", ok: /[A-Z]/.test(password) },
     { label: "Huruf kecil (a-z)", ok: /[a-z]/.test(password) },
     { label: "Angka (0-9)", ok: /[0-9]/.test(password) },
-    { label: "Simbol (@, #, !, _â€¦)", ok: /[^A-Za-z0-9]/.test(password) },
+    { label: "Simbol (@, #, !, _…)", ok: /[^A-Za-z0-9]/.test(password) },
   ];
   const passed = checks.filter((c) => c.ok).length;
   const colors = ["bg-red-500", "bg-orange-500", "bg-yellow-500", "bg-lime-500", "bg-emerald-500"];

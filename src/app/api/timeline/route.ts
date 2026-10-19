@@ -1,4 +1,4 @@
-﻿import { NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { DEFAULT_BATCHES, getAllBatchInfo, getLatestBatchInfo, getStageStatus, type BatchSetting, type TimelineStage } from "@/lib/batch";
 
@@ -47,7 +47,10 @@ export async function GET() {
     const allBatchInfo = getAllBatchInfo(timeline);
     const latest = getLatestBatchInfo(timeline);
 
-    const stagesWithStatus = sections.map((s) => ({ ...s, status: getStageStatus(s) }));
+    const stagesWithStatus = sections.map((s) => ({
+      ...s,
+      status: s.startDate || s.endDate ? getStageStatus(s) : undefined,
+    }));
 
     return NextResponse.json({
       sections: stagesWithStatus,

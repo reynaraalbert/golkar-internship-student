@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Cloudinary Media Helper Utility
  * Integrates Cloudinary CDN media delivery with fallback high-res government visual assets.
  */

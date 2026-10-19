@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import React from "react";
 import { FileText, CheckCircle2, XCircle, Scale, AlertCircle, Globe } from "lucide-react";
@@ -18,11 +18,11 @@ const sections = [
     title: "2. Penggunaan yang Diizinkan",
     content: [
       "Anda diperbolehkan menggunakan portal ini untuk tujuan-tujuan yang sah dan konstruktif, antara lain:",
-      "â€¢ Mengakses informasi publik mengenai kegiatan Golkar Internship Student.",
-      "â€¢ Membaca berita, siaran pers, dan informasi kegiatan yang dipublikasikan secara resmi.",
-      "â€¢ Mengirimkan aspirasi dan masukan konstruktif kepada Golkar Internship.",
-      "â€¢ Memantau jadwal dan agenda kegiatan program.",
-      "â€¢ Mengunduh dokumen publik yang tersedia untuk keperluan edukasi dan penelitian.",
+      "• Mengakses informasi publik mengenai kegiatan Golkar Internship Student.",
+      "• Membaca berita, siaran pers, dan informasi kegiatan yang dipublikasikan secara resmi.",
+      "• Mengirimkan aspirasi dan masukan konstruktif kepada Golkar Internship.",
+      "• Memantau jadwal dan agenda kegiatan program.",
+      "• Mengunduh dokumen publik yang tersedia untuk keperluan edukasi dan penelitian.",
     ]
   },
   {
@@ -30,11 +30,11 @@ const sections = [
     title: "3. Larangan Penggunaan",
     content: [
       "Anda dilarang menggunakan portal ini untuk hal-hal berikut:",
-      "â€¢ Menyebarkan informasi palsu (hoaks), fitnah, atau konten yang merendahkan martabat lembaga negara.",
-      "â€¢ Melakukan percobaan peretasan (hacking), injeksi kode berbahaya, atau serangan siber lainnya.",
-      "â€¢ Menggunakan konten portal ini untuk kepentingan komersial tanpa izin tertulis dari Sekretariat Golkar Internship.",
-      "â€¢ Meniru identitas peserta, pengelola program, atau pihak lain yang berkaitan.",
-      "â€¢ Mengumpulkan data pengguna lain secara tidak sah melalui portal ini.",
+      "• Menyebarkan informasi palsu (hoaks), fitnah, atau konten yang merendahkan martabat lembaga negara.",
+      "• Melakukan percobaan peretasan (hacking), injeksi kode berbahaya, atau serangan siber lainnya.",
+      "• Menggunakan konten portal ini untuk kepentingan komersial tanpa izin tertulis dari Sekretariat Golkar Internship.",
+      "• Meniru identitas peserta, pengelola program, atau pihak lain yang berkaitan.",
+      "• Mengumpulkan data pengguna lain secara tidak sah melalui portal ini.",
       "Pelanggaran terhadap ketentuan ini dapat berakibat pada pemblokiran akses dan tindakan hukum sesuai peraturan yang berlaku.",
     ]
   },

@@ -6,6 +6,7 @@
  * localStorage or the request body.
  */
 import crypto from "crypto";
+import { resolveSecret } from "@/lib/secrets";
 
 export type AdminRole = "admin" | "seleksi";
 

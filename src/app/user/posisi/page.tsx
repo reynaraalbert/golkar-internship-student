@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
@@ -231,7 +231,7 @@ export default function UserPosisiPage() {
                 href="/user/status-lamaran"
                 className="px-3.5 py-1.5 rounded-xl bg-amber-500 text-slate-950 font-black text-xs hover:bg-amber-600 transition-colors shrink-0"
               >
-                Pantau Status Lamaran â†’
+                Pantau Status Lamaran →
               </Link>
             </div>
           )}
@@ -318,7 +318,7 @@ export default function UserPosisiPage() {
                         href="/user/status-lamaran"
                         className="px-3.5 py-1.5 rounded-xl bg-amber-400 text-slate-950 font-extrabold text-xs hover:bg-amber-500 transition-colors"
                       >
-                        Pantau Status â†’
+                        Pantau Status →
                       </Link>
                     </div>
                   ) : (

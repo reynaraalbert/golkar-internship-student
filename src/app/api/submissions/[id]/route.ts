@@ -1,4 +1,4 @@
-﻿import { NextRequest, NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { staffGuard } from "@/lib/api-auth";
 import { prisma } from "@/lib/prisma";
 import type { NewsSubmission, NewsArticle } from "@/lib/data";

@@ -4,6 +4,7 @@ import { getSessionUser } from "@/lib/user-session";
 import { saveStudentUser } from "@/lib/user-store";
 import { getClientIp, rateLimit } from "@/lib/rate-limit";
 import { getAllBatchInfo, type BatchSetting, type TimelineStage } from "@/lib/batch";
+import { DEFAULT_POSISI } from "@/lib/defaults";
 import { z } from "zod";
 
 export const dynamic = "force-dynamic";
@@ -83,6 +84,16 @@ export async function POST(req: NextRequest) {
         try { data = JSON.parse(data); } catch { data = []; }
       }
       if (Array.isArray(data)) posisiList = data as PosisiItem[];
+    }
+
+    // Same fallback the participant UI uses, so an empty CMS cannot make the
+    // listed positions unapplicable.
+    if (posisiList.length === 0) {
+      posisiList = DEFAULT_POSISI.map((p) => ({
+        id: p.id,
+        namaKomisi: p.namaKomisi,
+        status: p.status,
+      }));
     }
 
     const target = posisiList.find(

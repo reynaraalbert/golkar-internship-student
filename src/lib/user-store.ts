@@ -224,6 +224,19 @@ export async function createStudentUser(userData: {
 
 // ─── Experience CRUD (using Prisma) ───
 
+/**
+ * Internal-only password update. Kept separate from saveStudentUser so that
+ * passwordHash can never be written from a request-derived object.
+ */
+export async function updateStudentPasswordHash(
+  userId: string,
+  passwordHash: string
+): Promise<void> {
+  await prisma.studentUser.update({
+    where: { id: userId },
+    data: { passwordHash },
+  });
+}
 export async function addExperience(userId: string, exp: Omit<UserExperience, "id" | "createdAt">): Promise<UserExperience> {
   const row = await prisma.userExperience.create({
     data: {

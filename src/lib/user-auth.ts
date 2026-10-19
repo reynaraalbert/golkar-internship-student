@@ -5,10 +5,17 @@ export interface UserSessionPayload {
   email: string;
   name: string;
   expires: number;
+  /** Fingerprint of the password hash — lets us invalidate sessions on reset. */
+  pv: string;
 }
 
 function getSecret(): string {
-  return process.env.USER_JWT_SECRET || "golkar-internship-user-secret-key-2026";
+  const secret = process.env.USER_JWT_SECRET;
+  if (secret) return secret;
+  if (process.env.NODE_ENV === "production") {
+    throw new Error("USER_JWT_SECRET is not configured");
+  }
+  return "dev-only-insecure-user-secret";
 }
 
 function sign(payload: string): string {
@@ -17,9 +24,25 @@ function sign(payload: string): string {
 
 export const USER_AUTH_COOKIE = "golkar_user_token";
 
-export function createUserSessionToken(user: { id: string; email: string; name: string }): string {
-  const expires = Date.now() + 30 * 24 * 60 * 60 * 1000; // 30 days
-  const payloadStr = JSON.stringify({ id: user.id, email: user.email, name: user.name, expires });
+/** Short, non-reversible fingerprint used to bind a session to a password. */
+export function passwordFingerprint(passwordHash: string): string {
+  return crypto.createHash("sha256").update(passwordHash).digest("hex").slice(0, 24);
+}
+
+export function createUserSessionToken(user: {
+  id: string;
+  email: string;
+  name: string;
+  passwordHash: string;
+}): string {
+  const expires = Date.now() + 7 * 24 * 60 * 60 * 1000; // 7 days
+  const payloadStr = JSON.stringify({
+    id: user.id,
+    email: user.email,
+    name: user.name,
+    expires,
+    pv: passwordFingerprint(user.passwordHash),
+  });
   const sig = sign(payloadStr);
   return Buffer.from(`${payloadStr}||${sig}`).toString("base64url");
 }
@@ -32,10 +55,13 @@ export function verifyUserSessionToken(token: string | undefined): UserSessionPa
     if (!payloadStr || !sig) return null;
 
     const expectedSig = sign(payloadStr);
-    if (sig !== expectedSig) return null;
+    const a = Buffer.from(sig);
+    const b = Buffer.from(expectedSig);
+    if (a.length !== b.length || !crypto.timingSafeEqual(a, b)) return null;
 
     const data: UserSessionPayload = JSON.parse(payloadStr);
     if (Date.now() > data.expires) return null;
+    if (!data.pv) return null; // Sessions issued before password binding are invalid.
 
     return data;
   } catch {

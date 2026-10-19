@@ -178,11 +178,6 @@ export default function UserLoginPage() {
                   Daftar Sekarang
                 </Link>
               </p>
-              <p>
-                <Link href="/admin/login" className="text-slate-400 hover:text-amber-600 dark:hover:text-amber-400 transition-colors">
-                  Portal Pegawai / Admin CMS
-                </Link>
-              </p>
             </div>
           </form>
         </div>

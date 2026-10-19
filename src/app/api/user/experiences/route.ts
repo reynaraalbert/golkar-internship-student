@@ -1,25 +1,16 @@
 import { NextRequest, NextResponse } from "next/server";
-import { cookies } from "next/headers";
-import { verifyUserSessionToken, USER_AUTH_COOKIE } from "@/lib/user-auth";
 import {
-  findStudentUserById,
   addExperience,
   updateExperience,
   deleteExperience,
   getExperiencesByUserId,
   type ExperienceType,
 } from "@/lib/user-store";
+import { getSessionUser } from "@/lib/user-session";
 
 export const dynamic = "force-dynamic";
 
 const TYPES: ExperienceType[] = ["organisasi", "professional", "project"];
-
-async function getSessionUser() {
-  const token = cookies().get(USER_AUTH_COOKIE)?.value;
-  const session = verifyUserSessionToken(token);
-  if (!session) return null;
-  return (await findStudentUserById(session.id)) || null;
-}
 
 function normalizeUrl(raw: string): string | null {
   const v = raw.trim();
@@ -42,16 +33,16 @@ export async function GET() {
   return NextResponse.json({ experiences });
 }
 
-/** Create a new experience, or update one when `id` matches an existing entry. */
+/** Create a new experience, or update one owned by the signed-in participant. */
 export async function POST(req: NextRequest) {
   const user = await getSessionUser();
   if (!user) return unauthorized();
 
-  let body: any;
+  let body: Record<string, unknown>;
   try {
     body = await req.json();
   } catch {
-    return NextResponse.json({ error: "Invalid JSON" }, { status: 400 });
+    return NextResponse.json({ error: "Permintaan tidak valid." }, { status: 400 });
   }
 
   const type = body?.type as ExperienceType;
@@ -90,14 +81,14 @@ export async function POST(req: NextRequest) {
   };
 
   let entry;
-  if (body?.id) {
-    // Update existing
-    try {
-      entry = await updateExperience(body.id, expData);
-    } catch {
-      // If not found, create new
-      entry = await addExperience(user.id, expData);
+  const existingId = typeof body?.id === "string" ? body.id : "";
+  if (existingId) {
+    // IDOR guard: only allow updating an experience that belongs to this user.
+    const owned = (await getExperiencesByUserId(user.id)).some((e) => e.id === existingId);
+    if (!owned) {
+      return NextResponse.json({ error: "Pengalaman tidak ditemukan." }, { status: 404 });
     }
+    entry = await updateExperience(existingId, expData);
   } else {
     entry = await addExperience(user.id, expData);
   }
@@ -112,6 +103,12 @@ export async function DELETE(req: NextRequest) {
 
   const id = req.nextUrl.searchParams.get("id");
   if (!id) return NextResponse.json({ error: "id wajib diisi" }, { status: 400 });
+
+  // IDOR guard: verify ownership before deleting.
+  const owned = (await getExperiencesByUserId(user.id)).some((e) => e.id === id);
+  if (!owned) {
+    return NextResponse.json({ error: "Pengalaman tidak ditemukan." }, { status: 404 });
+  }
 
   await deleteExperience(id);
   const experiences = await getExperiencesByUserId(user.id);

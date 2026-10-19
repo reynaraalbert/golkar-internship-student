@@ -6,6 +6,7 @@ import Link from "next/link";
 import { NewsArticle, AgendaItem } from "@/lib/data";
 import { useCmsContent } from "@/components/CmsProvider";
 import { EMPTY_SITECONTENT } from "@/lib/defaults";
+import { siteConfig } from "@/config/site";
 import NewsModal from "@/components/NewsModal";
 import AgendaModal from "@/components/AgendaModal";
 import {
@@ -883,15 +884,22 @@ export default function HomePage() {
                 className="glass-panel rounded-2xl border border-slate-200 dark:border-white/10 overflow-hidden transition-all bg-white/80 dark:bg-slate-900/80"
               >
                 <button
+                  type="button"
                   onClick={() => setOpenFaq(isOpen ? null : idx)}
-                  className="w-full p-5 text-left font-bold text-slate-950 dark:text-white text-sm sm:text-base flex items-center justify-between gap-4"
+                  aria-expanded={isOpen}
+                  aria-controls={`faq-panel-${idx}`}
+                  id={`faq-button-${idx}`}
+                  className="w-full p-5 text-left font-bold text-slate-950 dark:text-white text-sm sm:text-base flex items-center justify-between gap-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500"
                 >
                   <span>{f.q}</span>
-                  <ChevronDown className={`w-5 h-5 text-amber-500 transition-transform ${isOpen ? "rotate-180" : ""}`} />
+                  <ChevronDown aria-hidden="true" className={`w-5 h-5 text-amber-500 transition-transform ${isOpen ? "rotate-180" : ""}`} />
                 </button>
                 <AnimatePresence>
                   {isOpen && (
                     <motion.div
+                      id={`faq-panel-${idx}`}
+                      role="region"
+                      aria-labelledby={`faq-button-${idx}`}
                       initial={{ opacity: 0, height: 0 }}
                       animate={{ opacity: 1, height: "auto" }}
                       exit={{ opacity: 0, height: 0 }}
@@ -991,7 +999,7 @@ export default function HomePage() {
 
               <div className="grid grid-cols-2 gap-3">
                 <a
-                  href={siteContent.medsos?.instagram || "https://instagram.com/dpr_ri"}
+                  href={siteContent.medsos?.instagram || siteConfig.social.instagram}
                   target="_blank"
                   rel="noreferrer"
                   className="p-3 rounded-2xl bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-white/10 hover:border-amber-400 transition-all flex items-center gap-2.5 group"
@@ -1006,7 +1014,7 @@ export default function HomePage() {
                 </a>
 
                 <a
-                  href={siteContent.medsos?.youtube || "https://youtube.com/@DPRRIOfficial"}
+                  href={siteContent.medsos?.youtube || siteConfig.social.youtube}
                   target="_blank"
                   rel="noreferrer"
                   className="p-3 rounded-2xl bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-white/10 hover:border-amber-400 transition-all flex items-center gap-2.5 group"
@@ -1021,7 +1029,7 @@ export default function HomePage() {
                 </a>
 
                 <a
-                  href={siteContent.medsos?.twitter || "https://x.com/DPR_RI"}
+                  href={siteContent.medsos?.twitter || siteConfig.social.twitter}
                   target="_blank"
                   rel="noreferrer"
                   className="p-3 rounded-2xl bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-white/10 hover:border-amber-400 transition-all flex items-center gap-2.5 group"
@@ -1036,7 +1044,7 @@ export default function HomePage() {
                 </a>
 
                 <a
-                  href={siteContent.medsos?.facebook || "https://www.dpr.go.id"}
+                  href={siteContent.medsos?.facebook || siteConfig.social.facebook}
                   target="_blank"
                   rel="noreferrer"
                   className="p-3 rounded-2xl bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-white/10 hover:border-amber-400 transition-all flex items-center gap-2.5 group"
@@ -1079,6 +1087,7 @@ export default function HomePage() {
     </div>
   );
 }
+
 
 
 

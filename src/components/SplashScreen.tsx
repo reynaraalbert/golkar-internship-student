@@ -18,8 +18,8 @@ import { useCmsLoaded } from "@/components/CmsProvider";
  *  3. opening  – cinematic gate reveal: light beam ignites through the seam,
  *                sparks burst, 3D gates swing open, light floods the screen
  */
-const LOAD_MIN_MS = 2000; // counter never finishes faster than this
-const LOAD_MAX_MS = 2600; // hard cap for the counter
+const LOAD_MIN_MS = 900; // counter never finishes faster than this
+const LOAD_MAX_MS = 1400; // hard cap for the counter
 const SETTLE_MS = 180; // short pause on "100% · Portal siap"
 const GRANTED_MS = 650;
 const OPENING_MS = 1500;
@@ -83,10 +83,20 @@ export default function SplashScreen() {
   const [phase, setPhase] = useState<Phase>(skip ? "done" : "loading");
   // Becomes true only when this is the first visit of the session
   const [shouldPlay, setShouldPlay] = useState(false);
+  const [reduceMotion, setReduceMotion] = useState(false);
 
   useEffect(() => {
     loadedRef.current = loaded;
   }, [loaded]);
+
+  // Respect the user's reduced-motion preference: skip the animation entirely.
+  useEffect(() => {
+    const query = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const apply = () => setReduceMotion(query.matches);
+    apply();
+    query.addEventListener?.("change", apply);
+    return () => query.removeEventListener?.("change", apply);
+  }, []);
 
   // Play only once per browser session. The decision is cached in a ref so
   // React StrictMode's double-invoked effects don't mark it "seen" and skip it.
@@ -103,9 +113,9 @@ export default function SplashScreen() {
       }
       playDecisionRef.current = !seen;
     }
-    if (playDecisionRef.current) setShouldPlay(true);
+    if (playDecisionRef.current && !reduceMotion) setShouldPlay(true);
     else setPhase("done");
-  }, [skip]);
+  }, [skip, reduceMotion]);
 
   // Lock scrolling while the splash is visible
   useEffect(() => {

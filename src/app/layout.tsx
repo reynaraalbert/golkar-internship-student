@@ -10,8 +10,10 @@ import CustomCursor from "@/components/CustomCursor";
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
+const siteUrl = (process.env.NEXT_PUBLIC_SITE_URL || "https://golkar-internship-student.vercel.app").replace(/\/$/, "");
+
 export const metadata: Metadata = {
-  metadataBase: new URL("https://golkarinternship.com"), // Placeholder URL, to be updated by the user
+  metadataBase: new URL(siteUrl),
   title: {
     default: "Golkar Internship Student | Program Magang Resmi Partai Golkar",
     template: "%s | Golkar Internship Student",
@@ -34,7 +36,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "id_ID",
-    url: "https://golkarinternship.com",
+    url: siteUrl,
     title: "Golkar Internship Student | Program Magang Resmi",
     description: "Program magang komprehensif bagi mahasiswa unggul Indonesia untuk mendapatkan pengalaman langsung di bidang politik, kebijakan publik, dan pemerintahan.",
     siteName: "Golkar Internship Student",
@@ -65,6 +67,9 @@ export const metadata: Metadata = {
       "max-snippet": -1,
     },
   },
+  alternates: {
+    canonical: "/",
+  },
   icons: {
     icon: [
       { url: "/images/golkar-internship-trans.png", type: "image/png" },
@@ -76,11 +81,11 @@ export const metadata: Metadata = {
 
 const jsonLd = {
   "@context": "https://schema.org",
-  "@type": "GovernmentOrganization",
+  "@type": "Organization",
   name: "Golkar Internship Student",
-  url: "https://golkarinternship.com",
-  logo: "https://golkarinternship.com/images/golkar-internship-trans.png",
-  description: "Program magang resmi Partai Golkar untuk mahasiswa Indonesia.",
+  url: siteUrl,
+  logo: `${siteUrl}/images/golkar-internship-trans.png`,
+  description: "Program magang resmi Fraksi Partai Golkar DPR RI untuk mahasiswa Indonesia.",
   sameAs: [
     "https://www.instagram.com/golkar.internship",
     "https://twitter.com/partaigolkar"
